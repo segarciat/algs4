@@ -102,6 +102,18 @@ style=alphabetic
 			\item \texttt{String} with value \texttt{"33"}
 		\end{enumerate}
 	\end{sol}
+	\begin{ex}{3}
+		Write a program that takes three integer command-line arguments and prints
+		\texttt{equal} if all three are equal, and \texttt{not equal} otherwise.
+	\end{ex}
+	\begin{sol}
+		The command-line argument are \texttt{String} objects, so they can be converted
+		to integers with \texttt{Integer.parseInt()}. Assuming the three integers are
+		\texttt{a}, \texttt{b}, and \texttt{c}, we now just verify the value of the
+		boolean expression \texttt{a == b \&\& b == c}. See text the class
+		\texttt{com.segarciat.algs4e.\_03.Compare3Integers} under the \texttt{code}
+		folder.
+	\end{sol}
 	\begin{ex}{4}
 		What (if anything) is wrong with each of the following statements?
 		\begin{enumerate}[label=(\alph*)]
@@ -392,6 +404,39 @@ for (int i = 0; i < m; i++) {
 	System.out.println();
 }
 		\end{lstlisting}
+	\end{sol}
+	\begin{ex}{14}
+		Write a static method \texttt{lg()} that takes an \texttt{int} value \texttt{n}
+		as argument and returns the largest \texttt{int} not larger than the base-2 logarithm
+		of \texttt{n}. Do \emph{not} use \texttt{Math}.
+	\end{ex}
+	\begin{sol}
+		See the class \texttt{com.segarciat.algs4e.\_14.LgFloor} in the \texttt{code} folder.
+		Note that the logarithm is only defined for positive numbers,
+		so we begin by throwing an exception if $n \leq 0$. Assuming now that
+		$n > 0$, suppose that $2^m$ is the largest power of $2$ in its base-2 (binary)
+		representation. Since $\log_2$ is monotonic, we know that:
+		\begin{align*}
+			\log_2(2^m)&\leq \log_2(n)\\
+			m&\leq  \log_2(n)
+		\end{align*}
+		Put another way, $m = \lfloor \log_2(n)\rfloor$, the \emph{floor} of the base-2
+		logarithm; this is the number requested in this question. For example, we can
+		make a table listing some sample values:
+		\begin{center}
+			\begin{tabular}{c|cccccccccccccccc}
+				$n$ & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16\\
+				\hline
+				$\lfloor \log_2(n)\rfloor$ & 0 & 1 & 1 & 2 & 2 & 2 & 2 & 3 & 3 & 3 & 3 & 3 & 3
+				& 3 & 3 & 4
+			\end{tabular}
+		\end{center}
+		Note that if $2^m$ is the largest power in the binary representation of $n$, then
+		$n$ can be represented by $m + 1$ bits. To determine the number of bits in the
+		binary representation of $n$ we can repeatedly divide by 2 (or perform logical right
+		arithmetic shifts) until the quantity becomes 0. Subtracting 1 from this yields
+		$m$. Equivalently, we can continue as long as the result of dividing by 2 is still
+		greater than 1, and skip the subtraction.
 	\end{sol}
 	\begin{ex}{16}
 		Give the value of \texttt{exR1(6)}:
