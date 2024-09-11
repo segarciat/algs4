@@ -1,0 +1,516 @@
+\documentclass[12pt, a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+% Limit the page margin to only 1 inch.
+\usepackage[margin=1in]{geometry} 
+
+%Imports biblatex package
+\usepackage[
+backend=biber,
+style=alphabetic
+]{biblatex}
+\addbibresource{../../algs4e.bib}
+
+\usepackage{amsmath}
+
+% Provides useful environments, such as:
+% - \begin{proof} ...\end{proof}
+\usepackage{amsthm}
+
+\usepackage[inline]{enumitem} % allows using letters in enumerate list environment
+
+% Enable importing external graphic files and provides useful commannds, like \graphicspath{}
+\usepackage{graphicx}
+% Images are located in a directory called images in the current directory.
+\graphicspath{{./images/}}
+
+% Code Listings. Source:
+% https://stackoverflow.com/questions/3175105/inserting-code-in-this-latex-document-with-indentation
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+	language=Java,
+	aboveskip=3mm,
+	belowskip=3mm,
+	showstringspaces=false,
+	columns=flexible,
+	basicstyle={\small\ttfamily},
+	numbers=none,
+	numberstyle=\tiny\color{gray},
+	keywordstyle=\color{blue},
+	commentstyle=\color{dkgreen},
+	stringstyle=\color{mauve},
+	breaklines=true,
+	breakatwhitespace=true,
+	tabsize=3
+}
+
+\newcommand{\prob}{\text{P}}
+\newcommand{\complement}{\mathsf{c}}
+
+% Define an environment called "ex" (for Exercise) so that I can do: \begin{ex}{1.5}...\end{ex}
+\newenvironment{ex}[2][Exercise]
+{\par\medskip\noindent \textbf{#1 #2.}}
+{\medskip}
+
+% Define a solution environment, similar to ex (exercise) environment.
+\newenvironment{sol}[1][Solution]
+{\par\medskip\noindent \textbf{#1.} }
+{\medskip}
+
+\begin{document}
+	\noindent Sergio E. Garcia Tapia \hfill
+	
+	\noindent \emph{Algorithms} by Sedgewick and Wayne (4th edition) \cite{sedgewick_wayne}\hfill
+	
+	\noindent September 8th, 2024\hfill 
+	\section*{1.1: Basic Programming Model}
+	\begin{ex}{1}
+		Give the value of each of the following expressions:
+		\begin{enumerate}[label=(\alph*)]
+			\item \texttt{( 0 + 15) / 2}
+			\item \texttt{2.0e-6 * 100000000.1}
+			\item \texttt{true \&\& false || true \&\& true}
+		\end{enumerate}
+	\end{ex}
+	\begin{sol}
+		\begin{enumerate}[label=(\alph*)]
+			\item \texttt{7} because integer division uses truncation.
+			\item \texttt{2.000000002E-6}
+			\item \texttt{true}
+		\end{enumerate}
+	\end{sol}
+	\begin{ex}{2}
+		Give the type and value of each of the following expressions:
+		\begin{enumerate}[label=(\alph*)]
+			\item \texttt{(1 + 2.236) / 2}
+			\item \texttt{1 + 2 + 3 + 4.0}
+			\item \texttt{4.1 >= 4}
+			\item \texttt{1 + 2 + "3"}
+		\end{enumerate}
+	\end{ex}
+	\begin{sol}
+		\begin{enumerate}[label=(\alph*)]
+			\item \texttt{double} with value  \texttt{1.6.18}
+			\item \texttt{double} with value \texttt{10.0}
+			\item \texttt{boolean} with value \texttt{true}
+			\item \texttt{String} with value \texttt{"33"}
+		\end{enumerate}
+	\end{sol}
+	\begin{ex}{4}
+		What (if anything) is wrong with each of the following statements?
+		\begin{enumerate}[label=(\alph*)]
+			\item \texttt{if (a > b) then c = 0;}
+			\item \texttt{if a > b \{ c = 0; \}}
+			\item \texttt{if (a > b) c = 0;}
+			\item \texttt{if (a > b) c = 0 else b = 0;}
+		\end{enumerate}
+	\end{ex}
+	\begin{sol}
+		\
+		\begin{enumerate}[label=(\alph*)]
+			\item \texttt{then} is not a valid Java keyword. If we remove it, the code snippet
+			will be valid.
+			\item We need parentheses around the boolean condition of the \texttt{if} statement,
+			in this case, around \texttt{a > b}. If we add this, the snippet will be valid.
+			\item The snippet is valid.
+			\item We need a semicolon to terminate the assignment statement \texttt{c = 0}.
+			If we add this, the snippet will be valid.
+		\end{enumerate}
+	\end{sol}
+	\begin{ex}{5}
+		Write a code  snippet that prints \texttt{true} if the \texttt{double} variables
+		\texttt{x} and \texttt{y} are both strictly between \texttt{0} and \texttt{1}
+		and \texttt{false} otherwise.
+	\end{ex}
+	\begin{sol}
+		\
+		\begin{lstlisting}
+	System.out.println(x > 0 && x < 1 && y > 0 && y < 1);
+		\end{lstlisting}
+	\end{sol}
+	\begin{ex}{6}
+		What does the following program print?
+		\begin{lstlisting}
+int f = 0;
+int g = 1;
+for (int i = 0; i <= 15; i++)
+{
+	StdOut.println(f);
+	f = f + g;
+	g = f - g;
+}
+		\end{lstlisting}
+	\end{ex}
+	\begin{sol}
+		Note we are given:
+		\begin{align*}
+			f_0 &= 0,\\
+			g_0 &= 1,\\
+			f_{n} &= f_{n-1} + g_{n-1},\quad n\geq 1,\\
+			g_{n} &= f_{n} - g_{n-1},\quad n\geq 1.
+		\end{align*}
+		Notice the recurrence of $g_n$ follows because the value just computed in the current
+		iteration of the \texttt{for} loop is  used to compute the new value for \texttt{g}.
+		Note that$f_0 = 0$, $f_1 = f_0 + g_0 = 0 + 1 = 1$, and
+		\begin{align*}
+		f_{n + 1} &= f_n + g_n\\
+		&= (f_{n-1} + g_{n-1}) + g_n\\
+		&=f_{n-1}  + (g_{n-1} +  g_n)\\
+		&=f_{n-1} + f_n
+		\end{align*}
+		Altogether, we have:
+		\begin{align*}
+			f_0 &= 0, \\
+			f_1 &= 1, \\
+			f_{n + 1} &= f_{n-1} + f_n,\quad n \geq 1.
+		\end{align*}
+		Hence $n\mapsto f_n$ is the Fibonacci sequence. The program will print the first 15
+		Fibonacci numbers:
+		\begin{lstlisting}[language={}]
+1
+1
+2
+3
+5
+8
+13
+21
+34
+55
+89
+144
+233
+377
+610
+		\end{lstlisting}
+	\end{sol}
+	\begin{ex}{7}
+		Give the value printed by each of the following code fragments.
+		\begin{enumerate}[label=(\alph*)]
+			\item 
+			\begin{lstlisting}
+double t = 9.0;
+while (Math.abs(t - 9.0/t) > 0.001)
+	t = (9.0/t + t) / 2.0;
+StdOut.printf("%.5f\n", t);
+			\end{lstlisting}
+			\item
+			\begin{lstlisting}
+int sum = 0;
+for (int i = 1; i < 1000; i++)
+	for (int j = 0; j < i; j++)
+		sum++;
+StdOut.println(sum);
+			\end{lstlisting}
+			\item
+			\begin{lstlisting}
+int sum = 0;
+for (int i = 1; i < 1000; i *= 2)
+	for (int j = 0; j < 1000; j++)
+		sum++;
+StdOut.println(sum);
+			\end{lstlisting}
+		\end{enumerate}
+	\end{ex}
+	\begin{sol}
+		\
+		\begin{enumerate}[label=(\alph*)]
+			\item The iterations are computed as:
+			\begin{align*}
+				t_0 &= 9.0 \quad; \quad t_0 - \frac{9.0}{t_0} = 1 \quad ; \quad  \to \quad
+				t_1 = \frac{9.0/t_0 + t_0}{2.0} = 5.0\\
+				t_1 &= 5.0 \quad; \quad t_1 - \frac{9.0}{t_1} = 3.2 \quad ; \quad \to \quad
+				t_2 = \frac{9.0/t_1 +t_1}{2.0} = 3.4\\
+				t_2 &= 3.4 \quad; \quad t_2 - \frac{9.0}{t_2} \approx 0.75294 \quad ; \quad \to \quad
+				t_3 = \frac{9.0/t_2 +t_2}{2.0} = 3.023529411764706 \\
+				t_3 &\approx 3.02352 \quad; \quad t_3 - \frac{9.0}{t_3} \approx 0.04687 \quad ; \quad \to \quad
+				t_4 \approx \frac{9.0/t_3 +t_3}{2.0} = 3.00009155413138 \\
+				t_4 &= 3.00009155413138 \quad ; \quad t_4 - \frac{9.0}{t_4} = 0.00018310546879263256
+			\end{align*}
+			The iteration ends once $t_4$ has been computed because it's below the threshold
+			of \texttt{0.004} that controls the \texttt{while} loop. Since the format
+			specifier requires 5 places after the decimal, the output will be:
+			\begin{lstlisting}[language={}]
+3.00009
+			\end{lstlisting}
+			\item The outer \texttt{i} loop runs 999 times. The inner \texttt{j} loop
+			runs \texttt{i} times, and each time, it increment \texttt{sum} by 1.
+			The value of \texttt{sum} is given by:
+			\begin{align*}
+				\sum_{i = 1}^{999} \sum_{j = 0}^{i - 1} =
+				\sum_{i = 1}^{999} i =
+				\frac{999 \cdot (999 + 1)}{2} =
+				499500
+			\end{align*}
+			Therefore the out will be:
+			\begin{lstlisting}
+499500
+			\end{lstlisting}
+			\item In this case, we start with $1$ and double \texttt{i} each  time.
+			When \texttt{i} reaches $2^{10} =1024$, the \texttt{i} loops will end.
+			Hence, the loop will run for $i=2^0, i=2^1,\ldots,i=2^{9}$. Since the
+			\texttt{j} loops increases \texttt{sum} a total of \texttt{i} times,
+			we find that \texttt{sum} will now be:
+			\begin{align*}
+				\sum_{k}\sum_{i = 1}^{1000}[i = 2^k] \sum_{j=0}^{i-1}
+				&= \sum_{k}\sum_{1\leq i\leq 1000}[i = 2^k]\cdot i\\
+				&=\sum_{1\leq 2^k\leq 1000}2^k\\
+				&=\sum_{0\leq k\leq 9}2^k\\
+				&=2^{10} - 1\\
+				&=1023
+			\end{align*}
+			Therefore the output will be:
+			\begin{lstlisting}
+1023
+			\end{lstlisting}
+		\end{enumerate}
+	\end{sol}
+	\begin{ex}{8}
+		What do each of the following print?
+		\begin{enumerate}[label=(\alph*)]
+			\item \texttt{System.out.println(`b');}
+			\item \texttt{System.out.println(`b' + `c');}
+			\item \texttt{System.out.println((char) (`a' + 4));}
+		\end{enumerate}
+	\end{ex}
+	\begin{sol}
+		\
+		\begin{enumerate}[label=(\alph*)]
+			\item Java will display the \texttt{char} as the corresponding symbol:
+			\begin{lstlisting}[language={}]
+b
+			\end{lstlisting}
+			\item When Java adds two \texttt{char} values, it will promote the result to
+			an \texttt{int}. In Java, \texttt{char} values are 16-bit Unicode characters.
+			Since\texttt{`b'} has decimal value 98 in Unicode, and \texttt{`c'} has decimal
+			value \texttt{99}, the result is:
+			\begin{lstlisting}[language={}]
+197
+			\end{lstlisting}
+			\item The \texttt{char} value \texttt{`a'} has decimal value \texttt{97},
+			so when it is added to \texttt{4}, it becomes integer value \texttt{101}.
+			The effect of \texttt{(char)} is to cast the result back to a \texttt{char}.
+			The integer \texttt{101} fits into a \texttt{char}, and it corresponds to 
+			\texttt{`e'}:
+			\begin{lstlisting}[language={}]
+e
+			\end{lstlisting}
+		\end{enumerate}
+	\end{sol}
+	\begin{ex}{9}
+		Write a code fragment that puts the binary representation of a  positive integer $n$
+		into a \texttt{String s}.
+	\end{ex}
+	\begin{sol}
+		\
+		If we divide \texttt{n} by 2, then the remainder of the division is the least significant
+		bit in the binary representation of \texttt{n}. If we were to divide by the resulting
+		quotient by \texttt{2}, then the remainder of that division is the next most significant bit.
+		Continuing this way, the value of \texttt{n} falls to \texttt{0} as we continue to
+		divide by 2. The solution is actually given in \cite{sedgewick_wayne}:
+		\begin{lstlisting}
+String s = "";
+for (int k = n; n > 0; n /= 2)
+	s = (k % 2) + s;
+		\end{lstlisting}
+		We could extend this to handle \texttt{0} by changing it to a
+		\texttt{do \{/*...*/\} while(/*...*/);}.loop.
+	\end{sol}
+	\begin{ex}{10}
+		What is wrong with the following code fragment?
+		\begin{lstlisting}
+int[] a;
+for (int i = 0; i < 10; i++)
+	a[i] = i * i;
+		\end{lstlisting}
+	\end{ex}
+	\begin{sol}
+		It fails to use \texttt{new} to allocate memory for the array before using it in the
+		\texttt{for} loop.
+	\end{sol}
+	\begin{ex}{11}
+		Write a code fragment that prints the contents of a two-dimensional boolean array,
+		using \texttt{*} to represent \texttt{true} and a space to represent \texttt{false}.
+		Include row and column numbers.
+	\end{ex}
+	\begin{sol}
+		\
+		\begin{lstlisting}
+for (int i = 0; i < m; i++) {
+	for(int j = 0; j < n; j++)
+		System.out.printf("(%d,%d): %s ", i, j, (a[i][j]) ? "*" : " ");
+		
+	System.out.println();
+}
+		\end{lstlisting}
+	\end{sol}
+	\begin{ex}{12}
+		What does the following code fragment print?
+		\begin{lstlisting}
+int[] a = new int[10];
+for (int i = 0; i < 10; i++)
+	a[i] = 9 - i;
+for (int i = 0; i < 10; i++)
+	a[i] = a[a[i]];
+for (int i = 0; i < 10; i++)
+	System.out.println(a[i]);
+		\end{lstlisting}
+	\end{ex}
+	\begin{sol}
+		\
+		The first lop sets \texttt{a}  to \texttt{\{9, 8, 7, 6, 5, 4, 3, 2, 1, 0\}}.
+		The second loop \texttt{\{0, 1, 2, 3, 4, 4, 3, 2, 1, 0\}}. Thus the output is:
+		\begin{lstlisting}
+0
+1
+2
+3
+4
+4
+3
+2
+1
+0
+		\end{lstlisting}
+	\end{sol}
+	\begin{ex}{13}
+		Write a code fragment to print the \emph{transposition} (rows and columns changed)
+		of a two-dimensional array with \emph{m} rows and \emph{n} columns.
+	\end{ex}
+	\begin{sol}
+		\
+		\begin{lstlisting}
+for (int i = 0; i < m; i++) {
+	for (int j = 0; j < n; j++)
+		System.out.printf("%d ", a[j][i]);
+	System.out.println();
+}
+		\end{lstlisting}
+	\end{sol}
+	\begin{ex}{16}
+		Give the value of \texttt{exR1(6)}:
+		\begin{lstlisting}
+public static String exR1(int n)
+{
+	if (n <= 0) return "";
+	return exR1(n-3) + n + exR1(n-2) + n;
+}
+		\end{lstlisting}
+	\end{ex}
+	\begin{sol}
+		\
+			The first call is as follows:
+		\begin{lstlisting}[language={}]
+exR1(6) -> exR1(3) + 6 + exR1(4) + 6
+		\end{lstlisting}
+		Now we look at \texttt{exR1(3)}:
+		\begin{lstlisting}[language={}]
+exR1(3) -> exR1(0) + 3 + exR1(1) + 3
+		\end{lstlisting}
+		By the base case, \texttt{exR1(0)} is \texttt{""}. Meanwhile, we keep going for \texttt{exR1(1)}:
+		\begin{lstlisting}[language={}]
+exR1(1) -> exR1(-2) + 1 + exR1(-1) + 1
+		\end{lstlisting}
+		Since \texttt{exR1(-2)} and \texttt{exR1(-1)} evaluate to \texttt{""} due to the
+		base case, we get \texttt{exR1(1)} is \texttt{"11"}. Now \texttt{exR1(3)} is \texttt{"3113"}.
+		Next we need \texttt{exR1(4)}:
+		\begin{lstlisting}[language={}]
+exR1(4) -> exR1(1) + 4 + exR1(2) + 4
+		\end{lstlisting}
+		We already know that \texttt{exR1(1)} is \texttt{"11"}. For \texttt{exR1(2)}:
+		\begin{lstlisting}[language={}]
+exR1(2) -> exR1(-1) + 2 + exR1(0) + 2
+		\end{lstlisting}
+		Hence \texttt{exR1(2)} is \texttt{"22"}. Altogether, we find that \texttt{exR1(4)} is
+		\texttt{"114224"}. Finally, the value of \texttt{exR1(6)} is:
+		\begin{lstlisting}[language={}]
+311361142246
+		\end{lstlisting}
+	\end{sol}
+	\begin{ex}{17}
+		Criticize the following recursive function:
+		\begin{lstlisting}
+public static String exR2(int n)
+{
+	String s = exR2(n-3) + n + n + exR2(n-2) + n;
+	if (n <= 0) return "";
+	return s;
+}
+		\end{lstlisting}
+	\end{ex}
+	\begin{sol}
+		\
+		Because the base case comes after the recursive step, a program that invokes this
+		function will crash with \texttt{StackOverflowError}.
+	\end{sol}
+	\begin{ex}{18}
+		Consider the following recursive function:
+		\begin{lstlisting}
+public static int mystery(int a, int b)
+{
+	if (b == 0)		return 0;
+	if (b % 2 == 0)	return mystery(a+a, b/2);
+	return mystery(a+a, b/2) + a;
+}
+		\end{lstlisting}
+	What are the values of \texttt{mystery(2, 25)} and \texttt{mystery(3, 11)}? Given positive integers
+	\texttt{a} and \texttt{b}, describe what \texttt{mystery(a, b)} computes. Answer the same
+	question, but replace the three \texttt{+} operators with \texttt{*} and replace
+	\texttt{return 0} with \texttt{return 1}.
+	\end{ex}
+	\begin{sol}
+		\
+		Begin with \texttt{mystery(2, 25)}:
+		\begin{lstlisting}
+mystery(2, 25) -> 2 + mystery(4, 12):
+mystery(4, 12) -> mystery(8, 6):
+mystery(8, 6 )  -> mystery(16, 3):
+mystery(16, 3) -> 16 + mystery(32, 1):
+mystery(32, 1) -> 32 + mystery(64, 0):
+mystery(64, 0) -> 0
+		\end{lstlisting}
+		Tracing back the calls, the result is $2 + 16 + 32 + 0 = 50 = 2\cdot 25$.
+		Similarly:
+		\begin{lstlisting}
+mystery(3, 11) -> 3 + mystery(6, 5):
+mystery(6, 5 ) -> 6 + mystery(12, 2):
+mystery(12, 2) -> mystery(24, 1):
+mystery(24, 1) -> 24 + mystery(48, 0):
+mystery(48, 0) -> 0
+		\end{lstlisting}
+		Tracing back the calls, the result is $3 + 6 + 24 + 0 = 33 = 3\cdot 11$.
+		It appears that the \texttt{mystery(a, b)} computes the product $a\cdot b$.
+		In essence, we are using the binary representation of \texttt{b} decide which
+		weights of the multiples of \texttt{a} we should add.
+
+		Next, we replace \texttt{+} with \texttt{*} and \texttt{return 0} with \texttt{return 1}:
+		\begin{lstlisting}
+mystery(2, 25) -> 2 * mystery(4, 12):
+mystery(4, 12) -> mystery(16, 6):
+mystery(16, 6) -> mystery(256, 3):
+mystery(256, 3)-> 256 * mystery(65536, 1):
+mystery(65536, 1) -> 65536 * mystery(4294967296, 0):
+mystery(4294967296, 0) -> 1
+		\end{lstlisting}
+		The result is $2 \cdot 256 \cdot 65536 \cdot 1 = 33554432 = 2^{25}$.
+		Meanwhile:
+		\begin{lstlisting}
+mystery(3, 11) -> 3 * mystery(9, 5):
+mystery(9, 5 ) -> 9 * mystery(81, 2):
+mystery(81, 2) -> mystery(6561, 1):
+mystery(6561, 1) -> 6561 * mystery(43046721, 0):
+mystery(43046721, 0) -> 1
+		\end{lstlisting}
+		The result is $3\cdot 9\cdot 6561\cdot 1 = 177147$, which is $3^{11}$.
+		In this case, \texttt{mystery(a, b)} appears to be computing $a^b$ (meaning
+		$a$ to the power of $b$).
+	\end{sol}
+	\pagebreak
+	\printbibliography
+\end{document}

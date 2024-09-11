@@ -12,6 +12,14 @@ goals in mind:
 3. Practice basic unit testing.
 4. Prepare to self-study operating systems.
 
+## Repo Structure
+
+- The `pdf` folder consists of files typeset with LaTeX and the compiled PDFs.
+These are my solutions to exercises from the book that do not require writing
+a computer programming. Directly under `code` is a directory for each chapter.
+Under each chapter directory is a directory for each section in that chapter.
+This innermost directory contains the `.tex` and `.pdf` files.
+
 ## Companion Site
 
 The [book companion site]() has resources used throughout the book exposition and sometimes

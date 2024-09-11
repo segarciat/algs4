@@ -1,0 +1,8 @@
+# Intermediate files produced by TeXStudio
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.log
+*.run.xml
+*.synctex.gz
