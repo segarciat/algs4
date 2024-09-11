@@ -8,6 +8,11 @@ package com.segarciat.algs4e._14;
  */
 
 public class LgFloor {
+    /**
+     * Returns the largest int no larger than the base-2 logarithm of n.
+     * @param n Positive integer.
+     * @return The floor of the base-2 logarithm of n.
+     */
     public static int lg(int n) {
         // lg(n) is undefined when n <= 0
         if (n <= 0)
