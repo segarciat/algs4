@@ -13,6 +13,7 @@ dependencies {
     // See: https://stackoverflow.com/questions/57706525/unable-to-run-kotlin-scratch-file
     // See also: https://mvnrepository.com/artifact/org.jetbrains.kotlin/kotlin-stdlib
     implementation("org.jetbrains.kotlin:kotlin-stdlib:1.9.24")
+    implementation(files("../../algs4.jar"))
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
 }

@@ -2,7 +2,7 @@
 
 \usepackage[utf8]{inputenc}
 % Limit the page margin to only 1 inch.
-\usepackage[margin=1in]{geometry} 
+\usepackage[margin=1in]{geometry}
 
 %Imports biblatex package
 \usepackage[
@@ -563,6 +563,28 @@ mystery(43046721, 0) -> 1
 		The result is $3\cdot 9\cdot 6561\cdot 1 = 177147$, which is $3^{11}$.
 		In this case, \texttt{mystery(a, b)} appears to be computing $a^b$ (meaning
 		$a$ to the power of $b$).
+	\end{sol}
+	\begin{ex}{19}
+		Run the following program on your computer (see Section 1.1 page 57 for the
+		snippet). What is the largest value of \texttt{n} for which this program takes
+		less than 1 hour to compute the value of \texttt{fibonacci(n)}? Develop a better
+		implementation of \texttt{fibonacci(n)} that saves computed values in an array.
+	\end{ex}
+	\begin{ex}{20}
+		Write a recursive static method that computes the value of $\ln (n!)$.
+	\end{ex}
+	\begin{sol}
+		The implementation is fairly trivial if we recall the power rule of logarithms.
+		If $x,y$ are any two positive real numbers, then
+		\[
+		\ln(xy) = \ln(x) + \ln(y)
+		\]
+		Since $n!=n\cdot (n-1)!$ for $n\geq 1$ and $0!=1$, we have:
+		\[
+		\ln(n!) = \ln(n\cdot (n-1)!) = \ln(n) + \ln[(n-1)!]
+		\]
+		The implementation for this is in the \texttt{factorialLog} method in the
+		\texttt{\\com.segarciat.algs4e.\_20.FactorialLog} class.
 	\end{sol}
 	\pagebreak
 	\printbibliography
