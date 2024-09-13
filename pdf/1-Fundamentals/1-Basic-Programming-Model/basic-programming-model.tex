@@ -12,6 +12,7 @@ style=alphabetic
 \addbibresource{../../algs4e.bib}
 
 \usepackage{amsmath}
+\usepackage{amssymb}
 
 % Provides useful environments, such as:
 % - \begin{proof} ...\end{proof}
@@ -51,7 +52,7 @@ style=alphabetic
 }
 
 \newcommand{\prob}{\text{P}}
-\newcommand{\complement}{\mathsf{c}}
+%\newcommand{\complement}{\mathsf{c}}
 
 % Define an environment called "ex" (for Exercise) so that I can do: \begin{ex}{1.5}...\end{ex}
 \newenvironment{ex}[2][Exercise]
@@ -570,6 +571,9 @@ mystery(43046721, 0) -> 1
 		less than 1 hour to compute the value of \texttt{fibonacci(n)}? Develop a better
 		implementation of \texttt{fibonacci(n)} that saves computed values in an array.
 	\end{ex}
+	\begin{sol}
+		About $n=58$ on my computer.
+	\end{sol}
 	\begin{ex}{20}
 		Write a recursive static method that computes the value of $\ln (n!)$.
 	\end{ex}
@@ -585,6 +589,132 @@ mystery(43046721, 0) -> 1
 		\]
 		The implementation for this is in the \texttt{factorialLog} method in the
 		\texttt{\\com.segarciat.algs4e.\_20.FactorialLog} class.
+	\end{sol}
+
+	\begin{ex}{21}
+		Write a program that reads in lines from standard input with each line containing
+		a name and two integers and then uses \texttt{printf()} to print a table with a column
+		of the names, the integers, and the result of dividing the first by the second,
+		accurate to three decimal places. You could use a program like this to tabulate batting
+		averages for baseball players or grades for students.
+	\end{ex}
+	\begin{sol}
+		See the \texttt{com.segarciat.algs4e.\_21.StdinDivision} class. Notice
+		that this behaves much like the \texttt{cat} command in a  UNIX-based system.
+		Ideally, input comes from a while so that  output will be redirected to a file so
+		that it is not interspersed with the input.
+	\end{sol}
+	\begin{ex}{22}
+		Write a version of \texttt{BinarySearch} that uses the recursive \texttt{indexOf()}
+		given on page 25 and \emph{traces} the method calls. Each time the recursive method
+		is called, print the argument values \texttt{lo} and \texttt{hi}, indented by the depth
+		of the recursion. \emph{Hint}: Add an argument to the recursive method that keeps track
+		of the depth.
+	\end{ex}
+	\begin{sol}
+		See the \texttt{com.segarciat.algs4e.\_22.BinarySearchTrace} class. Since the
+		purpose of the \texttt{depth} argument is to affect indentation, I decided to
+		pass a \texttt{StringBuilder} object to control the indentation, which
+		is appropriate because the recursion in this case is unidirectional.
+	\end{sol}
+	\begin{ex}{23}
+		Add to the \texttt{BinarySearch} test client the ability to respond to
+		a second argument: \texttt{+} to print numbers from standard input that
+		\texttt{are not} in the whitelist,  \texttt{-} to print numbers that \emph{are}
+		in the whitelist.
+	\end{ex}
+	\begin{ex}{24}
+		Give the sequence of values of $p$ and $q$ that are computed when Euclid's
+		algorithm is used to compute  the greatest common division of $105$ and $24$. Extend
+		the code given on page 4 to develop a program \texttt{Euclid} that takes two integers
+		from the command  line and computes their greatest common divisor, printing out the
+		two arguments for each call on the recursive method. Use your program to compute the
+		greatest common divisor of $1111111$ and $1234567$.
+	\end{ex}
+	\begin{sol}
+		Euclid's algorithm computes successive remainders. Hence if $p_0=p$, $q_0=q$,
+		then $r_{n} = p_{n-1}\mod q_{n-1}$ for integer $n\geq 1$. If $r_n$ is $0$, then
+		the greatest common divisor is $r_n$. Otherwise, we set $p_n = q_{n-1}$ and $q_n = r_{n}$.
+		\begin{center}
+			\begin{tabular}{c|c|c}
+				$p$ & $q$ & $r$ \\
+				\hline
+				$105$ &  $24$ & $9$ \\
+				$24$ & $9$ & $6$ \\
+				$9$ & $6$ & $3$ \\
+				$6$ & $3$ & $0$
+			\end{tabular}
+		\end{center}
+	\end{sol}
+	\begin{ex}{25}
+		Use mathematical induction to prove that Euclid's  algorithm computes  the  greatest
+		common  divisor for any pair of nonnegative integers $p$ and $q$.
+	\end{ex}
+	\begin{sol}
+		\
+		\begin{proof}
+			Suppose that $q = 0$. Then the algorithm returns $p$ as the  greatest common
+			divisor and we are done.
+			
+			Suppose now that $p$ and $q$ are nonnegative integers with $q>0$.
+			Let $k\in \mathbb{N}$, and define:
+			\begin{align*}
+				p_0 & := p \\
+				q_0 & := q \\
+				r_{k-1} & := p_{k-1} \mod q_{k-1},\\
+				p_{k} & := q_{k-1} \\
+				q_{k} & := r_{k-1}
+			\end{align*}
+			That is, $r_{k-1}$ is the remainder of dividing $p_{k-1}$ by $q_{k-1}$.
+			If $r_{k-1}\neq 0$, then the algorithm continues to produce values for
+			these sequences. The \texttt{p\% q} operation in the algorithm translates into
+			the $p_{k-1}\mod q_{k-1}$ operation above, which  always produces an integer $r_{k-1}$
+			satisfying $0 \leq r_{k-1} < q_{k-1}$. Hence, the sequence of successive quotients,
+			$k\mapsto q_k$, form a strictly monotonically decreasing sequence of integers.
+			Since it is strictly decreasing, the values decrease by at least $1$ after each
+			step, so the sequence must converge to $0$ after at most $q$ steps, meaning
+			$q_k=0$ for some $k\in\mathbb{N}$. By assumption we  know $q_0 \neq 0$, so
+			let $N$ the smallest nonnegative integer such that $q_{N + 1} = 0$, and set $d = q_N$.
+			Then the algorithm will return $d$.
+			
+			We must prove that:
+			\begin{enumerate}[label=(\roman*)]
+				\item $d$ is a common divisor of $p$ and $q$.
+				\item $d$ is the greatest among all the divisors of $p$ and $q$.
+			\end{enumerate}
+			To prove (i), note that $r_N = q_{N+1} = 0$, which means $r_N = 0$, and hence,
+			$q_N$ divides $p_N$. Since $d = q_N$, this implies that $d$ is a common divisor
+			of $p_N$ and $q_N$. If $N=0$, then $p_N=p$ and $q_N=q$, and we are done. Suppose
+			that $N > 0$. Then $p_N = q_{N-1}$ and $q_N = r_{N-1}$, and $d$ divides $q_{N-1}$
+			and $r_{N-1}$. By the definition  of $r_{N-1}$, there is a non-negative integer
+			$s_{N-1}$ such that
+			\[
+			p_{N-1} = s_{N-1} \cdot q_{N-1} + r_{N-1}
+			\]
+			Since $d$ divides $q_{N-1}$ and $r_{N-1}$, it follows  that $d$ divides $p_{N-1}$.
+			Proceeding by induction, we conclude that $d$ divides $p_k$ and $q_k$ for all
+			$k\in\mathbb{N}$. Since $q_{0}=p_1$ and $r_0=q_1$, the definition of $p_0$ in terms
+			of $q_0$ and $r_0$ implies that $d$ divides $p_0$ also. Hence, and in turn, $d$ divides
+			$p_0 = p$ and $q_0 = q$, proving that $d$ is a common divisor of $p$ and $q$.
+			This completes the proof of (i).
+			
+			To prove (ii), suppose that $d'$ is the greatest common divisor of $p$ and $q$.
+			Then $d \leq d'$, by definition. If we can prove that we also have $d' \leq d$,
+			then both conditions together imply that $d = d'$. Recalling that $d = q_N$,
+			suppose that $N = 0$. Since $d'$ is the greatest common divisor, it must divide
+			$p$ and $q$. In particular, $d'$ divides $d$ because $q=q_0=d$. Hence, we must
+			have $d'\leq d$. Suppose now that $N>0$, that $k\in, \mathbb{N}$, and $d'$ divides
+			$p_{k-1}$ and $q_{k-1}$. By  definition of $r_{k-1}$, we can write
+			\begin{align*}
+				r_{k-1} &= p_{k-1} - s_{k-1}\cdot q_{k-1}
+			\end{align*}
+			for some non-negative integer $s_{k-1}$. Since $d'$ divides $p_{k-1}$ and $q_{k-1}$,
+			it must divide $r_{k-1}$. In particular, $d'$ divides $q_{k-1}$ and
+			$r_{k-1}$. Since $p_k = q_{k-1}$ and $q_k = r_{k-1}$, this means $d'$ divides
+			$p_k$ and $q_k$. By induction, $d'$  divides $p_k$ and $q_k$ for all $k\in\mathbb{N}$.
+			In particular, $d'$ divides $q_N$, and since $d = q_N$, this means $d'$ divides $d$.
+			We conclude that $d' \leq d$.
+		\end{proof}
 	\end{sol}
 	\pagebreak
 	\printbibliography
