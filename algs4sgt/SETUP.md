@@ -85,6 +85,13 @@ and then using the `run` command:
 ./gradlew -PmainClass=org.example.App run
 ```
 
+To [use command-line arguments](https://stackoverflow.com/a/53463332, we must use the `--args` option,
+like so:
+
+```bash
+./gradlew -PmainClass=com.segarciat.algs4.ch1.sec1.ex03.Compare3Integers run --args='3 3 3'
+```
+
 ## Using `algs4.jar`
 
 The authors of *Algorithms* provide `algs4.jar` which I often use in the exercises.
