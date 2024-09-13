@@ -19,6 +19,8 @@ These are my solutions to exercises from the book that do not require writing
 a computer programming. Directly under `code` is a directory for each chapter.
 Under each chapter directory is a directory for each section in that chapter.
 This innermost directory contains the `.tex` and `.pdf` files.
+- The `algs4sgt` directory is a Gradle project containing all of the source code
+that I wrote to complete exercises from the book.
 
 ## Companion Site
 
