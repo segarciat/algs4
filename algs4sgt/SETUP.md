@@ -5,7 +5,7 @@ reference.
 
 ## Install Gradle Locally
 
-Step 0 of the tutorial involves [installing Gradle](https://docs.gradle.org/current/userguide/installation.html#ex-installing-    with-a-package-manager)
+Step 0 of the tutorial involves [installing Gradle](https://docs.gradle.org/current/userguide/installation.html#ex-installing-with-a-package-manager)
 This local installation is only used to initialize a Gradle project, after which the Gradle wrapper
 is used for all other interactions. Gradle uses the [SDKMAN!](http://sdkman.io/) tool for managing
 versions, which should be preferred to using a distribution-specific package manager such as `apt`.
@@ -85,7 +85,7 @@ and then using the `run` command:
 ./gradlew -PmainClass=org.example.App run
 ```
 
-To [use command-line arguments](https://stackoverflow.com/a/53463332, we must use the `--args` option,
+To [use command-line arguments](https://stackoverflow.com/a/53463332), we must use the `--args` option,
 like so:
 
 ```bash

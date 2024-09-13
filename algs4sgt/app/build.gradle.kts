@@ -36,6 +36,14 @@ java {
 
 application {
     // Define the main class for the application.
+    /**
+     * See FirstZero's answer on StackOverflow:
+     * https://stackoverflow.com/a/21360609)
+     *
+     * Enables specifying any main class such as:
+     *
+     * ./gradlew -PmainClass=com.example.Foo run --args='1 2 3'
+     */
     mainClass = project.properties.getOrDefault("mainClass", "NULL").toString()
 }
 
