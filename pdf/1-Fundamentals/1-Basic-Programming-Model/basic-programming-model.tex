@@ -108,12 +108,11 @@ style=alphabetic
 		\texttt{equal} if all three are equal, and \texttt{not equal} otherwise.
 	\end{ex}
 	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch1.sec.ex13.Compare3Integers}.
 		The command-line argument are \texttt{String} objects, so they can be converted
 		to integers with \texttt{Integer.parseInt()}. Assuming the three integers are
 		\texttt{a}, \texttt{b}, and \texttt{c}, we now just verify the value of the
-		boolean expression \texttt{a == b \&\& b == c}. See text the class
-		\texttt{com.segarciat.algs4e.\_03.Compare3Integers} under the \texttt{code}
-		folder.
+		boolean expression \texttt{a == b \&\& b == c}.
 	\end{sol}
 	\begin{ex}{4}
 		What (if anything) is wrong with each of the following statements?
@@ -412,7 +411,7 @@ for (int i = 0; i < m; i++) {
 		of \texttt{n}. Do \emph{not} use \texttt{Math}.
 	\end{ex}
 	\begin{sol}
-		See the class \texttt{com.segarciat.algs4e.\_14.LgFloor} in the \texttt{code} folder.
+		See the class \texttt{com.segarciat.algs4.ch1.sec.ex14.LgFloor}.
 		Note that the logarithm is only defined for positive numbers,
 		so we begin by throwing an exception if $n \leq 0$. Assuming now that
 		$n > 0$, suppose that $2^m$ is the largest power of $2$ in its base-2 (binary)
@@ -447,6 +446,9 @@ for (int i = 0; i < m; i++) {
 		between \texttt{0} and \texttt{m-1}, the sum of the values in the returned array
 		should equal to \texttt{a.length}.
 	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch1.sec.ex19.Histogram}.
+	\end{sol}
 	\begin{ex}{16}
 		Give the value of \texttt{exR1(6)}:
 		\begin{lstlisting}
@@ -572,12 +574,16 @@ mystery(43046721, 0) -> 1
 		implementation of \texttt{fibonacci(n)} that saves computed values in an array.
 	\end{ex}
 	\begin{sol}
-		About $n=58$ on my computer.
+		See the class \texttt{com.segarciat.algs4.ch1.sec.ex19.Fibonacci}. On my computer,
+		when $n=58$, it takes just under a hour, and during $n=59$, it takes over an hour.
+		See my \texttt{fibonacciFaster} method, which completes through $n=90$ in less than a
+		second.
 	\end{sol}
 	\begin{ex}{20}
 		Write a recursive static method that computes the value of $\ln (n!)$.
 	\end{ex}
 	\begin{sol}
+		See the class \texttt{com.segarciat.algs4.ch1.sec.ex20.FactorialLog}.
 		The implementation is fairly trivial if we recall the power rule of logarithms.
 		If $x,y$ are any two positive real numbers, then
 		\[
@@ -587,8 +593,6 @@ mystery(43046721, 0) -> 1
 		\[
 		\ln(n!) = \ln(n\cdot (n-1)!) = \ln(n) + \ln[(n-1)!]
 		\]
-		The implementation for this is in the \texttt{factorialLog} method in the
-		\texttt{\\com.segarciat.algs4e.\_20.FactorialLog} class.
 	\end{sol}
 
 	\begin{ex}{21}
@@ -599,7 +603,7 @@ mystery(43046721, 0) -> 1
 		averages for baseball players or grades for students.
 	\end{ex}
 	\begin{sol}
-		See the \texttt{com.segarciat.algs4e.\_21.StdinDivision} class. Notice
+		See the class \texttt{com.segarciat.algs4.ch1.sec.ex21.StdinDivision}. Notice
 		that this behaves much like the \texttt{cat} command in a  UNIX-based system.
 		Ideally, input comes from a while so that  output will be redirected to a file so
 		that it is not interspersed with the input.
@@ -612,7 +616,7 @@ mystery(43046721, 0) -> 1
 		of the depth.
 	\end{ex}
 	\begin{sol}
-		See the \texttt{com.segarciat.algs4e.\_22.BinarySearchTrace} class. Since the
+		See the class \texttt{com.segarciat.algs4.ch1.sec.ex23.BinarySearchTrace}. Since the
 		purpose of the \texttt{depth} argument is to affect indentation, I decided to
 		pass a \texttt{StringBuilder} object to control the indentation, which
 		is appropriate because the recursion in this case is unidirectional.
@@ -623,6 +627,9 @@ mystery(43046721, 0) -> 1
 		\texttt{are not} in the whitelist,  \texttt{-} to print numbers that \emph{are}
 		in the whitelist.
 	\end{ex}
+	\begin{sol}
+		See the class \texttt{com.segarciat.algs4.ch1.sec.ex23.Filtering}.
+	\end{sol}
 	\begin{ex}{24}
 		Give the sequence of values of $p$ and $q$ that are computed when Euclid's
 		algorithm is used to compute  the greatest common division of $105$ and $24$. Extend
@@ -645,6 +652,7 @@ mystery(43046721, 0) -> 1
 				$6$ & $3$ & $0$
 			\end{tabular}
 		\end{center}
+		See the class \texttt{com.segarciat.algs4.ch1.sec.ex24.Euclid}.
 	\end{sol}
 	\begin{ex}{25}
 		Use mathematical induction to prove that Euclid's  algorithm computes  the  greatest
