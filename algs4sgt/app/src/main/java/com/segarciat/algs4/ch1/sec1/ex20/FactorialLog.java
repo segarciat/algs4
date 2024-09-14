@@ -1,8 +1,10 @@
 package com.segarciat.algs4.ch1.sec1.ex20;
 
 /**
- * 1.1.20
+ * <strong>1.1.20)</strong>
  * Write a recursive static method that computes the value of ln(n!).
+ *
+ * @author Sergio E. Garcia Tapia
  */
 public class FactorialLog {
     /**

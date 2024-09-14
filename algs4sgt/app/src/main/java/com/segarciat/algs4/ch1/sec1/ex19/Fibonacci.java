@@ -2,6 +2,16 @@ package com.segarciat.algs4.ch1.sec1.ex19;
 
 import edu.princeton.cs.algs4.StdOut;
 
+/**
+ * <strong>1.1.19)</strong>
+ * Run the <code>fibonacci()</code> method (given below, also on page 57).
+ * What is the largest value of <code>n</code> for which this program takes
+ * less than 1 hour to compute the value of <code>fibonacci(n)</code>?
+ * Develop a better implementation of <code>fibonacci(n)</code> that saves
+ * precomputed values in an array.
+ *
+ * @author Sergio E. Garcia Tapia
+ */
 public class Fibonacci {
     public static long fibonacci(int n) {
         if (n == 0) return 0;

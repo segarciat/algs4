@@ -1,8 +1,8 @@
 package com.segarciat.algs4.ch1.sec2.ex06;
 
 /**
- *
- * 1.1.9) A string <code>s</code> is a circular shift (or <em>circular rotation</em>)
+ * <strong>1.1.9)</strong>
+ * A string <code>s</code> is a circular shift (or <em>circular rotation</em>)
  * of a string <code>t</code> if it matches when the characters are circularly shifted
  * by any number of positions; e.g., <code>ACTGACG</code> is a circular shift of
  * <code>TGACGAC</code>, and vice-versa. Detecting this condition is important in the
@@ -10,6 +10,8 @@ package com.segarciat.algs4.ch1.sec2.ex06;
  * <code>s</code> and <code>t</code> are circular shifts of one another.
  * <em>Hint</em>: The solution is a one-liner with <code>indexOf()</code>, <code>length()</code>,
  * and string concatenation.
+ *
+ * @author Sergio E. Garcia Tapia
  */
 public class CircularShift {
     /**

@@ -4,9 +4,12 @@ import edu.princeton.cs.algs4.Interval1D;
 import edu.princeton.cs.algs4.StdIn;
 
 /**
- * 1.2.2) Write an <code>Interval1D</code> client that takes an <code>int</code> value
+ * <strong>1.2.2)</strong>
+ * Write an <code>Interval1D</code> client that takes an <code>int</code> value
  * <em>n</em> as command-line argument, reads <em>n</em> intervals (each defined by a pair
  * of <code>double</code> values) from standard input, and prints all pairs that intersect.
+ *
+ * @author Sergio E. Garcia Tapia
  */
 public class IntervalIntersection {
     public static void main(String[] args) {

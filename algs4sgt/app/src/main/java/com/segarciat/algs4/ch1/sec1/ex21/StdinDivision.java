@@ -3,6 +3,17 @@ package com.segarciat.algs4.ch1.sec1.ex21;
 import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
 
+/**
+ * <strong>1.1.20)</strong>
+ * Write a program that reads in lines from standard input with each line
+ * containing a name and two integers and then uses <code>pritnf()</code>
+ * to print a table with a column of the names, the integers, and the result
+ * of dividing the first by the second, accurate to three decimal places.
+ * You could use a program like  this to tabulate batting averages for
+ * baseball players or grades for students.
+ *
+ * @author Sergio E. Garcia Tapia
+ */
 public class StdinDivision {
     public static void main(String[] args) {
         StdOut.printf("%10s %10s %10s %10s %16s%n",

@@ -5,9 +5,12 @@ import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdRandom;
 
 /**
- *  1.2.1) Write a <code>Point2D</code> client that takes an integer value <em>n</em> from the command line,
- *  generates <em>n</em> random points in the unit square, and computes the distance separating the
- *  <em>closest pair</em> of points.
+ * <strong>1.2.1)</strong>
+ * Write a <code>Point2D</code> client that takes an integer value <em>n</em> from the command line,
+ * generates <em>n</em> random points in the unit square, and computes the distance separating the
+ * <em>closest pair</em> of points.
+ *
+ * @author Sergio E. Garcia Tapia
  */
 public class ClosestPointPair {
     public static void main(String[] args) {

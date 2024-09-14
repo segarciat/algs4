@@ -7,11 +7,13 @@ import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
 
 /**
- * 1.1.23)
+ * <strong>1.1.23)</strong>
  * Add to the <code>BinarySearch</code> test client the ability to respond to
  * a second argument: <code>+</code> to print numbers from standard input that
  * <em>are not</em> in the whitelist, <code>-</code> to print numbers that <em>are</em>
  * 	in the whitelist.
+ *
+ * @author Sergio E. Garcia Tapia
  */
 public class Filtering {
     public static void main(String[] args) {

@@ -3,12 +3,14 @@ package com.segarciat.algs4.ch1.sec1.ex22;
 import edu.princeton.cs.algs4.StdOut;
 
 /**
- * 1.1.22)
+ * <strong>1.1.22)</strong>
  * Write a version of <code>BinarySearch</code> that uses the recursive <code>indexOf()</code>
  * given on page 25 and <em>traces</em> the method calls. Each time the recursive method
  * is called, print the argument values <code>lo</code> and <code>hi</code>, indented by the depth
  * of the recursion. <em>Hint</em>: Add an argument to the recursive method that keeps track
  * of the depth.
+ *
+ * @author Sergio E. Garcia Tapia
  */
 public class BinarySearchTrace {
     public static int indexOf(int[] a, int key) {

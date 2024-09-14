@@ -1,10 +1,12 @@
 package com.segarciat.algs4.ch1.sec1.ex14;
 
 /**
- * 1.1.14
- * Write a static method lg() that takes an input value n as argument and returns
- * the largest int not larger than the base-2 logarithm of n. Do not use Math
- * (Java's Math package).
+ * <strong>1.1.14)</strong>
+ * Write a static method <code>lg()</code> that takes an input value <code>n</code>
+ * as argument and returns the largest <code>int</code> not larger than the base-2 logarithm of
+ * <code>n</code>. Do not use <code>Math</code>.
+ *
+ * @author Sergio E. Garcia Tapia
  */
 
 public class LgFloor {

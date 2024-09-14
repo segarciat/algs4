@@ -1,9 +1,11 @@
 package com.segarciat.algs4.ch1.sec1.ex03;
 
 /**
- * 1.1.3
+ * <strong>1.1.3)</strong>
  * Write a program that takes three command-line arguments and prints
- * 'equal'  if all three are equal and 'not equal' otherwise.
+ * <code>equal</code>  if all three are equal and <code>not equal</code> otherwise.
+ *
+ * @author Sergio E. Garcia Tapia
  */
 public class Compare3Integers {
     public static void main(String[] args) {

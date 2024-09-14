@@ -3,11 +3,14 @@ package com.segarciat.algs4.ch1.sec1.ex24;
 import edu.princeton.cs.algs4.StdOut;
 
 /**
- * 1.1.24) Extend the code on page 4 to develop a program <code>Euclid</code>
+ * <strong>1.1.24)</strong>
+ * Extend the code on page 4 to develop a program <code>Euclid</code>
  * that takes two integers from the command line and computes their greatest
  * common divisor, printing out the two  arguments for each call on the recursive
  * method. Use your program to compute the greatest common divisor of 1111111
  * and 1234567.
+ *
+ * @author Sergio E. Garcia Tapia
  */
 public class Euclid {
     public static void main(String[] args) {

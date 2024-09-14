@@ -8,7 +8,8 @@ import edu.princeton.cs.algs4.StdOut;
 import java.util.Arrays;
 
 /**
- * <strong>1.1.9)</strong> Instrument <code>BinarySearch</code> (page 47) to use a <code>Counter</code> to count
+ * <strong>1.1.9)</strong>
+ * Instrument <code>BinarySearch</code> (page 47) to use a <code>Counter</code> to count
  * the total number of keys examined during all searches and then print the total after all searches
  * are complete. <em>Hint</em>: Create a <code>Counter</code> in <code>main()</code> and pass it as
  * an argument to <code>indexOf()</code>.

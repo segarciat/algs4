@@ -1,13 +1,15 @@
 package com.segarciat.algs4.ch1.sec1.ex15;
 
 /**
- * 1.1.15
- * Write a static method histogram() that takes an array a[]
- * 	of int values and an integer m as arguments and returns
- * 	an array m whose ith entry is the number of times the integer
- * 	i appeared in the argument array. If the values in a[] are all
- * 	between 0 and m-1, the sum of the values in the returned array
- * 	should equal to a.length.
+ * <strong>1.1.15</strong>
+ * Write a static method <code>histogram()</code> that takes an array <code>a[]</code>
+ * of <code>int</code> values and an integer <code>m</code> as arguments and returns
+ * an array of length <code>m</code> whose <code>i</code>th entry is the number of times
+ * the integer <code>i</code> appeared in the argument array. If the values in <code>a[]</code>
+ * are all between <code>0</code> and <code>m-1</code>, the sum of the values in the returned
+ * array should equal to <code>a.length</code>.
+ *
+ * @author Sergio E. Garcia Tapia
  */
 public class Histogram {
     /**

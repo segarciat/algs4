@@ -6,11 +6,14 @@ import edu.princeton.cs.algs4.Point2D;
 import edu.princeton.cs.algs4.StdRandom;
 
 /**
- *  1.2.3) Write an <code>Interval2D</code> client that takes command-line arguments <code>n</code>,
- * 	<code>min</code>, and <code>max</code> and generates <code>n</code> random 2D intervals whose
- * 	width and height are uniformly distributed between <code>min</code> and <code>max</code>
- * 	in the unit square. Draw them on <code>StdDraw</code> and print the number of pairs of intervals
- * 	that intersect and the number of intervals that are contained in one another.
+ * <strong>1.2.3)</strong>
+ * Write an <code>Interval2D</code> client that takes command-line arguments <code>n</code>,
+ * <code>min</code>, and <code>max</code> and generates <code>n</code> random 2D intervals whose
+ * width and height are uniformly distributed between <code>min</code> and <code>max</code>
+ * in the unit square. Draw them on <code>StdDraw</code> and print the number of pairs of intervals
+ * that intersect and the number of intervals that are contained in one another.
+ *
+ * @author Sergio E. Garcia Tapia
  */
 public class IntersectingRectangles {
     public static void main(String[] args) {
