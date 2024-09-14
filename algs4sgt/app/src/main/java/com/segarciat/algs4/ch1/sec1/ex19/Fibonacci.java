@@ -44,7 +44,7 @@ public class Fibonacci {
     public static void main(String[] args) {
         for (int n = 0; n < 90; n++) {
             long  start = System.currentTimeMillis();
-            long fib = fibonacci(n);
+            long fib = fibonacciFaster(n);
             double secondElapsed = (System.currentTimeMillis() - start) / 1000.0;
             StdOut.printf("%d %d (%.4f seconds)%s", n, fib, secondElapsed, System.lineSeparator());
         }

@@ -12,8 +12,9 @@ import edu.princeton.cs.algs4.StdOut;
 public class Euclid {
     public static void main(String[] args) {
         if (args.length != 2) {
-            System.err.println("Usage: java Euclid p q");
+            System.err.println("Provide two command-line arguments p and q.");
             System.err.println("Given integers p and q, computes their greatest common divisor.");
+            System.exit(1);
         }
 
         int p = Integer.parseInt(args[0]);

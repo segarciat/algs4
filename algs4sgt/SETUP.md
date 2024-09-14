@@ -89,8 +89,11 @@ To [use command-line arguments](https://stackoverflow.com/a/53463332), we must u
 like so:
 
 ```bash
-./gradlew -PmainClass=com.segarciat.algs4.ch1.sec1.ex03.Compare3Integers run --args='3 3 3'
+./gradlew -q --console=plain -PmainClass=com.segarciat.algs4.ch1.sec1.ex03.Compare3Integers run --args='3 3 3'
 ```
+
+The `-q`ensures that only errors are displayed, and `--console=plain` drops information such as the
+executing time; see [loeschg's answer on StackOverflow](https://stackoverflow.com/a/37737186).
 
 ## Using `algs4.jar`
 
