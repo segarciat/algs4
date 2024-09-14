@@ -1,0 +1,126 @@
+\documentclass[12pt, a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+% Limit the page margin to only 1 inch.
+\usepackage[margin=1in]{geometry}
+
+%Imports biblatex package
+\usepackage[
+backend=biber,
+style=alphabetic
+]{biblatex}
+\addbibresource{../../algs4e.bib}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+% Provides useful environments, such as:
+% - \begin{proof} ...\end{proof}
+\usepackage{amsthm}
+
+\usepackage[inline]{enumitem} % allows using letters in enumerate list environment
+
+% Enable importing external graphic files and provides useful commannds, like \graphicspath{}
+\usepackage{graphicx}
+% Images are located in a directory called images in the current directory.
+\graphicspath{{./images/}}
+
+% Code Listings. Source:
+% https://stackoverflow.com/questions/3175105/inserting-code-in-this-latex-document-with-indentation
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+	language=Java,
+	aboveskip=3mm,
+	belowskip=3mm,
+	showstringspaces=false,
+	columns=flexible,
+	basicstyle={\small\ttfamily},
+	numbers=none,
+	numberstyle=\tiny\color{gray},
+	keywordstyle=\color{blue},
+	commentstyle=\color{dkgreen},
+	stringstyle=\color{mauve},
+	breaklines=true,
+	breakatwhitespace=true,
+	tabsize=3
+}
+
+\newcommand{\prob}{\text{P}}
+%\newcommand{\complement}{\mathsf{c}}
+
+% Define an environment called "ex" (for Exercise) so that I can do: \begin{ex}{1.5}...\end{ex}
+\newenvironment{ex}[2][Exercise]
+{\par\medskip\noindent \textbf{#1 #2.}}
+{\medskip}
+
+% Define a solution environment, similar to ex (exercise) environment.
+\newenvironment{sol}[1][Solution]
+{\par\medskip\noindent \textbf{#1.} }
+{\medskip}
+
+\begin{document}
+	\noindent Sergio E. Garcia Tapia \hfill
+	
+	\noindent \emph{Algorithms} by Sedgewick and Wayne (4th edition) \cite{sedgewick_wayne}\hfill
+	
+	\noindent September 14th, 2024\hfill 
+	\section*{1.2: Data Abstraction}
+	\begin{ex}{1}
+		Write a \texttt{Point2D} client that takes an integer value $n$ from the command line,
+		generates $n$ random points in the unit square, and computes the distance separating the
+		\emph{closest pair} of points.
+	\end{ex}
+	\begin{sol}
+		\
+		See the \texttt{com.segarciat.algs4.ch1.sec2.ex01.ClosestPointPair} class.
+		The \texttt{Point2D} objects can simply by stored in an array of size $n$.
+		We can use \texttt{StdRandom.uniformDouble()} to generate random $x$ and $y$ coordinates
+		for each point, and then leverage the \texttt{distanceTo()} method available in the
+		\texttt{Point2D} API. I employed a nested \texttt{for} loop to compute the closest pair.
+	\end{sol}
+	\begin{ex}{2}
+		Write an \texttt{Interval1D} client that takes an \texttt{int} value $n$ as command-line
+		argument, reads $n$ intervals (each defined by a pair of \texttt{double} values)
+		from standard input, and prints all pairs that intersect.
+	\end{ex}
+	\begin{sol}
+		See the \texttt{com.segarciat.algs4.ch1.sec2.ex02.IntervalIntersection} class.
+		It's much the same as in Exercise 1, but instead of using \texttt{StdRandom.uniformDouble()}
+		to generate the coordinates, I use \texttt{StdIn.readDouble()} to read coordinate from
+		standard input. Also, instead of the \texttt{distanceTo()} method from the
+		\texttt{Point2D} API, I leveraged the \texttt{intersects()} method from the
+		\texttt{Interval1D} API.
+	\end{sol}
+	\begin{ex}{3}
+		Write an \texttt{Interval2D} client that takes command-line arguments \texttt{n},
+		\texttt{min}, and \texttt{max} and generates \texttt{n} random 2D intervals whose
+		width and height are uniformly distributed between \texttt{min} and \texttt{max}
+		in the unit square. Draw them on \texttt{StdDraw} and print the number of pairs
+		of intervals that intersect and the number of intervals that are contained in one
+		another.
+	\end{ex}
+	\begin{sol}
+		See the \texttt{com.segarciat.algs4.ch1.sec2.ex03.IntersectingRectangles} class.
+		
+		One important consideration is that since the widths and heights are generated uniformly
+		between \texttt{min} and \texttt{max}, we must ensure the bottom left corner of each
+		point isn't so large that it would exceed the  dimensions of the unit square.
+		That is, given \texttt{width} and \texttt{height}, each of the $x$ and $y$
+		coordinates of the bottom left vertex of all rectangles must not exceed
+		\texttt{1 - width} and \texttt{1 - height}, respectively.
+		
+		Another important consideration is that, to check if rectangle $A$ contains rectangle $B$,
+		we must check that the bottom-left and top-right vertices of rectangle $B$ are contained in
+		rectangle $A$.Since the \texttt{Interval2D} API does not expose methods for obtaining these
+		quantities, it's necessary to save them while doing the computations to necessary to create
+		the rectangles.
+	\end{sol}
+	\pagebreak
+	\printbibliography
+\end{document}
