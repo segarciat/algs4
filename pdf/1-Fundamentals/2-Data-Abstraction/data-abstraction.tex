@@ -121,6 +121,97 @@ style=alphabetic
 		quantities, it's necessary to save them while doing the computations to necessary to create
 		the rectangles.
 	\end{sol}
+	\begin{ex}{4}
+		What does the following code fragment print?
+		\begin{lstlisting}
+		String string1 = "hello";
+		String string2 = string1;
+		string1 = "word";
+		StdOut.println(string1);
+		StdOut.println(string2);
+		\end{lstlisting}
+	\end{ex}
+	\begin{sol}
+		When \texttt{string1} is assigned to\texttt{string2}, the \texttt{string2} variable
+		receives a copy of the reference to the current value of \texttt{string1}.
+		When \texttt{string1} is assigned the \texttt{String} with value \texttt{"word"},
+		the reference in \texttt{string2} is unchanged. Thus the output is:
+		\begin{lstlisting}[language={}]
+world
+hello
+		\end{lstlisting}
+	\end{sol}
+	\begin{ex}{5}
+		What does the following code fragment print?
+		\begin{lstlisting}
+		String s = "Hello World";
+		s.toUpperCase();
+		s.substring(6, 11);
+		StdOut.println(s);
+		\end{lstlisting}
+	\end{ex}
+	\begin{sol}
+		\texttt{String} objects are immutable, so the calls to the  \texttt{toUpperCase()}
+		and the \texttt{substring()} methods do not change the object that \texttt{s}
+		references; they return new \texttt{String} objects. In this case, those objects
+		are not stored, so they are immediately available for garbage collection. Thus the
+		output is simply:
+		\begin{lstlisting}[language={}]
+Hello World
+		\end{lstlisting}
+	\end{sol}
+	\begin{ex}{6}
+		A string \texttt{s} is a circular shift (or \emph{circular rotation}) of a string
+		\texttt{t} if it matches when the characters are circularly shifted by any number
+		of positions; e.g., \texttt{ACTGACG} is a circular shift of \texttt{TGACGAC}, and
+		viceversa. Detecting this condition is important in the study of genomic sequences.
+		Write a program that checks whether two given strings \texttt{s} and \texttt{t}
+		are circular shifts of one another. \emph{Hint}: The solution is a one liner with
+		\texttt{indexOf()}, \texttt{length()}, and string concatenation.
+	\end{ex}
+	\begin{sol}
+		See the \texttt{com.segarciat.algs4.ch1.sec2.ex06.CircularShift} class.
+		A prerequisite for \texttt{s} and \texttt{t} to be circular shifts of one another
+		is that they have the same length. After establishing this, we can detect the
+		condition by concatenating \texttt{s} with itself to create a new string,
+		and then check whether \texttt{t} is a substring of this new string.
+	\end{sol}
+	\begin{ex}{7}
+		What does the following recursive function return?
+		\begin{lstlisting}
+	public static String mystery(String s)
+	{
+		int n = s.length();
+		if (n <= 1) return s;
+		String a = s.substring(0, n/2);
+		String b = s.substring(n/2, n);
+		return mystery(b) + mystery(a);
+	}
+		\end{lstlisting}
+	\end{ex}
+	\begin{sol}
+		It reverses the string \texttt{s}.
+	\end{sol}
+	\begin{ex}{8}
+		Suppose \texttt{a[]} and \texttt{b[]} are each integer arrays consisting of millions
+		of integers. What does the following code do? Is it reasonably efficient?
+		\begin{lstlisting}
+		int[] t  = a; a = b; b = t;
+		\end{lstlisting}
+	\end{ex}
+	\begin{sol}
+		It swaps arrays \texttt{a} and \texttt{b}. It's very efficient because the array
+		values are not copied.
+	\end{sol}
+	\begin{ex}{9}
+		Instrument \texttt{BinarySearch} (page 47) to use a \texttt{Counter} to count the total
+		number of keys examined during all searches and then print the total after all searches
+		are complete. \emph{Hint}: Create a \texttt{Counter} in \texttt{main()} and pass it as
+		an argument to \texttt{indexOf()}.
+	\end{ex}
+	\begin{sol}
+		See the See the \texttt{com.segarciat.algs4.ch1.sec2.ex09.BinarySearchCounter} class.
+	\end{sol}
 	\pagebreak
 	\printbibliography
 \end{document}
