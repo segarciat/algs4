@@ -245,12 +245,70 @@ Hello World
 	\begin{sol}
 		See the \texttt{com.segarciat.algs4.ch1.sec2.ex13.Transaction} class.
 	\end{sol}
-	\begin{ex}{13}
+	\begin{ex}{14}
 		Using our implementation of \texttt{equals()} in \texttt{Date} as a model (page 103),
 		develop an implementation of \texttt{equals()} for \texttt{Transaction}.
 	\end{ex}
 	\begin{sol}
 		See the \texttt{com.segarciat.algs4.ch1.sec2.ex14.Transaction} class.
+	\end{sol}
+	\begin{ex}{16}
+		\emph{Rational Numbers}. Implement an immutable data type \texttt{Rational}
+		for rational numbers that supports addition, subtraction, multiplication, and division.
+		\begin{lstlisting}[language={}]
+public class Rational
+          Rational(int numerator, int denominator)
+Rational plus(Rational that)          /* sum of this number and that */
+Rational minus(Rational that)         /* difference of this number and that */
+Rational times(Rational that)         /* product of this number and that */
+Rational dividedBy(Rational that)     /* quotient of this number and that */
+boolean   equals(Object that)         /* is this number equal to that? */
+String    toString()                  /* string representation */
+		\end{lstlisting}
+		You do not have to worry about testing for overflow (see Exercise 1.2.17), but use
+		as instance variables two \texttt{long} values that represent the numerator and
+		denominator to limit the possibility of overflow. Use Euclid's algorithm (see page 4)
+		to ensure that the numerator and denominator never have any common factors. Include
+		a test client that exercises all of your methods.
+	\end{ex}
+	\begin{sol}
+		See the \texttt{com.segarciat.algs4.ch1.sec2.ex16.Rational} class. I used Euclid's
+		algorithm from the constructor to ensure the denominator is in lowest terms.
+		I declared the instance  fields for the numerator and denominators as \texttt{final}
+		to enforce immutability. I also decided that if the fraction is negative (that is,
+		if either the numerator or denominator is negative), then I would account for this
+		by always storing the numerator's sign to be the same as that of the fraction,
+		while keeping the denominator as positive. That is, given $p,q\in \mathbb{Z}$,
+		where $q\neq 0$, each fraction in \texttt{Rational} has the form
+		\begin{align*}
+			\frac{-|p|}{|q|}
+		\end{align*}
+	\end{sol}
+	\begin{ex}{17}
+		\emph{Robust implementation of rational numbers}. Use assertions to develop an implementation
+		of \texttt{Rational} (see Exercise 1.2.16) that is immune to overflow.
+	\end{ex}
+	\begin{sol}
+		See the \texttt{com.segarciat.algs4.ch1.sec2.ex17.Rational} class. I did not add
+		new tests to verify the overflow behavior, but I did ensure that the old tests
+		still passed. I began by defining \texttt{minus()} in terms of the \texttt{sum()}
+		operation, and \texttt{dividedBy()} in terms of the \texttt{times()} operation.
+		This way, I could localize overflow detection to the \texttt{sum()} and \texttt{times()}
+		methods, and benefit in all of the methods.
+		
+		To detect overflow, I employed techniques that I learned in \cite{csapp}. Moreover,
+		I disallowed \texttt{Long.MIN} as a numerator or denominator because my implementation
+		uses \texttt{Euclid.gcd()} to compute the greatest common denominator in order to express
+		a fraction in lowest terms. The issue is that \texttt{Euclid.gcd()} requires non-negative
+		arguments, and that \texttt{Math.abs(Long.MIN)} is \texttt{Long.MIN} (it remains negative).
+		
+		I also did some other work to reduce the likelihood of overflow. For example, as in
+		traditional algebra, I wrote code to cross-reduce before multiplying the fraction.
+		Similarly, when computing the sum of two fractions, I wrote code to multiply the ``other"
+		fraction only by the ``missing factor" necessary to obtain a common denominator.
+		
+		These modifications make the algorithm implementation of each method more complex,
+		and even slower, but I reckon it is more robust and less error-prone.
 	\end{sol}
 	\pagebreak
 	\printbibliography

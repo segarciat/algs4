@@ -33,7 +33,7 @@ public class Euclid {
      *
      * @return The greatest common divisor of p and q.
      */
-    public static long gcd(int p, int q) {
+    public static long gcd(long p, long q) {
         if (p < 0 || q < 0)
             throw new IllegalArgumentException("p and q must be non-negative integers");
         return gcd(p, q, new StringBuilder());
@@ -52,11 +52,11 @@ public class Euclid {
      *
      * @return The greatest common divisor of p and q.
      */
-    private static long gcd(int p, int q, StringBuilder sbDepth) {
+    private static long gcd(long p, long q, StringBuilder sbDepth) {
         StdOut.printf("%sp: %d, q: %d%n", sbDepth.toString(), p, q);
         if (q == 0)
             return p;
-        int r = p % q;
+        long r = p % q;
         return gcd(q, r, sbDepth.append("  "));
     }
 }
