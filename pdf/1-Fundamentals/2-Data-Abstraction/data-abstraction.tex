@@ -310,6 +310,129 @@ String    toString()                  /* string representation */
 		These modifications make the algorithm implementation of each method more complex,
 		and even slower, but I reckon it is more robust and less error-prone.
 	\end{sol}
+	\begin{ex}{18}
+		\emph{Variance for accumulator}. Validate the following code, which adds the methods
+		\texttt{var()} and \texttt{stddev()} to \texttt{Accumulator}, computes both the
+		sample mean, sample variance, and sample standard deviation of the numbers  presented
+		as arguments to \texttt{addDataValue()}:
+		\begin{lstlisting}
+public class Accumulator
+{
+	private double mu = 0.0;
+	private double sum = 0.0;
+	private int n = 0;
+	
+	public void addDataValue(double value)
+	{
+		n++;
+		double delta = value - mu;
+		mu += delta / n;
+		sum += (double) (n-1) / n * delta * delta;
+	}
+
+	public double mean()
+	{ return mu; }
+	
+	public double var()
+	{
+		if (n <= 1) return Double.NaN;
+		return sum / (n - 1);
+	}
+
+	public double stddev()
+	{ return Math.sqrt(this.var()); }
+}
+		\end{lstlisting}
+	\end{ex}
+	\begin{sol}
+		When an instance of \texttt{Accumulator} is created, we initialize \texttt{mu}
+		and \texttt{sum} to \texttt{0.0}. For each $n\in\mathbb{N}$, let $\mu_n$ correspond to
+		\texttt{mu} and let $t_n$ correspond to \texttt{sum}. Let $x_{n}$ correspond
+		to \texttt{value} passed to the \texttt{n}th invocation of \texttt{addDataValue()}.
+		Then
+		\begin{align*}
+			\mu_0 &= 0,\\
+			t_0 &= 0,\\
+			\mu_{n} &= \mu_{n-1} + \frac{x_n - \mu_{n-1}}{n},\\
+			t_n &= t_{n-1} + \frac{n-1}{n}\cdot (x_n-\mu_{n-1})^2
+		\end{align*}
+		First we verify that $\mu_n$ is indeed giving the mean of the $n$ values
+		seen so far by induction. Let $n=1$. Then
+		\[
+		\mu_1 = \mu_0 + \frac{x_1- 0}{1} = x_1
+		\]
+		Hence the base case holds. Suppose we proceed by induction, that for
+		$n\in\mathbb{N}$ it is true that $\mu_n$ is the mean. That is, our
+		inductive hypothesis is that
+		\begin{align*}
+			\mu_n = \frac{1}{n}\sum_{k=1}^{n}x_k
+		\end{align*}
+		Then using the recurrence relation that defines $\mu_{n+1}$, we have
+		\begin{align*}
+			\mu_{n+1} &= \mu_n + \frac{x_{n+1}-\mu_{n}}{n+1}\\
+			&=\frac{(n+1)\mu_n + x_{n+1}-\mu_n}{n+1}\\
+			&=\frac{n\mu_n+x_{n+1}}{n+1}\\
+			&=\frac{n\cdot \frac{1}{n}\sum_{k=1}^{n}x_k+x_{n+1}}{n+1}\\
+			&=\frac{1}{n+1}\sum_{k=1}^{n+1}x_k\\
+		\end{align*}
+		as we set out to show. By the mathematical induction, we conclude that $\mu_n$
+		is indeed the mean of the first $n$ terms.
+		
+		Similarly, we can prove by induction that $\frac{t_n}{n-1}$ is indeed the
+		variance of the first $n$ terms, for $n\in\mathbb{N}$ and $n\geq 2$.
+		When $n=1$, we have $t_1=0$ because $n-1=1-1=0$. When $n=2$, we have:
+		\begin{align*}
+			\mu_1 &= x_1\\
+			\mu_2 &= \frac{1}{2}(x_1+x_2)
+		\end{align*}
+		Then
+		\begin{align*}
+			(x_1-\mu_2)^2 + (x_2-\mu_2)^2 &= \left(\frac{1}{2}x_1-\frac{1}{2}x_2\right)^2
+			+\left(\frac{1}{2}x_2-\frac{1}{2}x_1\right)^2\\
+			&=2\cdot \left(\frac{x_2-x_1}{2}\right)^2\\
+			&=\frac{2-1}{2}\left(x_2-x_1\right)\\
+			&=\frac{2-1}{2}(x_2-\mu_1)^2\\
+			&= t_2
+		\end{align*}
+		This is our base case. Now suppose that $n \geq 2$. Then our inductive hypothesis
+		is that
+		\begin{align*}
+			t_n &= \sum_{k=1}^{n}(x_k-\mu_{n})^2
+		\end{align*}
+		We can simplify this to:
+		\begin{align*}
+			 \sum_{k=1}^{n}(x_k-\mu_{n})^2
+			 &=\sum_{k=1}^{n}[x_k^2-2\mu_nx_k+\mu_n^2]\\
+			 &= \sum_{k=1}^{n}x_k^2 - 2\cdot \mu_n\sum_{k=1}^{n}x_k
+			+\sum_{k=1}^{n}\mu_n^2\\
+			&=\sum_{k=1}^{n}x_k^2-2\cdot\mu_n\cdot n\cdot\mu_n+n\cdot \mu_n^2\\
+			&=\sum_{k=1}^{n}x_k^2-n\mu_n^2
+		\end{align*}
+		where we've used the fact that $\sum_{k=1}^{n}x_k=n\cdot \mu_n$.
+		Moreover, note that
+		\begin{align*}
+			(n+1)\mu_{n+1}&=\sum_{k=1}^{n+1}x_k\\
+			&=x_{n+1}+\sum_{k=1}^{n}x_k\\
+			&=x_{n+1}+n\mu_n
+		\end{align*}
+		Now:
+		\begin{align*}
+			t_{n+1} - \sum_{k=1}^{n+1}(x_{k}-\mu_{n+1})^2 &=t_{n+1}
+			-\left[\sum_{k=1}^{n+1}x_{k}^2-(n+1)\mu_{n+1}^2\right]\\
+			&=\left[t_{n}+\frac{n}{n+1}(x_{n+1}-\mu_n)^2\right]
+			-\left[\sum_{k=1}^{n+1}x_{k}^2-(n+1)\mu_{n+1}^2\right]\\
+			&=\left[\sum_{k=1}^{n}x_k^2-n\mu_{n}^2+\frac{n}{n+1}(x_{n+1}-\mu_n)^2\right]
+			-\left[\sum_{k=1}^{n+1}x_{k}^2-(n+1)\mu_{n+1}^2\right]
+			\\
+			&=\frac{n}{n+1}(x_{n+1}-\mu_n)^2+(n+1)\mu_{n+1}^2-n\mu_n^2-x_{n+1}^2\\
+			&=\frac{nx_{n+1}^2-2nx_{n+1}\mu_n+n\mu_n^2+(n+1)^2\mu_{n+1}^2
+			-n(n+1)\mu_n^2-(n+1)x_{n+1}^2}{n+1}\\
+			&=\frac{-(n^2\mu_{n}^2+2nx_{n+1}\mu_n+x_{n+1}^2)+(n+1)^2\mu_{n+1}^2}{n+1}\\
+			&=\frac{-(n\mu_n+x_{n+1})^2+(n+1)^2\mu_{n+1}^2}{n+1}\\
+			&=\frac{-[(n+1)\mu_{n+1}]^2+[(n+1)\mu_{n+1}]^2}{n+1}\\
+			&=0
+		\end{align*}
+	\end{sol}
 	\pagebreak
 	\printbibliography
 \end{document}
