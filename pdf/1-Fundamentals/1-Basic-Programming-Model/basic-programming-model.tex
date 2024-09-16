@@ -724,6 +724,74 @@ mystery(43046721, 0) -> 1
 			We conclude that $d' \leq d$.
 		\end{proof}
 	\end{sol}
+	\begin{ex}{26}
+		\emph{Sorting three numbers}. Suppose that the variables \texttt{a}, \texttt{b},
+		\texttt{c}, and \texttt{c} are all of the same numeric primitive type. Show that
+		the following code puts \texttt{a}, \texttt{b}, and \texttt{c} in ascending order:
+		\begin{lstlisting}
+		if (a > b) { t = a; a = b; b = t; }
+		if (a > c) { t = a; a = c; c = t; }
+		if (b > c) { t = b; b = c; c = t; }
+		\end{lstlisting}
+	\end{ex}
+	\begin{sol}
+		\begin{proof}
+			Suppose that \texttt{a > b} so that the body of the first \texttt{if} runs.
+			The effect is to swap \texttt{a} and \texttt{b}. After the first \texttt{if}
+			statement, we have \texttt{a <= b}, but we do not yet know how \texttt{c} compares.
+			
+			Suppose that \texttt{a > c}. This means that \texttt{b >= a} and \texttt{a >= c}.
+			If the body of the second \texttt{if} runs, then it swaps \texttt{a} and \texttt{c}.
+			At this point, we will have \texttt{b >= c} and \texttt{c >= a}. If the body of
+			the \texttt{if} does not run, then we can certainly assure that \texttt{b >= a}
+			and \texttt{c >= a}.
+			
+			At this point we can be sure that \texttt{a} has the smallest value. The last
+			\texttt{if} tests to see if \texttt{b} is greater than \texttt{c}, in which case
+			it swaps them. After this, we will have \texttt{c >= b} and \texttt{b >= a},
+			so that \texttt{a}, \texttt{b}, and \texttt{c} are in ascending order.
+		\end{proof}
+	\end{sol}
+	\begin{ex}{28}
+		\emph{Remove duplicates}. Modify the test client in \texttt{BinarySearch} to remove
+		any duplicate keys in the whitelist after the sort.
+	\end{ex}
+	\begin{sol}
+		See the \texttt{com.segarciat.algs4.ch1.sec1.ex28.RemoveDuplicates} class.
+		After devising a way to remove the duplicates, I used the \texttt{Array.copyOf()}
+		method to create a new array large enough to hold the unique values.
+	\end{sol}
+	\begin{ex}{29}
+		\emph{Equal keys}. Add to \texttt{BinarySearch} a static method \texttt{rank()}
+		that takes a sorted array of \texttt{int} values (some of which may be equal) and
+		a key as arguments and returns the number of elements that are smaller than the key
+		and a similar  method \texttt{count()} that returns the number of elements equal
+		to the key. \emph{Note}: If \texttt{i} and \texttt{j} are the values returned by
+		\texttt{rank(a, key)} and \texttt{count(a, key)}, respectively, then \texttt{a[i..i+j-1]}
+		are the values in the array that are equal to key.
+	\end{ex}
+	\begin{sol}
+		My \texttt{rank()} algorithm uses a modified version of the \texttt{indexOf()}
+		algorithm. We can collapse the three \texttt{if}-\texttt{else} branches
+		from \texttt{indexOf()} into two:
+		\begin{enumerate}[label=(\roman*)]
+			\item If the target entry is larger than the middle key, increment \texttt{lo}
+			to search starting at \texttt{mid + 1}.
+			\item Otherwise, decrement \texttt{hi} to end the search at \texttt{mid - 1}.
+		\end{enumerate}
+		This guarantees that, at each step, \texttt{key} is larger than \texttt{a[lo]}.
+		As usual, the search ends when \texttt{lo} exceeds \texttt{hi}. Because we never
+		\texttt{break}, the algorithm takes all keys into consideration. This of course
+		necessitates that the array be sorted to exploit transitivity.
+		
+		The \texttt{count()} algorithm can the be implemented in a couple different ways.
+		One way is as \texttt{rank(a, key + 1) - rank(a, key)}. Another way is to implement
+		a modified version of \texttt{rank()}, call it \texttt{rankGe()} that makes a single
+		change: replace \texttt{key > a[mid]} with \texttt{key >= a[mid]} in the \texttt{if}
+		statement that controls the assignment operation on \texttt{lo}. Then we can implement
+		\texttt{count()} as \texttt{rankGe(a, key) - rank(a, key)}. The former approach would
+		work only for integer data, but the latter would work for other data types.
+	\end{sol}
 	\pagebreak
 	\printbibliography
 \end{document}

@@ -6,6 +6,8 @@ import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
 
+import java.util.Arrays;
+
 /**
  * <strong>1.1.23)</strong>
  * Add to the <code>BinarySearch</code> test client the ability to respond to
@@ -33,6 +35,7 @@ public class Filtering {
         }
         In in = new In(args[0]);
         int[] referenceList = in.readAllInts();
+        Arrays.sort(referenceList);
 
         if ("+".equals(args[1]))
             displayNotInList(referenceList);
@@ -44,7 +47,7 @@ public class Filtering {
         while (!StdIn.isEmpty()) {
             int key = StdIn.readInt();
             if (BinarySearch.indexOf(referenceList, key) == -1)
-                StdOut.println();
+                StdOut.println(key);
         }
     }
 
@@ -52,7 +55,7 @@ public class Filtering {
         while (!StdIn.isEmpty()) {
             int key = StdIn.readInt();
             if (BinarySearch.indexOf(referenceList, key) != -1)
-                StdOut.println();
+                StdOut.println(key);
         }
     }
 }
