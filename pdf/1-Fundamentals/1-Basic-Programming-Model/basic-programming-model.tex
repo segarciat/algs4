@@ -752,6 +752,45 @@ mystery(43046721, 0) -> 1
 			so that \texttt{a}, \texttt{b}, and \texttt{c} are in ascending order.
 		\end{proof}
 	\end{sol}
+	\begin{ex}{27}
+		\emph{Binomial distribution}. Estimate the number of recursive calls that would be
+		used by the code
+		\begin{lstlisting}
+	public static double binomial(int n, int k, double p)
+	{
+		if ((n == 0) && (k == 0)) return 1.0;
+		if ((n  < 0) || (k < 0 )) return 0.0;
+		return (1 - p)*binomial(n-1, k, p) + p*binomial(n-1, k-1, p);
+	}
+		\end{lstlisting}
+		to compute \texttt{binomial(100, 50, 0.25)}. Develop a better implementation
+		that is based on saving computed values in an array.
+	\end{ex}
+	\begin{sol}
+		The sequence of invocations, top-to-bottom, is as follows:
+		\begin{align*}
+			\texttt{binomial(100, 50, p)}\\
+			\texttt{binomial(99, 50, p)},\quad \texttt{binomial(99, 49, p)}\\
+			\texttt{binomial(98, 50, p)},\quad \texttt{binomial(98, 49, p)},
+			\texttt{binomial(98, 49, p)},\quad \texttt{binomial(98,48,p)}\\
+			\vdots
+		\end{align*}
+		Notice that each row corresponds to a separate value of $n$. Moreover, if
+		$r$ denotes the $r$-th row, starting at row $r=0$ (the initial invocation),
+		then $i$ can be as large as $100$, and the $r$-th row has $2^r$ such invocations.
+		Therefore, a (not-so-tight) upper bound on the number of recursive invocations is:
+		\begin{align*}
+			\sum_{r=0}^{100}2^r = 2^{101}-1-1=2^{101}-2
+		\end{align*}
+		Notice the extra $-1$ because the initial invocation \texttt{binomial(100, 50, p)}
+		is not a recursive call. Beyond row $i=100$ we will have $n=-1$, which will
+		not lead to a recursive invocation due to the guarding \texttt{if} statements.
+		However, when $i=50$, the value of $k$ is $0$ for the rightmost  column, and $50$
+		for the leftmost column. Hence, the rightmost instance of the call, namely
+		\texttt{binomial(50, 0, p)}, will not lead to a recursive call thereafter, because
+		of the \texttt{if} that guards when $k=0$. Hence, starting at $i=51$ (meaning $n=49$),
+		some recursive invocations will begin to return because of $k$ reaching its threshold.
+	\end{sol}
 	\begin{ex}{28}
 		\emph{Remove duplicates}. Modify the test client in \texttt{BinarySearch} to remove
 		any duplicate keys in the whitelist after the sort.
