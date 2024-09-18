@@ -11,19 +11,36 @@ style=alphabetic
 ]{biblatex}
 \addbibresource{../../algs4e.bib}
 
+% Enables the `align' environment.
 \usepackage{amsmath}
-\usepackage{amssymb}
-
 % Provides useful environments, such as:
 % - \begin{proof} ...\end{proof}
 \usepackage{amsthm}
+% Enables using \mathbb{}, for example \mathbb{N} for the set of natural numbers.
+\usepackage{amssymb}
 
-\usepackage[inline]{enumitem} % allows using letters in enumerate list environment
+% Allows using letters in enumerate list environment. Use, for example:
+%\begin{enumerate}[label=(\alph*)]
+% ...
+%\end{enumerate}
+\usepackage[inline]{enumitem}
 
 % Enable importing external graphic files and provides useful commannds, like \graphicspath{}
 \usepackage{graphicx}
 % Images are located in a directory called images in the current directory.
 \graphicspath{{./images/}}
+
+% Make links look better by default.
+% See: https://tex.stackexchange.com/questions/823/remove-ugly-borders-around-clickable-cross-references-and-hyperlinks
+\usepackage[hidelinks]{hyperref}
+\usepackage{xcolor}
+\hypersetup{
+	colorlinks,
+	linkcolor={red!50!black},
+	citecolor={blue!50!black},
+	urlcolor={blue!80!black}
+}
+
 
 % Code Listings. Source:
 % https://stackoverflow.com/questions/3175105/inserting-code-in-this-latex-document-with-indentation
@@ -771,8 +788,6 @@ mystery(43046721, 0) -> 1
 		\begin{align*}
 			\texttt{binomial(100, 50, p)}\\
 			\texttt{binomial(99, 50, p)},\quad \texttt{binomial(99, 49, p)}\\
-			\texttt{binomial(98, 50, p)},\quad \texttt{binomial(98, 49, p)},
-			\texttt{binomial(98, 49, p)},\quad \texttt{binomial(98,48,p)}\\
 			\vdots
 		\end{align*}
 		Notice that each row corresponds to a separate value of $n$. Moreover, if
@@ -790,6 +805,10 @@ mystery(43046721, 0) -> 1
 		\texttt{binomial(50, 0, p)}, will not lead to a recursive call thereafter, because
 		of the \texttt{if} that guards when $k=0$. Hence, starting at $i=51$ (meaning $n=49$),
 		some recursive invocations will begin to return because of $k$ reaching its threshold.
+		
+		See \texttt{com.segarciat.algs4.ch1.sec1.ex27.BinomialDistribution}. I implemented
+		my algorithm using recursion. Meanwhile, the \href{https://algs4.cs.princeton.edu/11model/Binomial.java.html}{solution by the authors}
+		employs a non-recursive technique that they call ``memoization".
 	\end{sol}
 	\begin{ex}{28}
 		\emph{Remove duplicates}. Modify the test client in \texttt{BinarySearch} to remove
