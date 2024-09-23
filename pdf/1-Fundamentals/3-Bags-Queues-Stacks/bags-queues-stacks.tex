@@ -1,0 +1,229 @@
+\documentclass[12pt, a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+% Limit the page margin to only 1 inch.
+\usepackage[margin=1in]{geometry}
+
+%Imports biblatex package
+\usepackage[
+backend=biber,
+style=alphabetic
+]{biblatex}
+\addbibresource{../../algs4e.bib}
+
+% Enables the `align' environment.
+\usepackage{amsmath}
+% Provides useful environments, such as:
+% - \begin{proof} ...\end{proof}
+\usepackage{amsthm}
+% Enables using \mathbb{}, for example \mathbb{N} for the set of natural numbers.
+\usepackage{amssymb}
+
+% Allows using letters in enumerate list environment. Use, for example:
+%\begin{enumerate}[label=(\alph*)]
+% ...
+%\end{enumerate}
+\usepackage[inline]{enumitem}
+
+% Enable importing external graphic files and provides useful commannds, like \graphicspath{}
+\usepackage{graphicx}
+% Images are located in a directory called images in the current directory.
+\graphicspath{{./images/}}
+
+% Make links look better by default.
+% See: https://tex.stackexchange.com/questions/823/remove-ugly-borders-around-clickable-cross-references-and-hyperlinks
+\usepackage[hidelinks]{hyperref}
+\usepackage{xcolor}
+\hypersetup{
+	colorlinks,
+	linkcolor={red!50!black},
+	citecolor={blue!50!black},
+	urlcolor={blue!80!black}
+}
+
+
+% Code Listings. Source:
+% https://stackoverflow.com/questions/3175105/inserting-code-in-this-latex-document-with-indentation
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+	language=Java,
+	aboveskip=3mm,
+	belowskip=3mm,
+	showstringspaces=false,
+	columns=flexible,
+	basicstyle={\small\ttfamily},
+	numbers=none,
+	numberstyle=\tiny\color{gray},
+	keywordstyle=\color{blue},
+	commentstyle=\color{dkgreen},
+	stringstyle=\color{mauve},
+	breaklines=true,
+	breakatwhitespace=true,
+	tabsize=3
+}
+
+\newcommand{\prob}{\text{P}}
+%\newcommand{\complement}{\mathsf{c}}
+
+% Define an environment called "ex" (for Exercise) so that I can do: \begin{ex}{1.5}...\end{ex}
+\newenvironment{ex}[2][Exercise]
+{\par\medskip\noindent \textbf{#1 #2.}}
+{\medskip}
+
+% Define a solution environment, similar to ex (exercise) environment.
+\newenvironment{sol}[1][Solution]
+{\par\medskip\noindent \textbf{#1.} }
+{\medskip}
+
+\begin{document}
+	\noindent Sergio E. Garcia Tapia \hfill
+	
+	\noindent \emph{Algorithms} by Sedgewick and Wayne (4th edition) \cite{sedgewick_wayne}\hfill
+	
+	\noindent September 22nd, 2024\hfill 
+	\section*{1.3: Bags, Queues, and Stacks}
+	
+	\begin{ex}{1}
+		Add a method \texttt{isFull()} to \texttt{FixedCapacityStackOfStrings}.
+	\end{ex}
+
+	\begin{sol}
+		See the \texttt{com.segarciat.algs4.ch1.sec3.ex1.FixedCapacityStackOfStrings}
+		class.
+	\end{sol}
+	
+	\begin{ex}{2}
+		Give the output printed by \texttt{java Stack} for the input
+		\begin{lstlisting}[language={}]
+	it was - the best - of times - - - it was - the - -
+		\end{lstlisting}
+	\end{ex}
+	
+	\begin{sol}
+		The \texttt{-} causes the latest added word to be removed. The contents
+		of the stack at each step are as follows:
+		\begin{lstlisting}
+it
+it was
+it
+it the
+it the best
+it the
+it the of
+it the of times
+it the of
+it the
+it
+it it
+it it was
+it it
+it it the
+it it
+it
+		\end{lstlisting}
+		The output is the last line, \texttt{it}.
+	\end{sol}
+	\begin{ex}{3}
+		Suppose that a client performs an intermixed sequence of (stack) \emph{push} and
+		\emph{pop} operations. The push operations put the integers 0 through 9 in order
+		onto the stack; the pop operations print out the return values. Which of the following sequence(s) could \emph{not} occur?
+		\begin{enumerate}[label=(\alph*)]
+			\item \texttt{4 3 2 1 0 9 8 7 6 5}
+			\item \texttt{4 6 8 7 5 3 2 9 0 1}
+			\item \texttt{2 5 6 7 4 8 9 3 1 0}
+			\item \texttt{4 3 2 1 0 5 6 7 8 9}
+			\item \texttt{1 2 3 4 5 6 9 8 7 0}
+			\item \texttt{0 4 6 5 3 8 1 7 2 9}
+			\item \texttt{1 4 7 9 8 6 5 3 0 2}
+			\item \texttt{2 1 4 3 6 5 8 7 9 0}
+		\end{enumerate}
+	\end{ex}
+	\begin{sol}
+		\
+		\begin{enumerate}[label=(\alph*)]
+			\item Valid. This sequence involves pushing 0 through 4, then popping five times.
+			Then, pushing 5 through  9, ad then popping five times.
+			\item Invalid. The sequence involves pushing 0 through 4 and pop once to print 4. Then,
+			we push 5 and 6, and pop once to print 6. Next, push 7 and 8 and then pop 8,
+			and pop 7. Popping again would give 5. Popping again yields 3, and then 2.
+			We can then push 9 and pop it. At this point we've got 0 and 1 left on the stack.
+			The next item popped should be 1, so this sequence must be incorrect.
+			\item Valid. We push 0, 1, 2, then pop 2. Next, we push 3, 4, 5, and pop 5. Next,
+			we push 6 and pop it, then push 7 and pop it. We pop next (4). Next we
+			push 8 and pop it, push 9 and pop it. Next we pop 3. Finally, we pop 1 and 0.
+			\item Valid. We push 0, 1, 2, 3, and 4, then pop them all off, so the stack is empty.
+			Next, we push 5 and pop it, push 6 and pop it, push 7 and pop it, push 8 and pop it,
+			and push 9 and pop it.
+			\item Valid. For inputs 0, 1, 2, 3, 4, 5, 6, we push and immediately pop. Then we
+			push 7, 8, 9, and pop 4 times.
+			\item Invalid. We push 0 and pop. Then, we push 1, 2, 3, 4 and pop 4. We now push 5 and 6,
+			then we pop 6, 5, and 3. We push 7 and 8 and pop 8. If we pop next, we should get
+			2 from the stack, which does not match the next value in the sequence (1).
+			\item Invalid. We push 0 and 1, then pop 1. We push 2, 3, 4, then pop 4. We push 5, 6, 7,
+			then pop 7. We push 8 and 9. Now we pop 9, pop 8, pop 6, pop 6, pop 5, and
+			the next pop operation would be 2, but the sequence says 0.
+			\item Valid We push 0, 1, 2, and pop 2 and 1. We push 3 and 4, then pop both. We push
+			5 and 6, then pop both. We push 7 and 8, then pop both. We push 9 then pop it immediately.
+			Number 0 remains, and we indeed pop it.
+		\end{enumerate}
+	\end{sol}
+	
+	\begin{ex}{4}
+		Write a stack client \texttt{Parentheses} that reads in a text stream from standard
+		input and uses a stack to determine whether its parentheses are properly balanced.
+		For example, your program should print \texttt{true} for \texttt{[()]\{\}\{[()()]()\}}
+		and \texttt{false} for \texttt{[(])}.
+	\end{ex}
+	\begin{sol}
+		See the \texttt{com.segarciat.algs4.ch1.sec3.ex04.Parentheses} class.
+	\end{sol}
+
+	\begin{ex}{5}
+		What does the following code fragment print when \texttt{n} is \texttt{50}?
+		Give a high-level description of what it does when presented with a positive
+		integer \texttt{n}.
+		
+		\begin{lstlisting}
+		Stack<Integer> Stack = new Stack<Integer>();
+		while (n > 0)
+		{
+			stack.push(n % 2);
+			n = n / 2;
+		}
+		for (int d: stack) StdOut.print(d);
+		StdOut.println();
+		\end{lstlisting}
+	\end{ex}
+	\begin{sol}
+		It prints the binary representation of \texttt{n}.
+	\end{sol}
+
+	\begin{ex}{6}
+		What does the following code fragment do to the queue \texttt{q}?
+		\begin{lstlisting}
+		Stack<String> stack = new Stack<String>();
+		while (!q.isEmpty())
+			stack.push(q.dequeue());
+		while (!stack.isempty())
+			q.enqueue(stack.pop());
+		\end{lstlisting}
+	\end{ex}
+	\begin{sol}
+		The fragment reverses the order of the entries in the queue \texttt{q}.
+	\end{sol}
+	\begin{ex}{7}
+		Add a method \texttt{peek()} to \texttt{Stack} that returns the most recently inserted
+		item on the stack (without popping it).
+	\end{ex}
+	\begin{sol}
+		See the \texttt{com.segarciat.algs4.ch1.sec3.ex07.Stack} class.
+	\end{sol}
+	\pagebreak
+	\printbibliography
+\end{document}
