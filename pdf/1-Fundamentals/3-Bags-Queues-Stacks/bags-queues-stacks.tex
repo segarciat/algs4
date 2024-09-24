@@ -224,6 +224,57 @@ it
 	\begin{sol}
 		See the \texttt{com.segarciat.algs4.ch1.sec3.ex07.Stack} class.
 	\end{sol}
+	\begin{ex}{8}
+		Give the contents and size of the array for \texttt{ResizingArrayStackOfStrings}
+		with the input
+		\begin{lstlisting}[language={}]
+		it was - the best - of times - - - it was - the - -
+		\end{lstlisting}
+	\end{ex}
+	\begin{sol}
+		The contents are as follows:
+		\begin{lstlisting}[language={}]
+null
+it
+it was
+it null
+it the
+it the best null
+it the null null
+it the of null
+it the of times
+it the of null
+it the null null
+it null
+it it
+it it was null
+it it null null
+it it the null
+it it null null
+it null
+		\end{lstlisting}
+		Hence, the array ends with a size of 2, having \texttt{it} in its first entry
+		and \texttt{null} in its second entry.
+	\end{sol}
+	\begin{ex}{9}
+		Write a program that takes from standard input an expression without left parentheses
+		and prints the equivalent infix expression with the parentheses inserted. For example,
+		given the input:
+		\begin{lstlisting}[language={}]
+		1 + 2 ) * 3 - 4 ) * 5 - 6 ) ) )
+		\end{lstlisting}
+		your program should print
+		\begin{lstlisting}[language={}]
+		( ( 1 + 2 ) * ( ( 3 - 4 ) * (5 - 6 ) ) )
+		\end{lstlisting}
+	\end{ex}
+	\begin{sol}
+		See the \texttt{com.segarciat.algs4.ch1.sec3.ex09.BalancedInfix} class.
+	\end{sol}
+	\begin{ex}{10}
+		Write a filter \texttt{InfixToPostfix} that converts an arithmetic expression
+		from infix to postfix.
+	\end{ex}
 	\pagebreak
 	\printbibliography
 \end{document}
