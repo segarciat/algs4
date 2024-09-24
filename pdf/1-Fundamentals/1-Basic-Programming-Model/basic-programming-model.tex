@@ -880,6 +880,25 @@ mystery(43046721, 0) -> 1
 		See the \texttt{com.segarciat.algs4.ch1.sec1.ex32.Histogram} class. My implementation
 		creates the histogram only after the last double from the standard input stream is read.
 	\end{sol}
+	\begin{ex}{33}
+		\emph{Matrix library}. Write a library that implements the following API.
+		\begin{lstlisting}[language={}]
+public class Matrix
+    static      double dot(double[] x, double[] y)           // vector dot product
+    static double[][] mult(double[][] a, double[][] b)      // matrix-matrix product
+    static double[][] transpose(double[][] a)               // transpose
+    static    double[] mult(double[][] a, double[] x)       // matrix-vector product
+    static    double[] mult(double[] y, double[][] a)       // vector-vector product
+		\end{lstlisting}
+		Develop a test client that reads values from standard input and tests all the
+		methods.
+	\end{ex}
+	\begin{sol}
+		See the \texttt{com.segarciat.algs4.ch1.sec1.ex33.Matrix} class. I stopped short
+		of writing a client that reads data from standard input. Instead I wrote unit tests
+		with JUnit 5. Moreover I did not test exhaustively, and I did not test
+		the matrix-vector product or the (row) vector-matrix product.
+	\end{sol}
 	\pagebreak
 	\printbibliography
 \end{document}
