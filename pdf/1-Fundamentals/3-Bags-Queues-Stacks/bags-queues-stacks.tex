@@ -323,6 +323,150 @@ it null
 		Develop a class \texttt{ResizingArrayQueueOfStrings} that implements the queue abstraction
 		with a fixed-size array, and then extend your implementation to remove the size restriction.
 	\end{ex}
+	\begin{sol}
+		See the \texttt{com.segarciat.algs4.ch1.sec3.ex14.ResizingArrayQueueOfStrings} class.
+	\end{sol}
+	\begin{ex}{1.3.15}
+		Write a \texttt{Stack} or \texttt{Queue} client that takes a command-line argument
+		\texttt{k} and prints the \texttt{k}th from the last string found on standard input
+		(assuming that standard input has \texttt{k} or more strings). Use memory proportional
+		to \texttt{k}.
+	\end{ex}
+	\begin{sol}
+		See the \texttt{com.segarciat.algs4.ch1.sec3.ex15.KthFromLast} class. I did this
+		exercise in two ways by implementing private \texttt{static} functions
+		\texttt{usingQueue()} and \texttt{usingStack()}. The queue approach was much
+		simpler, and the stack approach required me to use two stacks, as well as
+		needing to replace the stack every so often.
+	\end{sol}
+	\begin{ex}{1.3.16}
+		Using \texttt{readAllInts()} on page 126 as a model, write a static method
+		\texttt{readAllDates()} for \texttt{Date} that reads dates from standard input
+		in the format specified on page 119 and returns an array containing them.
+	\end{ex}
+	\begin{sol}
+		See the \texttt{com.segarciat.algs4.ch1.sec3.ex16.ParsingDatesToArray} class.
+	\end{sol}
+	\begin{ex}{1.3.17}
+		Do Exercise 1.3.16 for \texttt{Transaction}.
+	\end{ex}
+	\begin{sol}
+		See the \texttt{com.segarciat.algs4.ch1.sec3.ex17.ParsingTransactionsToArray} class.
+	\end{sol}
+	\begin{ex}{1.3.18}
+		Suppose \texttt{x} is a linked-list and not the last node on the list. What is
+		the effect of the following code fragment?
+		\begin{lstlisting}
+		x.next = x.next.next;
+		\end{lstlisting}
+	\end{ex}
+	\begin{sol}
+		The fragment removes the successor of \texttt{x} in the linked list. Now
+		The successor itself, call it \texttt{y}, was a linked list also,  and
+		it pointed to linked list, call it \texttt{z}. Now \texttt{x} points to
+		\texttt{z}.
+	\end{sol}
+	\begin{ex}{1.3.19}
+		Give a code fragment that removes the last node in a linked list whose first
+		node is \texttt{first}.
+	\end{ex}
+	\begin{sol}
+		\begin{lstlisting}
+			if (first == null)
+				throw new NoSuchElementException("list is empty");
+			Node previous = null;
+			Node current = first;
+			while (current.next != null) {
+				prev = current;
+				current = current.next
+			}
+			if (prev == null)
+				first = null
+			else
+				prev.next = null;
+		\end{lstlisting}
+	\end{sol}
+	\begin{ex}{20}
+		Write a method \texttt{delete()} that takes an \texttt{int} argument \texttt{k}
+		and deletes the \texttt{k}th element in a linked list, if it exists.
+	\end{ex}
+	\begin{sol}
+		See the \texttt{com.segarciat.algs4.ch1.sec3.ex20.LinkedList} class. I decided
+		to implement the linked list so that the most recent element is added to the end
+		(like a queue) and not the front (unlike a stack).
+	\end{sol}
+	\begin{ex}{21}
+		Write a method \texttt{find()} that takes a linked list and a string \texttt{key}
+		as arguments and returns \texttt{true} if some node in the list has \texttt{key}
+		as its item field, \texttt{false} otherwise.
+	\end{ex}
+	\begin{sol}
+		The specification of this exercise was slightly unclear to me. On the surface,
+		it seems I need a method that takes a \texttt{String} argument, and either a
+		\texttt{Node<String>} argument, or \texttt{LinkedList<String>}, for example.
+		Assuming that the linked list is an abstract data type, there is no direct access to
+		the items in the list. Thus unless the method belongs to the linked list class, it's
+		not possible to assert the value if the ``current" element under consideration.
+		Moreover in this section we've worked mostly with type-generic classes, so
+		this method does not seem like it needs to be string-specific as long as we
+		can use the \texttt{equals()} method.I decided to use the class from Exercise 1.3.20,
+		to which I added the \texttt{find()} method.
+		
+		See the \texttt{com.segaciat.algs4.ch1.sec3.ex21.LinkedList} class.
+	\end{sol}
+	\begin{ex}{22}
+		Suppose that \texttt{x} is a linked list \texttt{Node}. What does the following
+		code fragment do?
+		\begin{lstlisting}[language={}]
+		t.next = x.next;
+		x.next = t;
+		\end{lstlisting}
+	\end{ex}
+	\begin{sol}
+		The line \texttt{t.next = x.next} makes it so that \texttt{x} and \texttt{t} point to
+		the same item (call it \texttt{y}). The line \texttt{x.next = t} makes it so that
+		\texttt{x} now points to \texttt{t}. Thus, before we have \texttt{x->}\texttt{y},
+		and now we  have \texttt{x->t->y}. Thus, \texttt{t} is inserted immediately after
+		\texttt{x}.
+	\end{sol}
+	\begin{ex}{23}
+		Why does the following code fragment not do the same thing as the previous question?
+		\begin{lstlisting}[language={}]
+		x.next = t;
+		t.next = x.next;
+		\end{lstlisting}
+	\end{ex}
+	\begin{sol}
+		Say \texttt{x.next} was \texttt{y}. The line \texttt{x.next = t} makes \texttt{x}
+		point to \texttt{t}, but now nothing points to \texttt{y}. The next line
+		\texttt{t.next = x.next} now makes it so that \texttt{t} points to \texttt{x.next},
+		which is now \texttt{t}. Thus, \texttt{x} points to \texttt{t}, and \texttt{t}
+		points to itself.
+	\end{sol}
+	\begin{ex}{24}
+		Write a method \texttt{removeAfter()} that takes a linked-list\texttt{Node}
+		as argument and removes the node following the given one (and does nothing if the
+		argument node is null).
+	\end{ex}
+	\begin{sol}
+		See the \texttt{com.segarciat.algs4.ch1.sec3.ex24.LinkedList} class.
+	\end{sol}
+	\begin{ex}{25}
+		Write a method \texttt{insertAfter()} that takes two linked-list \texttt{Node}
+		arguments and inserts the second after the first on the list  (and does nothing
+		if either argument is null).
+	\end{ex}
+	\begin{sol}
+		See the \texttt{com.segarciat.algs4.ch1.sec3.ex25.LinkedList} class.
+	\end{sol}
+	\begin{ex}{26}
+		Write a method \texttt{remove()} that takes a linked list and a string \texttt{key}
+		as arguments and removes all of the nodes in the list that have \texttt{key}
+		as its item field.
+	\end{ex}
+	\begin{sol}
+		See the \texttt{com.segarciat.algs4.ch1.sec3.ex26.LinkedList} class.
+	\end{sol}
 	\pagebreak
 	\printbibliography
 \end{document}
