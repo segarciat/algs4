@@ -467,6 +467,101 @@ it null
 	\begin{sol}
 		See the \texttt{com.segarciat.algs4.ch1.sec3.ex26.LinkedList} class.
 	\end{sol}
+		\begin{ex}{27}
+		Write a method \texttt{max()} that takes a reference to the first node in a linked
+		list as argument and returns the value of the maximum key in the list. Assume
+		that all keys are positive integers, and return \texttt{0} if the list is empty.
+	\end{ex}
+	\begin{sol}
+		See the \texttt{com.segarciat.algs4.ch1.sec3.ex27.IntegerLinkedList} class.
+	\end{sol}
+	\begin{ex}{28}
+		Develop a recursive solution to the previous question.
+	\end{ex}
+	\begin{sol}
+		See the \texttt{com.segarciat.algs4.ch1.sec3.ex28.IntegerLinkedList} class.
+	\end{sol}
+	\begin{ex}{29}
+		Write a \texttt{Queue} implementation that uses a \emph{circular} linked list, which
+		is the same as a linked list except that no links are \emph{null} and the value
+		of \texttt{last.next} is \texttt{first} whenever  the list is not empty. Keep
+		only one \texttt{Node} instance variable (\texttt{last}).
+	\end{ex}
+	\begin{sol}
+		See the \texttt{com.segarciat.algs4.ch1.sec3.ex29.Queue} class.
+	\end{sol}
+	\begin{ex}{30}
+		Write a function that takes the first \texttt{Node} in a linked list as argument and
+		(destructively) reverses the list, returning the first \texttt{Node} in the result.
+	\end{ex}
+	\begin{sol}
+		See the \texttt{com.segarciat.algs4.ch1.sec3.ex30.LinkedList} class.
+	\end{sol}
+	\begin{ex}{1.3.31}
+		Implement a nested class \texttt{DoubleNode} for building doubly-linked lists, where
+		each node contains a reference to the item preceding it and the item following it
+		in the list (\texttt{null} if there is no such item). Then implement a static method
+		for the following tasks: insert at the beginning, insert at the end, remove from the
+		beginning, remove from the end, insert before a given node, insert after a given node,
+		and remove a given node.
+	\end{ex}
+	\begin{sol}
+		See the \texttt{com.segarciat.algs4.ch1.sec3.ex31.LinkedList} class which has
+		a \texttt{DoubleNode<Item>} nested class (which means that it is \texttt{static }also).
+		All methods were implemented as \texttt{static} methods of the \texttt{DoubleNode<Item>}
+		class. Hence, the job of the methods is to update the links, and thus they are independent
+		of whether the outer class uses a \texttt{first}, a \texttt{last}, or some other
+		combination of instance variables to keep track of the node references in its linked list.
+	\end{sol}
+	\begin{ex}{1.3.32}
+		\emph{Stequeue}. A stack-ended queue or \emph{stequeue} is a data type that supports \emph{push},
+		\emph{pop}, and \emph{enqueue}. Articulate an API for this ADT. Develop a
+		linked list-based implementation.
+	\end{ex}
+	\begin{sol}
+		The API is as follows:
+		\begin{lstlisting}[language={}]
+public class Steque<Item> implements Iterable<Item>
+	Steque()
+	public int size()
+	public boolean isEmpty()
+	public void enqueue(Item item)
+	public void push(Item item)
+	public Item pop()
+	public Iterator<Item> iterator()
+		\end{lstlisting}
+		See the \texttt{com.segarciat.algs4.algs4.ch1.sec3.ex32.Steque} class.
+	\end{sol}
+	\begin{ex}{1.3.33}
+		\emph{Deque}. A double-ended dequeue or \emph{deque} (pronounced ``deck") is
+		like a stack or a queue but supports adding and removing items at both ends.
+		A dequeue stores collections of items and supports the following API:
+		\begin{lstlisting}[language={}]
+public class Deque<Item> implements Iterable<Item>
+	Deque()
+	boolean isEmpty()
+	int size()
+	void pushLeft(Item item)
+	void pushRight(Item item)
+	Item popLeft()
+	Item popRight()
+		\end{lstlisting}
+		Write a class \texttt{Deque} that uses a doubly-linked list to implement this API
+		and a class \texttt{ResizingArrayQueue} that uses a resizing array.
+	\end{ex}
+	\begin{sol}
+		See the \texttt{Dequeue} and \texttt{ResizingArrayQueue} classes I have implemented.
+		For \texttt{Dequeue}, I maintained both a \texttt{first} and a \texttt{last} node
+		in order to guarantee ``constant" time. For \texttt{ResizingArrayQueue}, I had
+		to work harder due to the \texttt{pushLeft} operation. Specifically, I wanted to
+		avoid having to shift every element to the right when needing to add an item to
+		the start of the deque. I maintained a \texttt{head} index and a \texttt{tail}
+		index, both of which point to a valid location at all times, except for when
+		the deque is empty. However, it is not always the case that \texttt{head} is
+		smaller than or equal to \texttt{tail} at all times. Rather, both indices
+		are allowed to wrap around, enabling both \texttt{pushLeft} and \texttt{pushRight}
+		to complete in constant time (except for when resizing is necessary).
+	\end{sol}
 	\pagebreak
 	\printbibliography
 \end{document}
