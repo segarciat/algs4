@@ -13,13 +13,21 @@ import java.util.NoSuchElementException;
  */
 public class ResizingArrayQueueOfStrings {
     private String[] a;
+    /**
+     * Index of first item in queue. Always points to a valid item,
+     * except when the queue is empty.
+     */
     private int head;
+    /**
+     * Index of last item in queue. Always points to a valid  item,
+     * except when queue is empty.
+     */
     private int tail;
     private int n;
 
     public ResizingArrayQueueOfStrings() {
-        a = new String[2];
-        head = 0;
+        a = new String[1];
+        head = -1;
         tail = -1;
         n = 0;
     }
@@ -49,7 +57,7 @@ public class ResizingArrayQueueOfStrings {
     private void resize(int max) {
         String[] temp = new String[max];
         for (int i = 0; i < n; i++) {
-            int wrapAroundAwareIndex = ((head + i) == a.length) ? i - 1 : head + i;
+            int wrapAroundAwareIndex = ((head + i) >= a.length) ? head + i - a.length : head + i;
             temp[i] = a[wrapAroundAwareIndex];
         }
         head = 0;
@@ -66,8 +74,10 @@ public class ResizingArrayQueueOfStrings {
             resize(a.length * 2);
         if (tail == a.length - 1)
             tail = -1;
-        n++;
         a[++tail] = s;
+        n++;
+        if (n == 1)
+            head = tail;
     }
 
     /**
@@ -78,12 +88,12 @@ public class ResizingArrayQueueOfStrings {
     public String dequeue() {
         if (n == 0)
             throw new NoSuchElementException("queue is empty");
-        n--;
-        String s = a[head++];
-        a[head - 1] = null; // Avoid loitering
+        String s = a[head];
+        a[head++] = null; // Avoid loitering
         if (head == a.length)
             head = 0;
-        if (n == a.length / 4)
+        n--;
+        if (n > 0 && n == a.length / 4)
             resize(a.length / 2);
         return s;
     }
