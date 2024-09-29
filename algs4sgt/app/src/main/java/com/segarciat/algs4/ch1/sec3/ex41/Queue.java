@@ -1,17 +1,16 @@
-package com.segarciat.algs4.ch1.sec3.ex29;
+package com.segarciat.algs4.ch1.sec3.ex41;
 
 import javax.annotation.Nonnull;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
- * <strong>1.3.29</strong>
- * Write a <code>Queue</code> implementation that uses a <em>circular</em> linked list,
- * which is the same as a linked list except that no links are <em>null</em> and the
- * <code>last.next</code> is <code>first</code> whenever the list is not empty.
- * Keep only one  <code>Node</code> instance variable.
+ * <strong>1.3.41</strong>
  */
 public class Queue<Item> implements Iterable<Item> {
+
+    private Node last;
+    private int n;
 
     private class Node {
 
@@ -19,8 +18,23 @@ public class Queue<Item> implements Iterable<Item> {
         private Item item;
     }
 
-    private Node last;
-    private int n;
+    /**
+     * Creates an empty queue
+     */
+    public Queue() {
+        // Default constructor
+    }
+
+    /**
+     * Creates an independent copy of <code>queue</code>
+     * @param queue The queue to copy.
+     */
+    public Queue(Queue<Item> queue) {
+        if (queue == null)
+            throw new NullPointerException("cannot be null");
+        for (Item item: queue)
+            enqueue(item);
+    }
 
     public int size() {
         return n;
@@ -66,12 +80,12 @@ public class Queue<Item> implements Iterable<Item> {
     }
 
     private class QueueIterator implements Iterator<Item> {
-        private Node current = (last == null) ? null : last.next;
-
+        private Node current = last == null ? null : last.next;
+        private int remaining = n;
 
         @Override
         public boolean hasNext() {
-            return current != null;
+            return remaining > 0;
         }
 
         @Override
@@ -80,7 +94,22 @@ public class Queue<Item> implements Iterable<Item> {
                 throw new NoSuchElementException("No more items");
             Item item = current.item;
             current = current.next;
+            remaining--;
             return item;
         }
+    }
+
+    public static void main(String[] args) {
+        Queue<Integer> queue = new Queue<>();
+        for (int i = 0; i < 10; i++)
+            queue.enqueue(i);
+        Queue<Integer> copy = new Queue<>(queue);
+        while (!queue.isEmpty())
+            System.out.print(queue.dequeue() + " ");
+        System.out.println();
+        System.out.printf("queue size=%d, copy size =%d%n", queue.size(), copy.size());
+        while (!copy.isEmpty())
+            System.out.print(copy.dequeue() + " ");
+        System.out.println();
     }
 }
