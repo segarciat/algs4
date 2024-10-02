@@ -1,0 +1,125 @@
+\documentclass[12pt, a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+% Limit the page margin to only 1 inch.
+\usepackage[margin=1in]{geometry}
+
+%Imports biblatex package
+\usepackage[
+backend=biber,
+style=alphabetic
+]{biblatex}
+\addbibresource{../../algs4e.bib}
+
+% Enables the `align' environment.
+\usepackage{amsmath}
+% Provides useful environments, such as:
+% - \begin{proof} ...\end{proof}
+\usepackage{amsthm}
+% Enables using \mathbb{}, for example \mathbb{N} for the set of natural numbers.
+\usepackage{amssymb}
+
+% Allows using letters in enumerate list environment. Use, for example:
+%\begin{enumerate}[label=(\alph*)]
+% ...
+%\end{enumerate}
+\usepackage[inline]{enumitem}
+
+% Enable importing external graphic files and provides useful commannds, like \graphicspath{}
+\usepackage{graphicx}
+% Images are located in a directory called images in the current directory.
+\graphicspath{{./images/}}
+
+% Make links look better by default.
+% See: https://tex.stackexchange.com/questions/823/remove-ugly-borders-around-clickable-cross-references-and-hyperlinks
+\usepackage[hidelinks]{hyperref}
+\usepackage{xcolor}
+\hypersetup{
+	colorlinks,
+	linkcolor={red!50!black},
+	citecolor={blue!50!black},
+	urlcolor={blue!80!black}
+}
+
+
+% Code Listings. Source:
+% https://stackoverflow.com/questions/3175105/inserting-code-in-this-latex-document-with-indentation
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+	language=Java,
+	aboveskip=3mm,
+	belowskip=3mm,
+	showstringspaces=false,
+	columns=flexible,
+	basicstyle={\small\ttfamily},
+	numbers=none,
+	numberstyle=\tiny\color{gray},
+	keywordstyle=\color{blue},
+	commentstyle=\color{dkgreen},
+	stringstyle=\color{mauve},
+	breaklines=true,
+	breakatwhitespace=true,
+	tabsize=3
+}
+
+\newcommand{\prob}{\text{P}}
+%\newcommand{\complement}{\mathsf{c}}
+
+% Define an environment called "ex" (for Exercise) so that I can do: \begin{ex}{1.5}...\end{ex}
+\newenvironment{ex}[2][Exercise]
+{\par\medskip\noindent \textbf{#1 #2.}}
+{\medskip}
+
+% Define a solution environment, similar to ex (exercise) environment.
+\newenvironment{sol}[1][Solution]
+{\par\medskip\noindent \textbf{#1.} }
+{\medskip}
+
+\begin{document}
+	\noindent Sergio E. Garcia Tapia \hfill
+	
+	\noindent \emph{Algorithms} by Sedgewick and Wayne (4th edition) \cite{sedgewick_wayne}\hfill
+	
+	\noindent September 30th, 2024\hfill 
+	\section*{1.4: Analysis of Algorithms}
+	\begin{ex}{1}
+		Show that the number of different triples that can be chosen from $n$ items is
+		precisely $n(n-1)(n-2)/6$. \emph{Hint}: Use mathematical induction  or a counting argument.
+	\end{ex}
+	\begin{sol}
+		\begin{proof}
+			This is the problem of choosing a combination of $3$ out of $n$, which is given
+			by $\binom{n}{3}$, and
+			\begin{align*}
+				\binom{n}{3} = \frac{n!}{3!(n-3)!}=\frac{n\cdot (n-1)\cdot (n-2)\cdot (n-3)!}{3!(n-3)!}  = \frac{n(n-1)(n-2)}{6}
+			\end{align*}
+		\end{proof}
+	\end{sol}
+	\begin{ex}{2}
+		Modify \texttt{ThreeSum} to work properly even when the \texttt{int} values are so
+		large that adding two of them might cause integer overflow.
+	\end{ex}
+	\begin{sol}
+		There are two cases when it comes to overflow:
+		\begin{enumerate}[label=(\roman*)]
+			\item \emph{Positive overflow}. The sum exceeds \texttt{Integer.MAX\_VALUE}.
+			If two terms sum to \texttt{Integer.MAX\_VALUE + 1}, overflow occurs, and
+			the value wraps around to \texttt{Integer.MIN\_VALUE}. Thus, if
+			$a + b = \texttt{Integer.MAX\_VALUE + 1}$ and $c = \texttt{Integer.MIN\_VALUE}$,
+			then we have a valid sum. However, if $a+b$ sums to anything larger, then
+			no value of $c$ will do because $c$ cannot be smaller than \texttt{Integer.MIN\_VALUE}.
+			\item \emph{Negative overflow}. The sum of two negative numbers $a$ and $b$, yielding
+			a value below \texttt{Integer.MIN\_VALUE}. In this case, it's impossible to have
+			$a + b = c$ for any 32-bit two's complement integer $c$.
+		\end{enumerate}
+	\end{sol}
+	
+	\pagebreak
+	\printbibliography
+\end{document}
