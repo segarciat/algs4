@@ -24,6 +24,8 @@ public class ThreeSum {
 
     /**
      * Find all the triples in <code>a</code> that sum to 0.
+     * Implementation adapted from <code>ThreeSum.count()</code>
+     * in page 173 of Algorithms (4th edition) by Sedgewick and Wayne.
      *
      * @param a Non-empty array of integers
      *
@@ -52,7 +54,7 @@ public class ThreeSum {
 
     /**
      * Same <code>main()</code> implementation as in code listing in page 173
-     * of Algorithms by Sedgewick and Wayne.
+     * of Algorithms (4th edition) by Sedgewick and Wayne.
      */
     public static void main(String[] args) {
         if (args.length != 1) {

@@ -118,6 +118,246 @@ style=alphabetic
 			a value below \texttt{Integer.MIN\_VALUE}. In this case, it's impossible to have
 			$a + b = c$ for any 32-bit two's complement integer $c$.
 		\end{enumerate}
+		See the \texttt{com.segarciat.algs4.ch1.sec4.ex02.ThreeSum} class.
+	\end{sol}
+	\begin{ex}{3}
+		Modify \texttt{DoublingTest} to use \texttt{StdDraw} to produce
+		plots like the standard and log-log plots in the text, rescaling as
+		necessary so that the plot always fills a substantial portion of the
+		window.
+	\end{ex}
+	\begin{sol}
+		See my \texttt{com.segarciat.algs4.ch1.sec4.ex03.DoublingTest} class.
+	\end{sol}
+	\begin{ex}{4}
+		Develop a table like the one on page 181 for \texttt{TwoSum}.
+	\end{ex}
+	\begin{sol}
+		The \texttt{TwoSum} program referenced is:
+		\begin{lstlisting}
+public class TwoSum {
+	public static int count(int[] a)
+	{   // Count pairs that sum to 0;
+		// A: The entire method body
+		int n = a.length;
+		int count = 0;
+		// B: The outermost for loop and its body (not including the statement i = 0)
+		for (int i = 0; i < n; i++)
+			// C: The innermost for loop and its body (not  including the statement j = i + 1)
+			for (int j = i + 1; j < n; j++)
+				if (a[i] + a[j] == 0)
+					// D: The number of times the if block is executed
+					count++;
+		return count;	
+	}
+}
+		\end{lstlisting}
+		The table in 181 is used to analyze the running time of by keeping track of
+		the frequency of each statement block, that is, the number of times the
+		block is executed:
+		\begin{center}
+			\begin{tabular}{cccc}
+				\textbf{Statement block} & \textbf{Time in seconds} & \textbf{Frequency} & \textbf{Total time}\\
+				\hline
+				\texttt{D} & $t_0$ & $x$ (depends on input) & $t_0x$ \\
+				\texttt{C} & $t_1$ & $\binom{n}{2}$ & $t_1\binom{n}{2}$ \\
+				\texttt{B} & $t_2$ & $n$ & $t_2n$\\
+				\texttt{A} & $t_3$ & $1$ & $t_3$
+			\end{tabular}
+		\end{center}
+		Therefore, the grand total is:
+		\begin{align*}
+			t_1\binom{n}{2} + t_2n+t_3+t_0x &= t_1\frac{n(n-1)}{2} + t_2n+t_3+t_0x\\
+			&=\frac{t_1}{2}n^2+\left(t_2-\frac{t_1}{2}\right)n+t_3+t_0x
+		\end{align*}
+		The tilde approximation (assuming $x$ is small) is
+		\begin{align*}
+			\sim\left(\frac{t_1}{2}\right)n^2
+		\end{align*}
+		Hence the order of growth is $n^2$.
+	\end{sol}
+	\begin{ex}{5}
+		Give tilde approximations for the following quantities:
+		\begin{enumerate}[label=(\alph*)]
+			\item $n+1$
+			\item $1 + 1/n$
+			\item $(1 + 1/n)(1+2/n)$
+			\item $(2n^3-15n^2)$
+			\item $\lg(2n) / \lg n$
+			\item $\lg(n^2+1) / \lg n$
+			\item $n^{100}/2^n$
+		\end{enumerate}
+	\end{ex}
+	\begin{sol}
+		The definition of tilde approximation given on page 179 of \cite{sedgewick_wayne} says
+		$\sim f(n)$ represents a function that, when divided by $f(n)$, approaches $1$ as $n$ grows.
+		\begin{enumerate}[label=(\alph*)]
+			\item $\sim n$
+			\item $\sim 1$, since $1/n$ approaches $0$ as $n$ grows, and hence $1 + 1/n$ approaches
+			$1$ as $n$ grows.
+			\item $\sim 1$, similar to (b).
+			\item $\sim 2n^3$
+			\item Since $\lg(2n) = \lg(2) + \lg(n)$, this means $\lg(2n)/\lg n = \lg(2) / \lg(n) + 1$.
+			Hence, this is again $\sim 1$.
+			\item Since $\lg(n^2 + 1) \approx \lg(n^2)$, and $\lg(n^2) / \lg(n) = 2\lg(n)/\lg(n)$,
+			we conclude that this is $\sim 2$.
+			\item Here we can just say $\sim (n^{100}2^{-n})$.
+		\end{enumerate}
+	\end{sol}
+	\begin{ex}{6}
+		Give the order of growth (as a function of $n$) of the running times of each
+		of the following code fragments:
+		\begin{enumerate}[label=(\alph*)]
+			\item
+			\
+			\begin{lstlisting}
+		int sum = 0;
+		for (int k = n; k > 0; k /= 2)
+			for (int i = 0; i < k; i++)
+				sum++;
+			\end{lstlisting}
+			\item
+			\
+			\begin{lstlisting}
+		int sum = 0;
+		for (int i = 1; i < n; i *= 2)
+			for (int j = 0; j < i; j++)
+				sum++;
+			\end{lstlisting}
+			\item
+			\
+			\begin{lstlisting}
+		int sum = 0;
+		for (int i = 1; i < n; i *= 2)
+			for (int j = 0; j < n; j++)
+				sum++;
+			\end{lstlisting}
+		\end{enumerate}
+	\end{ex}
+	\begin{sol}
+		Let $m = \lfloor \lg n \rfloor + 1$. Then $m$ is the number of bits needed
+		to represent $n$ in binary, and is the frequency of execution of the outer loop.
+		In particular, $2^{m-1}\leq n < 2^m$.
+		\begin{enumerate}[label=(\alph*)]
+			\item For each value of \texttt{k}, the \texttt{i} loop block containing the statement
+			\texttt{sum++} will execute \texttt{k} times, where $k = \lfloor n / 2^j\rfloor$
+			for $0\leq j\leq m$. Thus the total number of times that \texttt{sum++} is executed
+			is approximately given by
+			\begin{align*}
+				\sum_{j=0}^{m-1}\left\lfloor \frac{n}{2^j}\right\rfloor
+				&<  \sum_{j=0}^{m-1}\left\lfloor\frac{2^m}{2^j}\right\rfloor\\
+				&=\sum_{j=0}^{m-1}\frac{2^m}{2^j}\\
+				&=2^m\sum_{j=0}^{m-1}\frac{1}{2^j}\\
+				&=2^m\cdot \left(2-\frac{1}{2^{m-1}}\right)\\
+				&=2^{m+1} - 2\\
+				&=2(2^m - 1)\\
+				&\leq 2(2^{\lg n + 1} - 1)\\
+				&=2\cdot (2n -1 )
+			\end{align*}
+			The order of growth is $n$, or linear.
+			\item This is similar to (a), but the analysis is much simpler:
+			\texttt{i} takes on the values $2^k$ for $0\leq k<m$, and the \texttt{j} loop
+			executes \texttt{i} times for each \texttt{i}. Thus the total number of times
+			\texttt{sum++} runs is approximately:
+			\begin{align*}
+				\sum_{k=0}^{m - 1}2^k &= 2^m - 1 = 2^{\lg n + 1} - 1 \\
+				&\leq 2^{\lg n + 1} - 1\\
+				&= 2n - 1
+			\end{align*}
+			Thus the order of growth is $n$, or linear.
+			\item The outer loop executes $m$ times, so again \texttt{i} takes on the
+			values $2^k$ for $0\leq k<m$. For each \texttt{i}, the \texttt{j} loops executes \texttt{n}
+			times. Thus the total number of times that \texttt{sum++} executes is $nm$ times,
+			which is exactly $n(\lfloor \lg n + 1)\rfloor$ times. Hence the order of growth is linearithmic.
+		\end{enumerate}
+	\end{sol}
+	\begin{ex}{7}
+		Analyze \texttt{ThreeSum} under a cost model that counts arithmetic operations (and comparisons)
+		involving the input numbers.
+	\end{ex}
+	\begin{sol}
+		The arithmetic operations in \texttt{ThreeSum} are all additions. The comparison operations
+		are less than (\texttt{<}) and equal to (\texttt{==}).
+		
+		Altogether, there are $n + 1$ comparisons from \texttt{i < n}, $\binom{n}{2} + 1$ comparisons
+		from \texttt{j < n} (once for each pair $(i, j)$), $\binom{n}{3} + 1$ comparisons from \texttt{k < n}, and
+		$\binom{n}{3}$ comparisons for \texttt{a[i] + a[j] + a[k] == 0} (one for each triple $(i,j,k)$).
+		
+		There are $n$ additions from \texttt{i++}, $\binom{n}{2}$ additions for \texttt{j++},
+		$\binom{n}{3}$ additions for \texttt{k++}, $2\cdot \binom{n}{3}$ additions for
+		\texttt{a[i] + a[j] + a[k]} (since it involves two additions for each triple),
+		and the number of times \texttt{count++} executes is indeterminate since it depends
+		precisely on how many times the control expression of the \texttt{if} evaluates to \texttt{true}.
+		
+		Overall, then, the cost is dominated by the statements in the innermost \texttt{k} loop.
+		Therefore, we can say that \texttt{ThreeSum} uses about $5\binom{n}{3}$ or $\sim \frac{5}{6}n^3$
+		arithmetic operations (including comparisons), and hence its order of growth is cubic under
+		a cost  model that counts arithmetic operations and comparisons.
+	\end{sol}
+	\begin{ex}{8}
+		Write a program to determine the number of pairs of values in an input file that
+		are equal. If your first try is quadratic, think again and use \texttt{Arrays.sort()}
+		to develop a linearithmic solution.
+	\end{ex}
+	\begin{sol}
+		See the \texttt{com.segarciat.algs.ch1.sec4.ex08.EqualNumberPairs} class. It uses
+		\texttt{Arrays.sort()}, which has a linearithmic order of growth. Then it uses the
+		fact that equal numbers are adjacent to each other to compute the frequency of
+		occurrence of each number. If a number has a frequency $f$, then there are
+		$\binom{f}{2}$ equal pairs corresponding to that number. This loop operates
+		in linear time since it performs at most a constant number of operations
+		in each iteration, and it iterates $n$ times, where $n$ is the number of
+		items in the file.
+	\end{sol}
+	\begin{ex}{9}
+		Give a formula to predict the running time of a program for a problem of size $n$
+		when doubling experiments have shown that the doubling factor is $2^b$ and the
+		running time for problems of size $n_0$ is $t$.
+	\end{ex}
+	\begin{sol}
+		Let $T(n)$ be the running time of the program. Since the doubling factor is $2^b$,
+		we know that $T(n)$ has an order of growth approximately $n^b$, as claimed in \cite{sedgewick_wayne}
+		on page 192 (Section 1.4). Hence,
+		\begin{align*}
+			T(n) &\sim n^b\\
+			&=\left(\frac{n}{n_0}n_0\right)^b\\
+			&=\left(\frac{n}{n_0}\right)^b n_0^b\\
+			&\sim \left(\frac{n}{n_0}\right)^b T(n_0)
+		\end{align*}
+		Since $T(n_0)=t$, we can predict $T(n)$ to be approximately $\left(\frac{n}{n_0}\right)^bt$.
+	\end{sol}
+	\begin{ex}{10}
+		Modify binary search so that it always returns the element with the smallest index that
+		matches the search element (and still guarantees logarithmic running time).
+	\end{ex}
+	\begin{sol}
+		See the \texttt{com.segarciat.algs4.ch1.sec4.ex10.BinarySearch} class. I implemented an
+		\texttt{indexOf()} method that is similar to my \texttt{rank()} implementation in
+		Exercise 1.1.29; see \texttt{com.segarciat.algs4.ch1.sec1.ex29.BinarySearch}.
+		
+		In Exercise 1.1.29, the return value is a number that is between \texttt{0} and \texttt{a.length},
+		inclusive. There are two cases:
+		\begin{enumerate}[label=(\roman*)]
+			\item When the \texttt{key} exists in the array, the return value \texttt{a[lo]}
+			has value \texttt{key}. Moreover, \texttt{lo} is the smallest index such that
+			\texttt{a[lo]} equals \texttt{key}.
+			\item When \texttt{key} is not in the array, then either \texttt{lo} is \texttt{a.length}
+			(indicating that \texttt{key} exceeds every value in the array) or \texttt{lo} is between
+			\texttt{0} and \texttt{a.length - 1}, but \texttt{a[lo]} is not equal to \texttt{key}.
+		\end{enumerate}
+		My implementation for this exercise adapts the code my \texttt{rank()} method in 1.1.29
+		with these considerations.
+	\end{sol}
+	\begin{ex}{11}
+		Add an instance method \texttt{howMany()} to \texttt{StaticSETofInts} (page 99)
+		that finds the number of occurrences of a given key in time proportional to
+		$\log n$ in the worst case.
+	\end{ex}
+	\begin{sol}
+		My implementation again adapts the code from Exercise 1.1.29, namely the \texttt{rank()} and
+		\texttt{rankGe()} methods. Both adaptations run in $\log n$ in the worst case.
+		The \texttt{howMany()} calls each once, and hence it completes in time proportional to
+		$\log n$ as well.
 	\end{sol}
 	
 	\pagebreak
