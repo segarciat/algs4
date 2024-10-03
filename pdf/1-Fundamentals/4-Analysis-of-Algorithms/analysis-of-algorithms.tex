@@ -359,7 +359,172 @@ public class TwoSum {
 		The \texttt{howMany()} calls each once, and hence it completes in time proportional to
 		$\log n$ as well.
 	\end{sol}
-	
+	\begin{ex}{12}
+		Write a program that, given two sorted arrays of $n$ \texttt{int} values, prints all
+		elements that appear in both arrays, in sorted order. The running time for your program
+		should be proportional to $n$ in the worst case.
+	\end{ex}
+	\begin{sol}
+		See the \texttt{com.segarciat.algs4.ch1.sec4.ex12.PrintTwoSortedArrays} class.
+	\end{sol}
+	\begin{ex}{13}
+		Using the assumptions developed in the text, give the amount of memory needed to
+		represent an object of each of the following types:
+		\begin{enumerate}[label=(\alph*)]
+			\item \texttt{Accumulator}
+			\item \texttt{Transaction}
+			\item \texttt{FixedCapacityStackOfStrings} with capacity \texttt{capacity}
+			and \texttt{n} entries.
+			\item \texttt{Point2D}
+			\item \texttt{Interval1D}
+			\item \texttt{Interval2D}
+			\item \texttt{Double}
+		\end{enumerate}
+	\end{ex}
+	\begin{sol}
+		According to page 201 (Section 1.4) in \cite{sedgewick_wayne}, each object has
+		an associated overhead of 16 bytes. Also, memory usage is typically padded to be a multiple
+		of 8 bytes on a 64-bit machine. Hereafter I assume a 64-bit machine:
+		\begin{enumerate}[label=(\alph*)]
+			\item An \texttt{Accumulator} object requires 16 bytes of overhead, 8 bytes for the
+			\texttt{sum} instance variable of type \texttt{double}, 4 bytes for the \texttt{n} instance
+			variable of type \texttt{int}, and 4 bytes of padding. The grand total is 32 bytes.
+			\item A \texttt{Transaction} object requires 16 bytes of overhead, 8 bytes
+			for the \texttt{who} reference variable of type \texttt{String},
+			8 bytes for the \texttt{when} instance variable of type \texttt{Date}, and
+			8 bytes for the \texttt{amount} instance variable of type \texttt{double}.
+			These add up to 40 bytes. We also account for the cost plus the cost of a \texttt{String}
+			and a \texttt{Date} object. For a \texttt{String}, assuming Java 7 and later,
+			the cost is $56 + 2n$ bytes (see page 202 on \cite{sedgewick_wayne}), where $n$ is
+			the number of characters in the string. For a \texttt{edu.princeton.cs.algs4.Date}
+			object, the cost is 32 bytes (see page 201 on \cite{sedgewick_wayne}). Altogether,
+			this amounts to $40 + 56+2n + 32=128+2n$ bytes, where $n$ is the number of characters
+			in the \texttt{who} instance variable.
+			\item A \texttt{FixedCapacityStackOfStrings} object requires 16 bytes of overhead,
+			4 bytes for the \texttt{n} instance variable of type \texttt{int}, 8 bytes for
+			the \texttt{a} instance variable of type \texttt{String[]}, and 4 bytes of padding
+			to be 32 bytes. According to page 202 in \cite{sedgewick_wayne}, an array of size
+			\texttt{capacity} takes up $24 + 8\cdot \texttt{capacity}$ bytes, plus the cost
+			of the \texttt{n} string entries. If we let $m$ be the value of \texttt{capacity},
+			this means a total of $56 + 8m$ plus the cost of the \texttt{n} objects of type \texttt{String},
+			whose lengths (and hence memory requirements) vary.
+			\item A \texttt{Point2D} object requires 16 bytes of overhead, and 8 bytes for each
+			of the instance variables \texttt{x} and \texttt{y} of type \texttt{double}. The
+			grand total is $32$ bytes.
+			\item An \texttt{Interval1D} object requires 16 bytes of overhead, and 8 bytes
+			for each of the instance variables \texttt{min} and \texttt{max} of type \texttt{double}.
+			The grand total is $32$ bytes.
+			\item An \texttt{Interval2D} object requires 16 bytes of overhead, 8 bytes
+			for each of the instance \texttt{x} and \texttt{y} of type \texttt{Interval1D},
+			and $32$ bytes for the cost of each \texttt{Interval1D} object. The total is
+			$96$ bytes.
+			\item A \texttt{Double} object requires 16 bytes of overhead and 8 bytes for its instance
+			variable of type \texttt{double}. Overall this takes up 24 bytes.
+		\end{enumerate}
+	\end{sol}
+	\begin{ex}{1.4.14}
+		Develop an algorithm for the $4$-\emph{sum} problem.
+	\end{ex}
+	\begin{sol}
+		See the \texttt{com.segarciat.algs4.ch1.sec4.ex14.FourSum} class. I did not consider
+		overflow.
+	\end{sol}
+	\begin{ex}{1.4.15}
+		\emph{Faster 3-sum}. As a warmup, develop an implementation \texttt{TwoSumFaster} that
+		uses a \emph{linear} algorithm to count the pairs that sum to zero after the array
+		is sorted (instead of the binary-search-based linearithmic algorithm). Then apply
+		a similar idea to develop a quadratic algorithm for the 3-sum problem.
+	\end{ex}
+	\begin{sol}
+		I implemented \texttt{TwoSumFaster} by scanning from opposite sides of the array.
+		I accounted for the possibility that duplicates may exist by including an inner
+		loop to count duplicates and applying the multiplication principle of counting.
+		Overall, the \texttt{TwoSumFaster} algorithm is still linearithmic because
+		it uses \texttt{Arrays.sort()}, which is linearithmic. However, this still satisfies
+		the constraints of the exercises which requires a linear algorithm \emph{after} sorting.
+		I then implemented \texttt{ThreeSumFaster} by applying the algorithm in
+		\texttt{TwoSumFaster} a total of $n$ times, where $n$ is the array length,
+		once for each $i$ between $0$ and $n-1$. The algorithm in \texttt{ThreeSumFaster}
+		is quadratic: the \texttt{Arrays.sort()} is linear, while the \texttt{i} loop
+		containing the scan from both ends is quadratic.
+	\end{sol}
+	\begin{ex}{1.4.16}
+		\emph{Closest pair (in one dimension)}. Write a program that, given an array \texttt{a[]}
+		of $n$ \texttt{double} values, finds a \emph{closest pair}: two values whose difference
+		is no greater than the difference of any other pair (in absolute value). The running time
+		of your program should be linearithmic in the worst case.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch1.sec4.ex16.ClosestPair1D}.
+	\end{sol}
+	\begin{ex}{1.4.17}
+		\emph{Farthest pair (in one dimension)}. Write a program that, given an array \texttt{a[]}
+		of $n$ \texttt{double} values, finds a \emph{farthest pair}: two values whose difference is
+		no smaller than the difference of any other pair (in absolute value). The running time
+		of your program should be linear in the worst case.
+	\end{ex}
+	\begin{sol}
+		See the \texttt{com.segarciat.algs4.ch1.sec4.ex17.FarthestPair1D} class.
+	\end{sol}
+	\begin{ex}{1.4.18}
+		\emph{Local minimum of an array}. Write a program that, given an array \texttt{a[]}
+		of $n$ distinct integers, finds a \emph{strict local minimum}: an entry \texttt{a[i]}
+		that is strictly less than its neighbors. Each internal entry (other than \texttt{a[0]}
+		and \texttt{a[n-1]}) has 2 neighbors. Your program should use $\sim \lg n$ compares in
+		the worst case.
+	\end{ex}
+	\begin{sol}
+		First we can prove that there must be a local minimum in an array of distinct values.
+		\begin{proof}
+			The proof is by contradiction. That is, suppose that no local minimum exists.
+			Then \texttt{a[0]} is not a local minimum, so it is larger than its neighbor \texttt{a[1]}.
+			Since \texttt{a[1]} is a not a local minimum, it is larger than one of its
+			neighbors. Since it is smaller than \texttt{a[0]}, it must be larger than
+			\texttt{a[2]}. In this way, we obtain a decreasing sequence, and conclude that
+			the array is sorted in reverse order. But then \texttt{a[n-1]} is less than
+			its left neighbor, and it would have to be the local minimum. This is a contradiction.
+		\end{proof}
+		I implemented an algorithm that is similar to binary search, computing the index of
+		the middle element each time, and comparing it against its neighbors (2 comparisons).
+		Since the intervals cut the search space in half each time, the number of compares
+		used is $\sim 2 \lg n$.
+		
+		The algorithm begins by checking whether the first or the last element is a local minimum.
+		These are a special case because they are the only elements with a single neighbor.
+		If the array has only two elements, then one of these must be the local minimum because
+		all elements are distinct.
+		
+		Suppose that the array had more than two elements. The algorithm proceeds by setting
+		\texttt{lo} to 1 and \texttt{hi} to \texttt{a.length - 2}. At this point, \texttt{a[lo-1]}
+		is larger than \texttt{a[lo]} because \texttt{a[lo-1]} is \texttt{a[0]}, which is not
+		the local minimum, as determined by the previous check.Similarly, \texttt{a[hi+1]} is
+		larger than \texttt{a[hi]} by the same reasoning. The algorithm continues its search
+		for a local minimum in the index interval \texttt{lo..hi} by checking whether
+		the element at index \texttt{mid = lo + (hi - lo) / 2} is a local minimum. There are
+		three cases:
+		\begin{enumerate}[label=(\roman*)]
+			\item If \texttt{a[mid]} is larger than \texttt{a[mid+1]}, this means \texttt{a[mid]}
+			is not a local minimum, but \texttt{a[mid+1]} \emph{may} be a local minimum.
+			We set \texttt{lo = mid + 1} and continue the search in \texttt{mid+1..hi}.
+			\item Otherwise if \texttt{a[mid]} is larger than \texttt{a[mid-1]}, this
+			means again that \texttt{a[mid]} is not a local minimum but \texttt{a[mid-1]}
+			\emph{may} be a local minimum, so we set \texttt{hi = mid - 1} and continue the
+			search in the index interval \texttt{lo..mid-1}.
+			\item Otherwise, we have found a local minimum.
+		\end{enumerate}
+		The search loops this way and ends when \texttt{lo > hi}. To see that the algorithm is
+		able to find a local minimum this way, note that it maintains the invariant that
+		\texttt{a[lo-1] > a[lo] \&\& a[hi+1] > a[hi]} is \texttt{true} at all stages.
+		Indeed, the condition holds before entering the loop, and whenever cases (i) and (ii)
+		update \texttt{lo} or \texttt{hi}, the invariant still holds. Suppose that the loop
+		ends because \texttt{lo > hi}. This happens when \texttt{lo = hi + 1}. The invariant
+		assures us that \texttt{a[lo-1] > a[lo] \&\& a[hi+1] > a[hi]}. Since \texttt{a[lo-1]} is
+		\texttt{a[hi]}, and \texttt{a[hi+1]} is \texttt{a[lo]}, this would say that
+		\texttt{a[hi] > a[lo] \&\& a[lo] > a[hi]} is \texttt{true}, which is impossible
+		because there is a total ordering for integers. We conclude that the condition
+		\texttt{lo > hi} can never be reached, and hence, the program will end by returning
+		the index \texttt{mid} of a local minimum.
+	\end{sol}
 	\pagebreak
 	\printbibliography
 \end{document}
