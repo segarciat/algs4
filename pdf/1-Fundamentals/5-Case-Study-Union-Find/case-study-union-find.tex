@@ -1,0 +1,132 @@
+\documentclass[12pt, a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+% Limit the page margin to only 1 inch.
+\usepackage[margin=1in]{geometry}
+
+%Imports biblatex package
+\usepackage[
+backend=biber,
+style=alphabetic
+]{biblatex}
+\addbibresource{../../algs4e.bib}
+
+% Enables the `align' environment.
+\usepackage{amsmath}
+% Provides useful environments, such as:
+% - \begin{proof} ...\end{proof}
+\usepackage{amsthm}
+% Enables using \mathbb{}, for example \mathbb{N} for the set of natural numbers.
+\usepackage{amssymb}
+
+% Allows using letters in enumerate list environment. Use, for example:
+%\begin{enumerate}[label=(\alph*)]
+% ...
+%\end{enumerate}
+\usepackage[inline]{enumitem}
+
+% Enable importing external graphic files and provides useful commannds, like \graphicspath{}
+\usepackage{graphicx}
+% Images are located in a directory called images in the current directory.
+\graphicspath{{./images/}}
+
+% Make links look better by default.
+% See: https://tex.stackexchange.com/questions/823/remove-ugly-borders-around-clickable-cross-references-and-hyperlinks
+\usepackage[hidelinks]{hyperref}
+\usepackage{xcolor}
+\hypersetup{
+	colorlinks,
+	linkcolor={red!50!black},
+	citecolor={blue!50!black},
+	urlcolor={blue!80!black}
+}
+
+
+% Code Listings. Source:
+% https://stackoverflow.com/questions/3175105/inserting-code-in-this-latex-document-with-indentation
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+	language=Java,
+	aboveskip=3mm,
+	belowskip=3mm,
+	showstringspaces=false,
+	columns=flexible,
+	basicstyle={\small\ttfamily},
+	numbers=none,
+	numberstyle=\tiny\color{gray},
+	keywordstyle=\color{blue},
+	commentstyle=\color{dkgreen},
+	stringstyle=\color{mauve},
+	breaklines=true,
+	breakatwhitespace=true,
+	tabsize=3
+}
+
+\newcommand{\prob}{\text{P}}
+%\newcommand{\complement}{\mathsf{c}}
+
+% Define an environment called "ex" (for Exercise) so that I can do: \begin{ex}{1.5}...\end{ex}
+\newenvironment{ex}[2][Exercise]
+{\par\medskip\noindent \textbf{#1 #2.}}
+{\medskip}
+
+% Define a solution environment, similar to ex (exercise) environment.
+\newenvironment{sol}[1][Solution]
+{\par\medskip\noindent \textbf{#1.} }
+{\medskip}
+
+\begin{document}
+	\noindent Sergio E. Garcia Tapia \hfill
+	
+	\noindent \emph{Algorithms} by Sedgewick and Wayne (4th edition) \cite{sedgewick_wayne}\hfill
+	
+	\noindent October 6th, 2024\hfill 
+	\section*{1.5: Case Study: Union-find}
+	\begin{ex}{1}
+		Show the contents of the \texttt{id[]} array and the number of times the array is
+		accessed for each input pair when you use quick-find for the sequence
+		\begin{lstlisting}[language={}]
+9-0 3-4 5-8 7-2 2-1 5-7 0-3 4-2
+		\end{lstlisting}
+	\end{ex}
+	\begin{sol}
+		\begin{center}
+			\begin{tabular}{cc|cccccccccc}
+				\multicolumn{12}{c}{\texttt{id[]}}\\
+				\texttt{p} & \texttt{q} & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9\\
+				\hline
+				9  & 0  & {\color{green} 0} & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & {\color{green} 9}\\
+				{} & {} & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & {\color{red} 0}\\
+				3  & 4  & 0 & 1 & 2 & {\color{green} 3} & {\color{green} 4} & 5 & 6 & 7 & 8 & 0\\
+				{} & {} & 0 & 1 & 2 & {\color{red} 4} & 4 & 5 & 6 & 7 & 8 & 0 \\
+				5  & 8  & 0 & 1 & 2 & 4 & 4 & {\color{green} 5} & 6 & 7 & {\color{green} 8} & 0\\
+				{} & {} & 0 & 1 & 2 & 4 & 4 & {\color{red} 8} & 6 & 7 & 8 & 0\\
+				7  & 2  & 0 & 1 & {\color{green} 2} & 4 & 4 & 8 & 6 & {\color{green} 7} & 8 & 0\\
+				{} & {} & 0 & 1 & 2 & 4 & 4 & 8 & 6 & {\color{red} 2} & 8 & 0 \\
+				2  & 1  & 0 & {\color{green} 1} & {\color{green} 2} & 4 & 4 & 8 & 6 & 2 & 8 & 0 \\
+				{} & {} & 0 & 1 & {\color{red} 1} & 4 & 4 & 8 & 6 & {\color{red} 1} & 8 & 0 \\
+				5  & 7  & 0 & 1 & 1 & 4 & 4 & {\color{green} 8} & 6 & {\color{green} 1} & 8 & 0 \\
+				{} & {} & 0 & 1 & 1 & 4 & 4 & {\color{red} 1} & 6 & 1 & {\color{red} 1} & 0 \\
+				0  & 3  & {\color{green} 0} & 1 & 1 & {\color{green} 4} & 4 & 1 & 6 &  1 & 1 & 0 \\
+				{} & {} & {\color{red} 4} & 1 & 1 & 4 & 4 & 1 & 6 &  1 & 1 & {\color{red} 4} \\
+				4  & 2  & 4 & 1 & {\color{green} 1} & 4 & {\color{green} 4} & 1 & 6 &  1 & 1 & 4 \\
+				{} & {} & {\color{red} 1} & 1 & 1 & {\color{red} 1} & {\color{red} 1} & 1 & 6 &  1 & 1 & {\color{red} 1} \\
+			\end{tabular}
+		\end{center}
+	\end{sol}
+	\begin{ex}{7}
+		Develop classes \texttt{QuickUnionUF} and \texttt{QuickFindUF} that implement quick-union
+		and quick-find, respectively.
+	\end{ex}
+	\begin{sol}
+		See the \texttt{com.segarciat.algs.ch1.sec5.ex07} package.
+	\end{sol}
+	\pagebreak
+	\printbibliography
+\end{document}

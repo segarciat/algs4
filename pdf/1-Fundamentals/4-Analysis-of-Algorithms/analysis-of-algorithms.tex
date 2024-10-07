@@ -525,6 +525,126 @@ public class TwoSum {
 		\texttt{lo > hi} can never be reached, and hence, the program will end by returning
 		the index \texttt{mid} of a local minimum.
 	\end{sol}
+	\begin{ex}{19}
+		\emph{Local minimum of a matrix}. Given an $n$-by-$n$ array \texttt{a[]} of $n^2$ distinct
+		integers, design an algorithm that finds a \emph{strict local minimum}: an entry
+		\texttt{a[i][j]} that is strictly less than its neighbors. Internal entries have 4 neighbors;
+		entries on an edge have 3 neighbors; entries on a corner have 2 neighbors. The running time
+		of your program should be proportional to $n$ in the worst case, which means you cannot
+		afford to examine all $n^2$ entries.
+	\end{ex}
+	
+	\begin{sol}
+		I failed to obtain a linear solution. I implemented a linearithmic solution by using the
+		hint on the book website. It is similar to my solution in Exercise 19. It works by
+		finding the minimum entry in the middle row, and then checking against its neighbors
+		in the same column. The row search space is cut in half each time, and the search ends
+		when its size is $0$. A similar mathematical analysis to 1.4.18 would show this algorithm
+		works.
+	\end{sol}
+	
+	\begin{ex}{20}
+		\emph{Bitonic search}. An array is \emph{bitonic} if it is comprised of an increasing sequence
+		of integers followed immediately by a decreasing sequence of integers. Write a program
+		that, given a bitonic array of $n$ distinct \texttt{int} values, determines whether a given
+		integer is in the array. Your program should use $\sim 3\lg n$ compares in the worst
+		case. \emph{Extra credit}: use only $\sim 2\lg n$ compares in the worst case.
+	\end{ex}
+	\begin{sol}
+		Suppose that \texttt{a[]} is bitonic and let \texttt{n} by its length. If the
+		search key is \texttt{a[0]} or \texttt{a[n-1]}, then there's nothing else to do.
+		
+		Otherwise, we search for the key in the interval \texttt{1..n-2}. Since all of the entries
+		are distinct, there must be a maximum entry. Finding the maximum itself can also be done via
+		binary search. We simply start with the interval \texttt{1..n-2}. If the middle entry is less
+		than its predecessor, then we've gone too far and fallen into the decreasing sequence, so we
+		continue our search on the left. Otherwise, if the key is less than its successor in the sequence,
+		then we are in the increasing sequence, so we search on the right.
+		
+		Suppose now that \texttt{i} is the index of the maximum entry. If the search key equals the
+		maximum entry, then our search is done. Otherwise, note that the maximum satisfies \texttt{a[i] > a[i+1]}
+		and \texttt{a[i] > a[i-1]}. Since the array is bitonic, this means that entries in the range
+		\texttt{0..i-1} form the increasing sequence, and entries in the range \texttt{i+1..n-1} form an
+		decreasing sequence. Thus, we can continue the search for the key on the disjoint sequences that
+		do not include index \texttt{i} of the maximum by using binary search.
+	\end{sol}
+	\begin{ex}{1.4.21}
+		\emph{Binary search on distinct values}. Develop an implementation of binary search
+		for \texttt{StaticSETofInts} (see page 99) where the running time of \texttt{contains()}
+		is guaranteed to be $\sim \log d$, where $d$ is the number of different integers in the
+		array given as argument to the constructor.
+	\end{ex}
+	\begin{ex}{1.4.23}
+		\emph{Binary search with duplicates}. Modify \texttt{indexOf()} (page 47) so that it
+		returns the index of the \emph{first} (or \emph{last}) entry equal to the query key.
+		The order of growth of your method should be $\log n$ in the worst case, even if there
+		are many entries in the array equal to the query key.
+	\end{ex}
+	\begin{sol}
+		This is effectively the same as the same as Exercise 1.4.10, so I will omit the code.
+	\end{sol}
+	\begin{ex}{1.4.26}
+		\emph{3-collinearity}. Suppose that you have an algorithm that takes as input $n$
+		distinct points in the plane and can return the number of triples that fall on
+		the same line. Show that you can use this to solve the 3-sum problem.
+		\emph{Strong hint}: Use algebra to show that $(a,a^3)$, $(b,b^3)$, and $(c,c^3)$
+		are collinear if and only if $a+b+c=0$.
+	\end{ex}
+	\begin{sol}
+		\begin{proof}
+			We can begin by proving the claim in the hint. Suppose that $a,b,c$ are distinct
+			and $(a,a^3)$, $(b,b ^3)$, and $(c,c^3)$ are collinear. The line cannot be
+			vertical because otherwise all $x$ coordinates are equal, implying that
+			$a$, $b$, and $c$ are distinct, contrary to assumption.
+			
+			Suppose that the points are on a line with slope $m$. Then
+			Then
+			\begin{align*}
+				m &= \frac{c^3-b^3}{c-b} = (c^2+cb+b^2)\\
+				m &= \frac{c^3-a^3}{c-a} = (c^2+ca+a^2)\\
+				m &= \frac{b^3-a^3}{b-a} = (b^2+ba+a^2)
+			\end{align*}
+			where we have divided by common factors because all three integers are distinct.
+			Equating the first two equations gives
+			\begin{align*}
+				c^2+cb+b^2 &= c^2+ca+a^2\\
+				cb+b^2&=ca+a^2\\
+				b^2-a^2 &= ca - cb\\
+				(b-a)(b+a) &= c(a-b)\\
+				b+a &= -c\\
+				a+b+c &= 0
+			\end{align*}
+			Again we were able to divide by the common factor of $b-a$ because the
+			integers are all distinct. We have shown that $a+b+c=0$. By working backwards
+			(retracting steps) we could show the converse.
+			
+			Now, given this algorithm and the previously proven result, we could solve the
+			3-sum problem by creating, $n$ triples of the form $(\alpha,\alpha^3)$, where $\alpha$ is
+			one of the distinct $n$ numbers. When the algorithm finds the there collinear
+			points, we know their $x$-coordinates sum to $0$.
+		\end{proof}
+	\end{sol}
+	\begin{ex}{1.4.37}
+		\emph{Autoboxing performance penalty}. Run experiments to determine the performance
+		penalty on your machine for using autoboxing and unboxing.  Develop an implementation
+		\texttt{FixedCapacityStackOfInts} and use a client such as \texttt{DoublingRatio}
+		to compare its performance with the generic \texttt{FixedCapacityStack<Integer>},
+		for a large number of \texttt{push()} and \texttt{pop()} operations.
+	\end{ex}
+	\begin{sol}
+		For large $n$, the version that requires autoboxing to \texttt{Integer} requires around $50$
+		times as long to run as the primitive \texttt{int} version.
+	\end{sol}
+	\begin{ex}{1.4.43}
+		\emph{Resizing array versus linked lists}. Run experiments to validate the hypothesis
+		that resizing arrays are faster than linked lists for stacks (see Exercise 1.4.35
+		and Exercise 1.4.36). Do so by developing a version of \texttt{DoublingRatio}
+		that computes the ratio of the running times of the two programs.
+	\end{ex}
+	\begin{sol}
+		I observed that resizing implementation tends to run about 3 times as fast as the linked list
+		implementation.
+	\end{sol}
 	\pagebreak
 	\printbibliography
 \end{document}
