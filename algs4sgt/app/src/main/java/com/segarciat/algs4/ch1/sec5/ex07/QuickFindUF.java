@@ -1,5 +1,7 @@
 package com.segarciat.algs4.ch1.sec5.ex07;
 
+import com.segarciat.algs4.ch1.sec5.UF;
+
 public class QuickFindUF implements UF {
     private final int[] id;
     private int count;

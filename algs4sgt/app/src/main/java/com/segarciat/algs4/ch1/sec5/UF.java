@@ -1,4 +1,4 @@
-package com.segarciat.algs4.ch1.sec5.ex07;
+package com.segarciat.algs4.ch1.sec5;
 
 /**
  * API whose implementation leads to a solution of the dynamic connectivity
