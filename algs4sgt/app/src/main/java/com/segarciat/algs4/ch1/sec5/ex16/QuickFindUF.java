@@ -1,16 +1,15 @@
-package com.segarciat.algs4.ch1.sec5.ex07;
+package com.segarciat.algs4.ch1.sec5.ex16;
 
 import com.segarciat.algs4.ch1.sec5.UF;
+import edu.princeton.cs.algs4.StdIn;
 
 /**
- * <strong>1.5.7)</strong>
  * @author Sergio E. Garcia Tapia
- * Based on implementation provided in Algorithms by Sedgewick and Wayne
- * 
  */
-public class QuickFindUF implements UF {
+public class QuickFindUF implements UF, Costable {
     private final int[] id;
     private int count;
+    public int cost = 0;
 
     public QuickFindUF(int n) {
         if (n <= 0)
@@ -30,6 +29,7 @@ public class QuickFindUF implements UF {
     @Override
     public int find(int p) {
         assertValidSite(p);
+        cost++;
         return id[p];
     }
 
@@ -47,14 +47,34 @@ public class QuickFindUF implements UF {
         if (pID == qID)
             return;
         // Move all sites from component pID to component qID.
-        for (int i = 0; i < id.length; i++)
-            if (id[i] == pID)
+        cost += id.length;
+        for (int i = 0; i < id.length; i++) {
+            if (id[i] == pID) {
                 id[i] = qID;
+                cost++;
+            }
+        }
         count--;
     }
 
     private void assertValidSite(int p) {
         if (p < 0 || p >= id.length)
             throw new IndexOutOfBoundsException("invalid site identifier");
+    }
+
+    @Override
+    public int getCost() {
+        return cost;
+    }
+
+    @Override
+    public void resetCost() {
+        cost = 0;
+    }
+
+    public static void main(String[] args) {
+        int n = StdIn.readInt();
+        QuickFindUF uf = new QuickFindUF(n);
+        AmortizedCostPlot.plot(uf);
     }
 }

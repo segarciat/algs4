@@ -1,15 +1,15 @@
-package com.segarciat.algs4.ch1.sec5.ex07;
+package com.segarciat.algs4.ch1.sec5.ex16;
 
 import com.segarciat.algs4.ch1.sec5.UF;
+import edu.princeton.cs.algs4.StdIn;
 
 /**
- * <strong>1.5.7)</strong>
  * @author Sergio E. Garcia Tapia
- * Based on implementation provided in Algorithms by Sedgewick and Wayne
  */
-public class QuickUnionUF implements UF {
+public class QuickUnionUF implements UF, Costable {
     private final int[] id;
     private int count;
+    public int cost = 0;
 
     public QuickUnionUF(int n) {
         if (n <= 0)
@@ -32,9 +32,11 @@ public class QuickUnionUF implements UF {
         assertValidSite(p);
 
         // Navigate to the root of the tree
-        while (p != id[p])
+        while (p != id[p]) {
             p = id[p];
-
+            cost += 2;
+        }
+        cost++;
         return p;
     }
 
@@ -54,6 +56,7 @@ public class QuickUnionUF implements UF {
 
         // Attach tree with root i to tree with root j
         id[i] = j;
+        cost++;
 
         count--;
     }
@@ -61,5 +64,21 @@ public class QuickUnionUF implements UF {
     private void assertValidSite(int p) {
         if (p < 0 || p >= id.length)
             throw new IndexOutOfBoundsException("invalid site identifier");
+    }
+
+    @Override
+    public int getCost() {
+        return cost;
+    }
+
+    @Override
+    public void resetCost() {
+        cost = 0;
+    }
+
+    public static void main(String[] args) {
+        int n = StdIn.readInt();
+        QuickUnionUF uf = new QuickUnionUF(n);
+        AmortizedCostPlot.plot(uf);
     }
 }

@@ -5,6 +5,7 @@ import com.segarciat.algs4.ch1.sec5.UF;
 import java.util.Arrays;
 
 /**
+ * @author Sergio E. Garcia Tapia
  * Implements the {@link UF} API to solve the dynamic connectivity
  * problem by using weighted quick-union with path compression.
  */

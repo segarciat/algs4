@@ -584,6 +584,24 @@ style=alphabetic
 		where I have used the formula $\sum_{j=0}^{n}\binom{n}{j}\cdot j=n\cdot 2^{n-1}$;
 		see \href{https://math.stackexchange.com/a/123665}{Pedro's proof on StackExchange}.
 	\end{sol}
+	\begin{ex}{16}
+		\emph{Amortized cost plots}. Instrument your implementations from Exercise 1.5.7
+		to make amortized cost plots like those in the text.
+	\end{ex}
+	\begin{sol}
+		See the classes in the \texttt{com.segarciat.algs4.ch1.sec5.ex16} package.
+	\end{sol}
+	\begin{ex}{17}
+		\emph{Random connections}. Develop a \texttt{UF} client \texttt{ErdosRenyi} that
+		takes an  integer value \texttt{n} from the command line, generates random pairs of
+		integers between \texttt{0} and \texttt{n-1}, calling \texttt{connected()} to
+		determine if they are connected and then \texttt{union()} if not (as in our
+		development client), looping until all sites are connected, and printing the number
+		of connections generated. Package your program as a static method \texttt{count()}
+		that takes \texttt{n} as an argument and returns the number of connections and
+		a \texttt{main()} that takes \texttt{n} from the command line, calls \texttt{count},
+		and prints the returned value.
+	\end{ex}
 	\pagebreak
 	\printbibliography
 \end{document}

@@ -4,6 +4,9 @@ import com.segarciat.algs4.ch1.sec5.UF;
 
 import java.util.Arrays;
 
+/**
+ * @author Sergio E. Garcia Tapia
+ */
 public class WeightedQuickUnionH implements UF {
     /**
      * Defines a forest of trees, where id[p] == p means that p is the root.
