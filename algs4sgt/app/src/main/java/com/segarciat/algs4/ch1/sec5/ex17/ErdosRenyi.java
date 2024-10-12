@@ -32,6 +32,7 @@ public class ErdosRenyi {
             System.err.println("Randomly generates site-pair connections to solve the dynamic connectivity problem");
             System.err.println("Provide command-line arguments: n");
             System.err.println("n    The number of sites.");
+            System.exit(1);
         }
         int n = Integer.parseInt(args[0]);
         System.out.println(count(n));

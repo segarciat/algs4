@@ -602,6 +602,62 @@ style=alphabetic
 		a \texttt{main()} that takes \texttt{n} from the command line, calls \texttt{count},
 		and prints the returned value.
 	\end{ex}
+	\begin{sol}
+		See the \texttt{com.segarciat.algs4.ch1.sec5.ex17.ErdosRenyi} class.
+	\end{sol}
+	\begin{ex}{18}
+		\emph{Random grid generator}. Write a program \texttt{RandomGrid} that takes an
+		\texttt{int} value \texttt{n} from the command line, generates all the connections
+		in an \texttt{n}-by-\texttt{n} grid, puts them in random order, randomly orients them
+		(so that \texttt{p} and \texttt{q} and \texttt{q} and \texttt{p} are equally likely to
+		occur), and prints the result to standard output. To randomly order the connections,
+		use a \texttt{RandomBag} (see Exercise 1.3.34 on page 167). To encapsulate
+		\texttt{p} and \texttt{q} in a single object, use the \texttt{Connection} nested class
+		shown below. Package your program as two static methods: \texttt{generate()}, which takes
+		\texttt{n} as argument and returns an array of connections, and \texttt{main()}, which takes
+		\texttt{n} from the command line, calls \texttt{generate()}, and iterates through the
+		returned array to print the connections.
+	\end{ex}
+	\begin{sol}
+		See the \texttt{com.segarciat.algs4.ch1.sec5.ex18.RandomGrid} class.
+	\end{sol}
+	\begin{ex}{19}
+		\emph{Animation}. Write a \texttt{RandomGrid} client (see Exercise 1.5.18) that uses
+		\texttt{UF} as in our development client to check connectivity and uses \texttt{StdDraw}
+		tod raw the connections as they are processed.
+	\end{ex}
+	\begin{sol}
+		See the \texttt{com.segarciat.algs4.ch1.sec5.ex19.RandomGridAnimation} class.
+	\end{sol}
+	\begin{ex}{20}
+		\emph{Dynamic growth}. Using linked lists or a resizing array, develop a weighted
+		quick-union implementation that removes the restriction on needing the number of
+		objects ahead of time. Add a method \texttt{newSite()} to the API, which returns
+		an \texttt{int} identifier.
+	\end{ex}
+	\begin{sol}
+		See the \texttt{com.segarciat.algs4.ch1.sec5.ex20.ResizingArrayUF} class.
+	\end{sol}
+	\begin{ex}{1.5.21}
+		\emph{Erd{\"o}s-Renyi Model}. Use your client from Exercise 1.5.17 to test the hypothesis
+		that the number of pairs generated to get one component is $\sim\frac{1}{2} n\ln n$.
+	\end{ex}
+	\begin{sol}
+		See the class \texttt{com.segarciat.algs4.ch1.sec5.ex21.SingleUFComponent}.
+	\end{sol}
+	\begin{ex}{1.5.22}
+		\emph{Doubling test for Erdos-Renyi model}.  Develop a performance-testing client that takes
+		an \texttt{int}  value \texttt{T} from the command line and performs \texttt{T} trials of the
+		following experiment: Use your client from Exercise 1.5.17 to generate random connections,
+		using \texttt{UF} to determine connectivity as in our development client, looping until all
+		sites are connected. For each \texttt{n}, print the value of \texttt{n}, the average number
+		of connections processed, and the ratio of the running time to the previous. Use your program
+		to validate the hypothesis in the text that the running times for quick-find and quick-union
+		are quadratic and weighted quick-union is near-linear.
+	\end{ex}
+	\begin{sol}
+		See the class \texttt{com.segarciat.algs4.ch1.sec5.ex22.DoublingTestErdosRenyi}.
+	\end{sol}
 	\pagebreak
 	\printbibliography
 \end{document}
