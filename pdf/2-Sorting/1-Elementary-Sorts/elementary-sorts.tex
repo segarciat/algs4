@@ -1,0 +1,369 @@
+\documentclass[12pt, a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+% Limit the page margin to only 1 inch.
+\usepackage[margin=1in]{geometry}
+
+%Imports biblatex package
+\usepackage[
+backend=biber,
+style=alphabetic
+]{biblatex}
+\addbibresource{../../algs4e.bib}
+
+% Enables the `align' environment.
+\usepackage{amsmath}
+% Provides useful environments, such as:
+% - \begin{proof} ...\end{proof}
+\usepackage{amsthm}
+% Enables using \mathbb{}, for example \mathbb{N} for the set of natural numbers.
+\usepackage{amssymb}
+
+% Allows using letters in enumerate list environment. Use, for example:
+%\begin{enumerate}[label=(\alph*)]
+% ...
+%\end{enumerate}
+\usepackage[inline]{enumitem}
+
+% Enable importing external graphic files and provides useful commannds, like \graphicspath{}
+\usepackage{graphicx}
+% Images are located in a directory called images in the current directory.
+\graphicspath{{./images/}}
+
+% Make links look better by default.
+% See: https://tex.stackexchange.com/questions/823/remove-ugly-borders-around-clickable-cross-references-and-hyperlinks
+\usepackage[hidelinks]{hyperref}
+\usepackage{xcolor}
+\hypersetup{
+	colorlinks,
+	linkcolor={red!50!black},
+	citecolor={blue!50!black},
+	urlcolor={blue!80!black}
+}
+
+
+% Code Listings. Source:
+% https://stackoverflow.com/questions/3175105/inserting-code-in-this-latex-document-with-indentation
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+	language=Java,
+	aboveskip=3mm,
+	belowskip=3mm,
+	showstringspaces=false,
+	columns=flexible,
+	basicstyle={\small\ttfamily},
+	numbers=none,
+	numberstyle=\tiny\color{gray},
+	keywordstyle=\color{blue},
+	commentstyle=\color{dkgreen},
+	stringstyle=\color{mauve},
+	breaklines=true,
+	breakatwhitespace=true,
+	tabsize=3
+}
+
+\newcommand{\prob}{\text{P}}
+%\newcommand{\complement}{\mathsf{c}}
+
+% Define an environment called "ex" (for Exercise) so that I can do: \begin{ex}{1.5}...\end{ex}
+\newenvironment{ex}[2][Exercise]
+{\par\medskip\noindent \textbf{#1 #2.}}
+{\medskip}
+
+% Define a solution environment, similar to ex (exercise) environment.
+\newenvironment{sol}[1][Solution]
+{\par\medskip\noindent \textbf{#1.} }
+{\medskip}
+
+\begin{document}
+	\noindent Sergio E. Garcia Tapia \hfill
+	
+	\noindent \emph{Algorithms} by Sedgewick and Wayne (4th edition) \cite{sedgewick_wayne}\hfill
+	
+	\noindent October 12th, 2024\hfill 
+	\section*{2.1: Elementary Sorts}
+	\begin{ex}{1}
+		Show, in the style of the example trace with Algorithm 2.1, how selection sort sorts
+		the array \texttt{E A S Y Q U E S T I O N}.
+	\end{ex}
+	\begin{sol}
+		\begin{center}
+			\begin{tabular}{cc|cccccccccccc}
+				\texttt{i} & \texttt{min} & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 \\
+				\hline
+				{} & {} & E & A & S & Y & Q & U & E & S & T & I & O & N \\
+				0 & 1 & E & {\color{red} A} & S & Y & Q & U & E & S & T & I & O & N\\
+				1 & 1 & {\color{gray} A} & {\color{red} E} & S & Y & Q & U & E & S & T & I & O & N \\
+				2 & 6 & {\color{gray} A} & {\color{gray} E} & S & Y & Q & U & {\color{red} E} & S & T & I & O & N\\
+				3 & 9 & {\color{gray} A} & {\color{gray} E} & {\color{gray} E} & Y & Q & U & S & S & T & {\color{red} I} & O & N\\
+				4 & 11 & {\color{gray} A} & {\color{gray} E} & {\color{gray} E} & {\color{gray}I} & Q & U & S & S & T & Y & O & {\color{red} N}\\
+				5 & 10 & {\color{gray} A} & {\color{gray} E} & {\color{gray} E} & {\color{gray}I} & {\color{gray} N} & U & S & S & T & Y & {\color{red} O} & Q\\
+				6 & 11 & {\color{gray} A} & {\color{gray} E} & {\color{gray} E} & {\color{gray}I} & {\color{gray} N} & {\color{gray}O} & S & S & T & Y & U & {\color{red}Q}\\
+				7 & 7 & {\color{gray} A} & {\color{gray} E} & {\color{gray} E} & {\color{gray}I} & {\color{gray} N} & {\color{gray}O} & {\color{gray}Q} & {\color{red}S} & T & Y & U & S\\
+				8 & 11 & {\color{gray} A} & {\color{gray} E} & {\color{gray} E} & {\color{gray}I} & {\color{gray} N} & {\color{gray}O} & {\color{gray}Q} & {\color{gray}S} & T & Y & U & {\color{red}S}\\
+				
+				9 & 11 & {\color{gray} A} & {\color{gray} E} & {\color{gray} E} & {\color{gray}I} & {\color{gray} N} & {\color{gray}O} & {\color{gray}Q} & {\color{gray}S} & {\color{gray}S} & Y & U & {\color{red}T}\\
+				
+				10 & 10 & {\color{gray} A} & {\color{gray} E} & {\color{gray} E} & {\color{gray}I} & {\color{gray} N} & {\color{gray}O} & {\color{gray}Q} & {\color{gray}S} & {\color{gray}S} & {\color{gray}T} & {\color{red}U} & Y\\
+				
+				11 & 11 & {\color{gray} A} & {\color{gray} E} & {\color{gray} E} & {\color{gray}I} & {\color{gray} N} & {\color{gray}O} & {\color{gray}Q} & {\color{gray}S} & {\color{gray}S} & {\color{gray}T} & {\color{gray}U} & {\color{red}Y}\\
+				
+				{} & {} & A & E & E & I & N & O & Q & S & S & T & U & Y\\
+			\end{tabular}
+		\end{center}
+	\end{sol}
+	\begin{ex}{2}
+		What is the maximum number of exchanges involving any particular item during selection sort?
+		What is the average number of exchanges involving an item?
+	\end{ex}
+	\begin{sol}
+		Since the algorithms does exactly $n$ exchanges, the maximum number of exchanges is $n$.
+		If we have an array of $n$ distinct items, then the maximum is attained when we place the
+		largest item in front, followed by the remaining items in ascending order. Then the largest
+		item is exchanged $n$ times.
+		
+		Let $f_i$ be the number of times the $i$th element is involved in an exchange. Since there
+		are $n$ items, with exactly $n$ exchanges, and each exchange involves two items, we conclude
+		that $\sum_{i=1}^{n}f_i = 2n$. Therefore, the average number of exchanges is
+		\begin{align*}
+			\text{average \# of exchanges} = \frac{\sum_{i=1}^{n}f_i}{n} = \frac{2n}{n}=2
+		\end{align*}
+	\end{sol}
+	\begin{ex}{3}
+		Give  an example of an array of $n$ items that maximizes the number of times
+		the test \texttt{a[j] < a[min]} succeeds (and therefore, \texttt{min} gets updated)
+		during the operation of selection sort (Algorithm 2.1).
+	\end{ex}
+	\begin{sol}
+		The best example I can think of is an array that is sorted in reverse.
+		The first iteration there are $n$ successes, then $n-2$, then, then $n-2$,
+		and so on, until we reach the halfway point of the array. At that point,
+		none of the comparisons will succeed. In essence, each exchange places two items
+		in the final destination at once.
+	\end{sol}
+	\begin{ex}{4}
+		Show, in the style of the example trace with Algorithm 2.2, how insertion sort sorts the
+		array \texttt{E A S Y Q U E S T I O N}.
+	\end{ex}
+	\begin{sol}
+		\begin{center}
+			\begin{tabular}{cc|cccccccccccc}
+				\texttt{i} & \texttt{j} & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 \\
+				\hline
+				{} & {} & E & A & S & Y & Q & U & E & S & T & I & O & N \\
+				
+				1 & 0 & {\color{red} A} & {\color{black}E} & {\color{gray}S} & {\color{gray}Y}
+				& {\color{gray}Q} & {\color{gray}U} & {\color{gray}{E}} & {\color{gray}S} & {\color{gray}T}
+				& {\color{gray}I} & {\color{gray}O} & {\color{gray}N} \\
+				
+				2 & 2 & {\color{gray} A} & {\color{gray}E} & {\color{red}S} & {\color{gray}Y}
+				& {\color{gray}Q} & {\color{gray}U} & {\color{gray}{E}} & {\color{gray}S} & {\color{gray}T}
+				& {\color{gray}I} & {\color{gray}O} & {\color{gray}N} \\
+				
+				3 & 3 & {\color{gray} A} & {\color{gray}E} & {\color{gray}S} & {\color{red}Y}
+				& {\color{gray}Q} & {\color{gray}U} & {\color{gray}{E}} & {\color{gray}S} & {\color{gray}T}
+				& {\color{gray}I} & {\color{gray}O} & {\color{gray}N} \\
+				
+				4 & 2 & {\color{gray} A} & {\color{gray}E} & {\color{red}Q} & {\color{black}S}
+				& {\color{black}Y} & {\color{gray}U} & {\color{gray}{E}} & {\color{gray}S} & {\color{gray}T}
+				& {\color{gray}I} & {\color{gray}O} & {\color{gray}N} \\
+				
+				5 &4 & {\color{gray} A} & {\color{gray}E} & {\color{gray}Q} & {\color{gray}S}
+				& {\color{red}U} & {\color{black}Y} & {\color{gray}{E}} & {\color{gray}S} & {\color{gray}T}
+				& {\color{gray}I} & {\color{gray}O} & {\color{gray}N} \\
+				
+				6 & 2 & {\color{gray} A} & {\color{gray}E} & {\color{red}{E}} & {\color{black}Q} & {\color{black}S}
+				& {\color{black}U} & {\color{black}Y} & {\color{gray}S} & {\color{gray}T}
+				& {\color{gray}I} & {\color{gray}O} & {\color{gray}N} \\
+				
+				7 & 5 & {\color{gray} A} & {\color{gray}E} & {\color{gray}{E}} & {\color{gray}Q} & {\color{gray}S} & {\color{red}S}
+				& {\color{black}U} & {\color{black}Y} & {\color{gray}T}
+				& {\color{gray}I} & {\color{gray}O} & {\color{gray}N} \\
+				
+				8 & 6 & {\color{gray} A} & {\color{gray}E} & {\color{gray}{E}} & {\color{gray}Q} & {\color{gray}S} & {\color{gray}S} & {\color{red}T}
+				& {\color{black}U} & {\color{black}Y} 
+				& {\color{gray}I} & {\color{gray}O} & {\color{gray}N} \\
+				
+				9 & 3 & {\color{gray} A} & {\color{gray}E} & {\color{gray}{E}} &  {\color{red}I} &
+				{\color{black}Q} & {\color{black}S} & {\color{black}S} & {\color{black}T}
+				& {\color{black}U} & {\color{black}Y} 
+				& {\color{gray}O} & {\color{gray}N} \\
+				
+				10 & 4 & {\color{gray} A} & {\color{gray}E} & {\color{gray}{E}} &  {\color{gray}I} &
+				{\color{red}O} & {\color{black}Q} & {\color{black}S} & {\color{black}S} & {\color{black}T}
+				& {\color{black}U} & {\color{black}Y} 
+				& {\color{gray}N} \\
+				
+				11 & 4 & {\color{gray} A} & {\color{gray}E} & {\color{gray}{E}} &  {\color{gray}I}
+				& {\color{red}N} &
+				{\color{black}O} & {\color{black}Q} & {\color{black}S} & {\color{black}S} & {\color{black}T}
+				& {\color{black}U} & {\color{black}Y}  \\
+				
+				{} & {} & E & A & S & Y & Q & U & E & S & T & I & O & N \\
+			\end{tabular}
+		\end{center}
+	\end{sol}
+	\begin{ex}{5}
+		For each of the two conditions in the inner \texttt{for} loop in insertion sort (Algorithm 2.2),
+		describe an array of $n$ items where that condition is always false when the loop terminates.
+	\end{ex}
+	\begin{sol}
+		The condition \texttt{less(a[j], a[j-1])} is always \texttt{false} when the loop
+		terminates for an array whose first element is the smallest element.
+		For the condition that \texttt{j > 0}, the loop always terminates when it is
+		\texttt{false} for an array that is in reverse order.
+	\end{sol}
+	\begin{ex}{6}
+		Which method runs faster for an array with all keys identical, selection sort or insertion sort?
+	\end{ex}
+	\begin{sol}
+		Selection sort is quadratic regardless of the input. Insertion sort is linear for such
+		an array. Therefore, insertion sort is faster.
+	\end{sol}
+	\begin{ex}{7}
+		Which method runs faster for an array in reverse order, selection sort or insertion sort?
+	\end{ex}
+	\begin{sol}
+		For such an array, the number of inversions are maximized, so it is the worst-case for
+		insertion sort. As a result, it leads to $~\sim n^2/2$  exchanges. Meanwhile, selection
+		sort always requires exactly $n$ exchanges. The number of compares is similar.
+		In this case, selection sort is better.
+	\end{sol}
+	\begin{ex}{8}
+		Suppose that we use insertion sort on a randomly ordered array where items have only one
+		of three values. Is the running time linear, quadratic, or somewhere in between?
+	\end{ex}
+	\begin{sol}
+		If all three items have equal frequency, and the array is sorted in reverse,
+		then the number of inversions is quadratic in the array size. A randomly ordered
+		array would have about half as many inversions, and hence would still be
+		quadratic in performance.
+	\end{sol}
+	\begin{ex}{9}
+		Show, in the style of the example trace with Algorithm 2.3, how shellsort sorts
+		the array \texttt{E A S Y S H E L L S O R T Q U E S T I O N}.
+	\end{ex}
+	\begin{sol}
+		No, this is a very long exercise.
+	\end{sol}
+	\begin{ex}{10}
+		Why not use selection sort for $h$-sorting in shellsort?
+	\end{ex}
+	\begin{sol}
+		Selection sort does not take advantage of the order that shellsort has attained
+		through taking care of inversions at the intermediate stages.
+	\end{sol}
+	\begin{ex}{11}
+		Implement a version of shellsort that keeps the increment sequence in an array
+		rather than computing it.
+	\end{ex}
+	\begin{sol}
+		A decided a \texttt{Stack} was more natural so I did that instead of an array.
+		See the \texttt{com.segarciat.algs4.ch2.sec1.ex11.Shell} class.
+	\end{sol}
+	\begin{ex}{12}
+		Instrument shellsort to print the number of compares divided by the array length for
+		each increment. Write a test client that tests the hypothesis that this number is
+		a small constant, by sorting arrays of random \texttt{Double} values, using array
+		lengths that are increasing powers o f 10, starting at 100.
+	\end{ex}
+	\begin{sol}
+		See the class \texttt{com.segarciat.algs4.ch2.sec1.ex12.ShellCompares}.
+	\end{sol}
+	\begin{ex}{13}
+		\emph{Deck sort}. Explain how you would put a deck of cards in order by suit
+		(in the order spades, hearts, clubs, diamonds) and by rank within each suit, with the
+		restriction that the cards must be laid out face down in a row, and the only allowed
+		operations are to check the values of two cards and to exchange two cards
+		(keeping them face down).
+	\end{ex}
+	\begin{sol}
+		I would employ the insertion sort algorithm, which is:
+		\begin{enumerate}
+			\item Start at the second card, flipping that card and the one immediately
+			next to it to the left.
+			\item If the suits are different and out of order, exchange them. Move left
+			one pair and continue until this condition is false. Otherwise check the
+			next condition.
+			\item Otherwise, if the suits are the same and are out of order, exchange them.
+			Move left one pair and flip two cards again, until this condition is false.
+			Otherwise, check the next condition.
+			\item Otherwise, leave them as is and move on to to the next pair to the right of them.
+			Now move to the third position in the row and start over.
+			\item ...
+			\item Move to the $i$ th position in the row and start over.
+		\end{enumerate}
+	\end{sol}
+	\begin{ex}{14}
+		\emph{Deque sort}. Explain how you would sort a deck of cards, with the restriction that
+		the only allowed operations are to look at the values of the top two cards, to exchange
+		the top two cards, and to move the top card to the bottom of the deck.
+	\end{ex}
+	\begin{sol}
+		\begin{enumerate}
+			\item Inspect the top to wards.
+			\begin{enumerate}
+				\item If they are of different suits and the second card is lower (for example,
+				the top card is hearts and the second is spades), swap them.
+				\item Otherwise, if they are of the same suit and the top card is of higher
+				rank, swap them.
+				\item Otherwise, send the card top card to the bottom of the deck.
+			\end{enumerate}
+			\item Repeat until sorted.
+		\end{enumerate}
+	\end{sol}
+	\begin{ex}{15}
+		\emph{Expensive exchange}. A clerk at a shipping company is charged with the task of rearranging
+		a number of large crates in order of the time they are to be shipped out. Thus, the cost
+		of compares is very log (just look at the two labels) relative to the cost of exchanges
+		(move the crates). The warehouse is nearly full --- there is extra space sufficient to hold
+		any one of he crates, but not two. What sorting method should the clerk use?
+	\end{ex}
+	\begin{sol}
+		Selection sort. It uses a minimal number of exchanges.
+	\end{sol}
+	\begin{ex}{17}
+		\emph{Animation}. Add code to \texttt{Insertion}, \texttt{Selection}, and \texttt{Shell}
+		to make them draw the array contents as vertical bars, like the visual traces in this
+		section, redrawing the bars after each pass, to produce an animated effect, ending in
+		a ``sorted" picture where the bars appear in the order of height.
+		\emph{Hint}: Use a client like the one in the text that generates random \texttt{Double}
+		values, insert calls to \texttt{show()} as appropriate in the sort code, and implement
+		a \texttt{show()} method that clears the canvas and draws the bars.
+	\end{ex}
+	\begin{sol}
+		See the classes in the \texttt{com.segarciat.algs4.ch2.sec1.ex17} package.
+		The programs \texttt{Selection}, \texttt{Insertion}, and \texttt{Shell}
+		use common functionality from the \texttt{SortUtil} class. The
+		assumption is that they are working with random \texttt{double} values
+		between 0 and 1.
+	\end{sol}
+	\begin{ex}{24}
+		\emph{Insertion sort with sentinel}. Develop an implementation of insertion sort
+		that eliminates the \texttt{j>0} test in the inner loop by first putting the
+		smallest item into position. Use \texttt{SortCompare} to evaluate the effectiveness
+		of doing so. \emph{Note}: It is often possible to avoid an index-out-of-bounds
+		test i this way --- the element that enables the test to be eliminated is known
+		as a \emph{sentinel}.
+	\end{ex}
+	\begin{sol}
+		See the \texttt{com.segarciat.algs4.ch2.sec1.ex24.InsertionSentinel} class.
+	\end{sol}
+	\begin{ex}{25}
+		\emph{Insertion sort without exchanges}. Develop an implementation of insertion
+		sort that moves larger elements to the right one position with one array access
+		per entry, rather than using \texttt{exchange()}.
+		Use \texttt{SortCompare} to evaluate the effectiveness of doing so.
+	\end{ex}
+	\begin{sol}
+		See the \texttt{com.segarciat.algs4.ch2.sec1.ex25.InsertionHalfExchanges} class.
+	\end{sol}
+	\pagebreak
+	\printbibliography
+\end{document}
