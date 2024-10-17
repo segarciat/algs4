@@ -480,6 +480,26 @@ a[0..38] // 39
 	\begin{sol}
 		See the \texttt{com.segarciat.algs4.ch2.sec2.ex10.FasterMerge} class.
 	\end{sol}
+	\begin{ex}{11}
+		\emph{Improvements}. Implement the three improvements to mergesort that are described
+		in the text on page 275: Add a cutoff for small subarrays, test whether the array
+		is already in order, and avoid the copy by switching arguments in the recursive code.
+	\end{ex}
+	\begin{sol}
+		See the \texttt{com.segarciat.algs4.ch2.sec3.ex11.ImproveMerge} class.
+	\end{sol}
+	\begin{ex}{12}
+		\emph{Sublinear extra space}. Develop a merge implementation that reduces the extra
+		space requirement to $\max(n/m)$, based on the following idea: Divide the array into
+		$n/m$ blocks of size $m$ (for simplicity in this description, assume that $n$ is a
+		multiple of $m$). Then,
+		\begin{enumerate}[label=(\roman*)]
+			\item Considering the blocks as items with their first key as the sort key,
+			sort them using selection sort; and
+			\item Run through the array merging the first block with the second, then the
+			second with the third, and so forth.
+		\end{enumerate}
+	\end{ex}
 	\pagebreak
 	\printbibliography
 \end{document}

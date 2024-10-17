@@ -5,6 +5,10 @@ import edu.princeton.cs.algs4.StdRandom;
 
 import java.util.Arrays;
 
+/**
+ * @author Sergio E. Garcia Tapia
+ * Mergesort implementation based on Section 2.2 of Algorithms by Sedgewick and Wayne
+ */
 public class FasterMerge {
     public static <T extends Comparable<T>> void sort(T[] a) {
         if (a == null)
