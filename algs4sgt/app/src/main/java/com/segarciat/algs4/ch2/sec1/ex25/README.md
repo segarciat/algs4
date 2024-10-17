@@ -13,7 +13,7 @@ at the leftmost `j` index after the inner loop ends.
 I performed experiments with `SortCompare` by running the following command;
 
 ```bash
-./gradlew -q --console=plain -PmainClass=com.segarciat.algs4.ch2.sec1.SortCompare run --args 'InsertionHalf Insertion 10000 5'
+./gradlew -q --console=plain -PmainClass=com.segarciat.algs4.ch2.SortCompare run --args 'InsertionHalf Insertion 10000 5'
 ```
 
 With arrays with about 10,000 doubles, I consistently saw better

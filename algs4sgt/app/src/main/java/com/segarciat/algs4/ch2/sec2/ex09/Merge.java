@@ -1,5 +1,7 @@
 package com.segarciat.algs4.ch2.sec2.ex09;
 
+import com.segarciat.algs4.ch2.SortUtil;
+
 /**
  * @author Sergio E. Garcia Tapia
  * Based on implementation in Secton 2.2 of Algorithms by Sedgewick and Wayne.
@@ -51,16 +53,10 @@ public class Merge {
                 a[k] = aux[j++];
             else if (j > hi)
                 a[k] = aux[i++];
-            else if (less(aux[j], aux[i]))
+            else if (SortUtil.less(aux[j], aux[i]))
                 a[k] = aux[j++];
             else
                 a[k] = aux[i++];
         }
-    }
-
-    private static <T extends Comparable<T>> boolean less(T v, T w) {
-        assert v != null;
-        assert w != null;
-        return v.compareTo(w) < 0;
     }
 }

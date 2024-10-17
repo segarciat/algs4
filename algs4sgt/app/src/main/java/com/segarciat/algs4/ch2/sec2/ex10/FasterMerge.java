@@ -1,15 +1,15 @@
 package com.segarciat.algs4.ch2.sec2.ex10;
 
-import edu.princeton.cs.algs4.StdOut;
-import edu.princeton.cs.algs4.StdRandom;
-
-import java.util.Arrays;
+import com.segarciat.algs4.ch2.SortUtil;
 
 /**
  * @author Sergio E. Garcia Tapia
- * Mergesort implementation based on Section 2.2 of Algorithms by Sedgewick and Wayne
+ * Faster (but unstable) Mergesort implementation based on Section 2.2
+ * of Algorithms by Sedgewick and Wayne
  */
 public class FasterMerge {
+    private FasterMerge() {}
+
     public static <T extends Comparable<T>> void sort(T[] a) {
         if (a == null)
             throw new NullPointerException("array cannot be null");
@@ -45,21 +45,15 @@ public class FasterMerge {
         int i = lo;
         int j = hi;
         for (int k = lo; k <= hi; k++)
-            if (less(aux[j], aux[i]))
+            if (SortUtil.less(aux[j], aux[i]))
                 a[k] = aux[j--];
             else
                 a[k] = aux[i++];
     }
 
-    private static <T extends Comparable<T>> boolean less(T v, T w) {
-        return v.compareTo(w) < 0;
-    }
-
     public static void main(String[] args) {
-        Integer[] a = new Integer[10];
-        for (int i = 0; i < a.length; i++)
-            a[i] = StdRandom.uniformInt(0, 200);
+        Double[] a = SortUtil.createRandomDoubleArray(100);
         sort(a);
-        StdOut.println(Arrays.toString(a));
+        assert SortUtil.isSorted(a, 0, a.length - 1);
     }
 }

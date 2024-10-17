@@ -12,6 +12,8 @@ import java.awt.Color;
  * against the upper bound of 6 * n * log(n) for n from 1 to 512.
  */
 public class MergesortPlot {
+    private MergesortPlot() {}
+
     /**
      * @return An array of <code>size</code> random <code>Double</code> values
      * between 0 and 1.

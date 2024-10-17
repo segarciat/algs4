@@ -1,12 +1,14 @@
 package com.segarciat.algs4.ch2.sec1.ex25;
 
-import com.segarciat.algs4.ch2.sec1.ex17.SortUtil;
+import com.segarciat.algs4.ch2.SortUtil;
 
 /**
  * @author Sergio E. Garcia Tapia
  * Implementation of insertion sort using half exchanges.
  */
 public class InsertionHalfExchanges {
+    private InsertionHalfExchanges() {}
+
     public static <T extends Comparable<T>> void sort(T[] a) {
         if (a == null)
             throw new NullPointerException("array cannot be null");

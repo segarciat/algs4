@@ -1,5 +1,6 @@
 package com.segarciat.algs4.ch2.sec1.ex11;
 
+import com.segarciat.algs4.ch2.SortUtil;
 import edu.princeton.cs.algs4.Stack;
 
 /**
@@ -7,6 +8,8 @@ import edu.princeton.cs.algs4.Stack;
  * Based on Algorithm 2.3 in Algorithms by Sedgewick and Wayne
  */
 public class Shell {
+    private Shell() {}
+
     public static <T extends Comparable<T>> void sort(T[] a) {
         if (a == null)
             throw new NullPointerException("array cannot be null");
@@ -21,19 +24,9 @@ public class Shell {
         while (!increments.isEmpty()) {
             h = increments.pop();
             for (int i = h; i < n; i++) {
-                for (int  j = i; j >= h && less(a[j], a[j - h]); j -= h)
-                    exchange(a, j, j - h);
+                for (int  j = i; j >= h && SortUtil.less(a[j], a[j - h]); j -= h)
+                    SortUtil.exchange(a, j, j - h);
             }
         }
-    }
-
-    public static <T extends Comparable<T>> boolean less(T v, T w) {
-        return v.compareTo(w) < 0;
-    }
-
-    public static <T extends Comparable<T>> void exchange(T[] a, int i, int j) {
-        T temp = a[i];
-        a[i] = a[j];
-        a[j] =  temp;
     }
 }

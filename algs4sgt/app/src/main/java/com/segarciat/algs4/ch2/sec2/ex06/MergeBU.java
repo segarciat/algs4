@@ -1,10 +1,13 @@
 package com.segarciat.algs4.ch2.sec2.ex06;
 
+import com.segarciat.algs4.ch2.SortUtil;
+
 /**
  * @author Sergio E. Garcia Tapia
  * Based on implementation in Secton 2.2 of Algorithms by Sedgewick and Wayne.
  */
 public class MergeBU {
+    private MergeBU() {}
 
     private static int arrayAccesses;
     private static Comparable[] aux;
@@ -52,9 +55,7 @@ public class MergeBU {
     }
 
     private static boolean less(Comparable v, Comparable w) {
-        assert v != null;
-        assert w != null;
         arrayAccesses += 2;
-        return v.compareTo(w) < 0;
+        return SortUtil.less(v, w);
     }
 }

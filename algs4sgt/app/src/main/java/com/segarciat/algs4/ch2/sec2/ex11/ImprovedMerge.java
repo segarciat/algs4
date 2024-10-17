@@ -1,6 +1,6 @@
 package com.segarciat.algs4.ch2.sec2.ex11;
 
-import edu.princeton.cs.algs4.StdRandom;
+import com.segarciat.algs4.ch2.SortUtil;
 
 /**
  * @author Sergio E. Garcia Tapia
@@ -44,7 +44,7 @@ public class ImprovedMerge {
         sort(aux, a, mid + 1, hi);
 
         // Skip merge() if subarrays are ordered
-        if (!less(aux[mid+1], aux[mid])) {
+        if (!SortUtil.less(aux[mid+1], aux[mid])) {
             for (int k = lo; k <= hi; k++)
                 a[k] = aux[k];
             return;
@@ -59,8 +59,8 @@ public class ImprovedMerge {
         assert lo <= mid;
         assert mid <= hi;
         assert hi < a.length;
-        assert isSorted(aux, lo, mid);
-        assert isSorted(aux, mid + 1, hi);
+        assert SortUtil.isSorted(aux, lo, mid);
+        assert SortUtil.isSorted(aux, mid + 1, hi);
 
         int i = lo;
         int j = mid + 1;
@@ -69,7 +69,7 @@ public class ImprovedMerge {
                 a[k] = aux[j++];
             else if (j > hi)
                 a[k] = aux[i++];
-            else if (less(aux[j], aux[i]))
+            else if (SortUtil.less(aux[j], aux[i]))
                 a[k] = aux[j++];
             else
                 a[k] = aux[i++];
@@ -83,31 +83,15 @@ public class ImprovedMerge {
         for (int i = lo + 1; i <= hi; i++) {
             T temp = a[i];
             int j;
-            for (j = i; j > lo && less(temp, a[j - 1]); j--)
+            for (j = i; j > lo && SortUtil.less(temp, a[j - 1]); j--)
                 a[j] = a[j - 1];
             a[j] = temp;
         }
     }
 
-    private static <T extends Comparable<T>> boolean less(T v, T w) {
-        assert v != null;
-        assert w != null;
-        return v.compareTo(w) < 0;
-    }
-
-    private static <T extends Comparable<T>> boolean isSorted(T[] a, int lo, int hi) {
-        assert a != null;
-        for (int i = lo + 1; i <= hi; i++)
-            if (less(a[i], a[i-1]))
-                return  false;
-        return true;
-    }
-
     public static void main(String[] args) {
-        Double[] a = new Double[1000];
-        for (int i = 0; i < a.length; i++)
-            a[i] = StdRandom.uniformDouble();
+        Double[] a = SortUtil.createRandomDoubleArray(1000);
         sort(a);
-        assert isSorted(a, 0, a.length - 1);
+        assert SortUtil.isSorted(a, 0, a.length - 1);
     }
 }

@@ -18,7 +18,7 @@ To assess whether there was an improvement, I ran `InsertionSentinel.java` again
 I ran `SortCompare` from the top-level directory of this repository as follows:
 
 ```bash
-./gradlew -q --console=plain -PmainClass=com.segarciat.algs4.ch2.sec1.SortCompare run --args 'InsertionSentinel Insertion 10000 5'
+./gradlew -q --console=plain -PmainClass=com.segarciat.algs4.ch2.SortCompare run --args 'InsertionSentinel Insertion 10000 5'
 ```
 
 The experiment yielded mixed results. For large arrays, such as arrays of size 10,000,

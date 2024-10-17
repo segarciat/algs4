@@ -1,4 +1,4 @@
-package com.segarciat.algs4.ch2.sec1;
+package com.segarciat.algs4.ch2;
 
 import com.segarciat.algs4.ch2.sec1.ex24.InsertionSentinel;
 import com.segarciat.algs4.ch2.sec1.ex25.InsertionHalfExchanges;
@@ -16,6 +16,8 @@ import edu.princeton.cs.algs4.Stopwatch;
  * Implementation from Algorithms by Sedgewick and Wayne (Section 2.1, page 256)
  * Runs two sorts named from the first two command line arguments on arrays of
  * n random doubles between 0 and 1, repeating the experiment T times.
+ *
+ * @author Sergio E. Garcia Tapia
  */
 public class SortCompare {
     private static final String INSERTION_SORT = "Insertion";
