@@ -508,6 +508,34 @@ a[0..38] // 39
 	\begin{sol}
 		See the \texttt{com.segarciat.algs4.ch2.sec2.ex14.MergeQueues} class.
 	\end{sol}
+	\begin{ex}{15}
+		\emph{Bottom-up queue mergesort}. Develop a bottom-up mergesort implementation based
+		on the following approach: Given $n$ items, create $n$ queues, each containing one
+		of the items. Create a queue of the $n$ queues. Then, repeatedly apply the merging
+		operation of Exercise 2.2.14 to the first two queues and reinsert the merged queue
+		at the end. Repeat until the queue of queues contains only one queue.
+	\end{ex}
+	\begin{sol}
+		See the\texttt{com.segarciat.algs4.ch2.sec2.ex15.MergeBUQueue} class.
+	\end{sol}
+	\begin{ex}{16}
+		\emph{Natural mergesort}. Write a version of bottom-up mergesort that takes advantage
+		of order in the array by proceeding as follows each time it needs to find
+		two arrays to merge: find a sorted subarray (by incrementing a pointer until
+		finding an entry that is smaller than its predecessor in the array), then find
+		the next, then merge them. Analyze the running time of this algorithm in terms
+		of the array length and the number of maximal increasing sequences in the array.
+	\end{ex}
+	\begin{sol}
+		See the \texttt{com.segarciat.algs4.ch2.sec2.ex16.NaturalMergeBU} class.
+		Let $n$ be the length of the array we are sorting. In the worst case,
+		there's $n$ increasing sequences, because the array may be sorted in
+		reverse with distinct elements. In that case, there are $n-1$ merges,
+		in each with an array of size $1$ for the second array.
+		Because the \texttt{merge()} operation is linear in the size of the
+		input arrays (given that it must copy all elements), the performance
+		degrades to quadratic in this case.
+	\end{sol}
 	\pagebreak
 	\printbibliography
 \end{document}
