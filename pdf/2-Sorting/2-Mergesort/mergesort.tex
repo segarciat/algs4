@@ -534,7 +534,20 @@ a[0..38] // 39
 		in each with an array of size $1$ for the second array.
 		Because the \texttt{merge()} operation is linear in the size of the
 		input arrays (given that it must copy all elements), the performance
-		degrades to quadratic in this case.
+		degrades to quadratic in this case. For example, it would require copying
+		$1$ element, then $2$, then $3$, and so on until the last merge where
+		it has to copy $n-1$ elements. In general, if there are $k$ maximal increasing
+		sequences in the array, then each pass through the array decreases the number
+		of maximal increasing sequences by $1$, and the algorithm stops when only
+		one remains; at that point, the array is sorted. The cost is then $k$ merges.
+	\end{sol}
+	\begin{ex}{17}
+		\emph{Linked-list sort}. Implement a natural mergesort for linked lists. (This is the
+		method of choice for sorting linked lists because it uses no extra space and
+		is guaranteed to be linearithmic).
+	\end{ex}
+	\begin{sol}
+		See the \texttt{com.segarciat.algs4.ch2.sec2.LinkedListNaturalMergesort} class.
 	\end{sol}
 	\pagebreak
 	\printbibliography

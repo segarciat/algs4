@@ -3,6 +3,8 @@ package com.segarciat.algs4.ch2.sec2.ex16;
 import com.segarciat.algs4.ch2.SortUtil;
 
 public class NaturalMergeBU {
+    private NaturalMergeBU() {}
+
     public static <T extends Comparable<T>> void sort(T[] a) {
         if (a == null)
             throw new NullPointerException("array cannot be null");
