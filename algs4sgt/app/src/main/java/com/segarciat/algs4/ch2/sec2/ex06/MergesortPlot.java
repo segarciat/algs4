@@ -5,6 +5,7 @@ import edu.princeton.cs.algs4.StdDraw;
 import edu.princeton.cs.algs4.StdRandom;
 
 import java.awt.Color;
+import java.util.Arrays;
 
 /**
  * @author Sergio E. Garcia tapia
@@ -36,8 +37,9 @@ public class MergesortPlot {
 
         // Compute costs for sorts and the predicted values
         for(int n = 1; n <= N; n++) {
-            int mergeTDCost = MergeTD.sort(randomArray(n));
-            int mergeBUCost = MergeBU.sort(randomArray(n));
+            var a = randomArray(n);
+            int mergeTDCost = MergeTD.sort(Arrays.copyOf(a, n));
+            int mergeBUCost = MergeBU.sort(Arrays.copyOf(a, n));
             double prediction = 6 * n * Math.log(n) / Math.log(2);
 
             tdPoints.enqueue(mergeTDCost);
