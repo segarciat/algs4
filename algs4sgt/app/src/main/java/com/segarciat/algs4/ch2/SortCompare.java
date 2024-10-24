@@ -2,6 +2,10 @@ package com.segarciat.algs4.ch2;
 
 import com.segarciat.algs4.ch2.sec1.ex24.InsertionSentinel;
 import com.segarciat.algs4.ch2.sec1.ex25.InsertionHalfExchanges;
+import com.segarciat.algs4.ch2.sec2.ex11.MergeImproved;
+import com.segarciat.algs4.ch2.sec2.ex23.MergeInsertionCutoff;
+import com.segarciat.algs4.ch2.sec2.ex23.MergeNoCopy;
+import com.segarciat.algs4.ch2.sec2.ex23.MergeOrderCheck;
 import edu.princeton.cs.algs4.Heap;
 import edu.princeton.cs.algs4.Insertion;
 import edu.princeton.cs.algs4.Merge;
@@ -20,14 +24,21 @@ import edu.princeton.cs.algs4.Stopwatch;
  * @author Sergio E. Garcia Tapia
  */
 public class SortCompare {
-    private static final String INSERTION_SORT = "Insertion";
-    private static final String INSERTION_SORT_SENTINEL = "InsertionSentinel";
-    private static final String INSERTION_SORT_HALF = "InsertionHalf";
-    private static final String SELECTION_SORT = "SELECTION";
-    private static final String SHELL_SORT = "Shell";
-    private static final String MERGE_SORT = "Merge";
-    private static final String QUICK_SORT = "Quick";
-    private static final String HEAP_SORT = "Heap";
+    public static final String INSERTION_SORT = "Insertion";
+    public static final String INSERTION_SORT_SENTINEL = "InsertionSentinel";
+    public static final String INSERTION_SORT_HALF = "InsertionHalf";
+
+    public static final String SELECTION_SORT = "SELECTION";
+    public static final String SHELL_SORT = "Shell";
+
+    public static final String MERGE_SORT = "Merge";
+    public static final String MERGE_ORDER_CHECK = "MergeOrderCheck";
+    public static final String MERGE_NO_COPY = "MergeNoCopy";
+    public static final String MERGE_INSERTION_CUTOFF = "MergeInsertionCutoff";
+    public static final String MERGE_IMPROVED = "MergeImproved";
+
+    public static final String QUICK_SORT = "Quick";
+    public static final String HEAP_SORT = "Heap";
 
     /**
      * Returns the time the chosen algorithm takes to execute on
@@ -53,6 +64,14 @@ public class SortCompare {
             Shell.sort(a);
         else if (alg.equalsIgnoreCase(MERGE_SORT))
             Merge.sort(a);
+        else if (alg.equalsIgnoreCase(MERGE_ORDER_CHECK))
+            MergeOrderCheck.sort(a);
+        else if (alg.equalsIgnoreCase(MERGE_NO_COPY))
+            MergeNoCopy.sort(a);
+        else if (alg.equalsIgnoreCase(MERGE_INSERTION_CUTOFF))
+            MergeInsertionCutoff.sort(a);
+        else if (alg.equalsIgnoreCase(MERGE_IMPROVED))
+            MergeImproved.sort(a);
         else if (alg.equalsIgnoreCase(QUICK_SORT))
             Quick.sort(a);
         else if (alg.equalsIgnoreCase(HEAP_SORT))
@@ -81,6 +100,7 @@ public class SortCompare {
                 a[i] = StdRandom.uniformDouble(0.0, 1.0);
             total += time(alg, a);
         }
+        assert SortUtil.isSorted(a, 0, n - 1);
         return total;
     }
 
@@ -128,6 +148,6 @@ public class SortCompare {
         double ratio = time2 / time1;
 
         StdOut.printf("For %d random Doubles%n    %s is", n, alg1);
-        StdOut.printf(" %.1f times faster than %s%n", ratio, alg2);
+        StdOut.printf(" %.2f times faster than %s%n", ratio, alg2);
     }
 }

@@ -490,7 +490,7 @@ a[0..38] // 39
 		is already in order, and avoid the copy by switching arguments in the recursive code.
 	\end{ex}
 	\begin{sol}
-		See the \texttt{com.segarciat.algs4.ch2.sec3.ex11.ImproveMerge} class.
+		See the \texttt{com.segarciat.algs4.ch2.sec3.ex11.MergeImproved} class.
 	\end{sol}
 	\begin{ex}{12}
 		\emph{Sublinear extra space}. Develop a merge implementation that reduces the extra
@@ -612,6 +612,24 @@ a[0..38] // 39
 		and an upper bound for the $n$ is the cost of the merge. I conjecture (but
 		will not prove) that the resulting algorithm is thus linearithmic, because
 		it will likely use $\sim n\log_3n$ compares.
+	\end{sol}
+	\begin{ex}{23}
+		\emph{Improvements}. Run empirical studies to evaluate the effectiveness of each of the
+		three improvements to mergesort that are described in the text (see Exercise 2.2.11).
+		Also, compare the performance of the merge implementation given in the text with the
+		merge described in Exercise 2.2.10. In particular, empirically determine the best value
+		of the parameter that decides when to switch to insertion sort for small subarrays.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch2.sec2.ex23}. In summary, all of these improvements
+		are observed, with the least prominent being the improvement that skips the
+		merge for arrays that are already sorted, though in that case, it still
+		performs around linearithmically. Of course, the added bonus is that it is
+		linear for sorted arrays. For the insertion cutoff value, I found that on my
+		system I get an improvement of about $200\%$ for a \texttt{CUTOFF} of about $63$.
+		My implementation\texttt{MergeImproved} from Exercise 2.2.11 that combines all
+		three improvements leads to a performance improvement of about $300\%$, or so
+		I observed..
 	\end{sol}
 	\pagebreak
 	\printbibliography
