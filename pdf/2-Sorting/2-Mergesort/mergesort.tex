@@ -435,7 +435,11 @@ a[0..38] // 39
 		meaning $C(n+1)>C(n)$ for all $n>0$.
 	\end{ex}
 	\begin{sol}
-		TODO.
+		The result actually depends on the contents of the array. For example,
+		if an array is not sorted with $n$ elements and another array \emph{is} sorted
+		and has $n+1$ elements, then the number of compares is smaller for the
+		second array. Therefore, I do not think this is true in general, and I need
+		more information to understand what conditions makes this true.
 	\end{sol}
 	\begin{ex}{8}
 		Suppose that Algorithm 2.4 is modified to skip the call on \texttt{merge()} whenever
@@ -500,6 +504,20 @@ a[0..38] // 39
 			second with the third, and so forth.
 		\end{enumerate}
 	\end{ex}
+	\begin{sol}
+		TODO.
+	\end{sol}
+	\begin{ex}{13}
+		\emph{Lower bound for average case}. Prove that the expected number of compares
+		used by any compared-based sorting algorithm must be at least $n\lg n$
+		(assuming that all possible orderings of the input are equally likely).
+		\emph{Hint}: The expected number of compares is at least the external path
+		length of the compare tree (the sum of the lengths of the paths from the root
+		to all leaves), which is minimized when it is balanced.
+	\end{ex}
+	\begin{sol}
+		TODO.
+	\end{sol}
 	\begin{ex}{14}
 		\emph{Merging sorted queues}. Develop a static method that takes two queues of sorted
 		items as arguments and returns a queue that results from merging the the queues
@@ -565,6 +583,35 @@ a[0..38] // 39
 	\end{ex}
 	\begin{sol}
 		See the \texttt{com.segarciat.algs4.ch2.sec2.ex20.IndexSort} class.
+	\end{sol}
+	\begin{ex}{21}
+		\emph{Triplicates}. Given three lists of $n$ names each, devise a linearithmic
+		algorithm to determine if there is a name common to all three lists,and if so,return
+		the lexigraphically first such name.
+	\end{ex}
+	\begin{sol}
+		See the \texttt{com.segarciat.algs4.ch2.sec2.ex21.Triplicates} class.
+	\end{sol}
+	\begin{ex}{22}
+		\emph{3-way mergesort}. Suppose instead of dividing in half at each step, you
+		divide into thirds,s ort each  third, and combine using a 3-way merge. What is
+		the order of growth of the overall running time of this algorithm?
+	\end{ex}
+	\begin{sol}
+		If we make a tree of the recursive calls implied by this algorithm, rooted
+		at the initial call, then we get a trinary three, and the height of the
+		tree is about $\log_3(n)$, where $n$ is the number of elements in the
+		array. At each recursive call when having a size of $N\leq n$, the
+		merge takes up at most $N$ comparisons. We could write a recursive formula
+		similar to the one for (binary) mergesort:
+		\begin{align*}
+			C(n)\leq C(\lceil n / 3\rceil) + C(\lceil n / 3 \rceil) + C(\lfloor n / 3 \rfloor ) + n
+		\end{align*}
+		On the right-hand side, the first two are upper bounds on the cost for sorting the
+		first two thirds, the third term is the cost of compares for sorting the last third,
+		and an upper bound for the $n$ is the cost of the merge. I conjecture (but
+		will not prove) that the resulting algorithm is thus linearithmic, because
+		it will likely use $\sim n\log_3n$ compares.
 	\end{sol}
 	\pagebreak
 	\printbibliography
