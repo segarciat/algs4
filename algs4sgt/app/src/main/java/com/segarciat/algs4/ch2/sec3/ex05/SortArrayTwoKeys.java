@@ -1,4 +1,4 @@
-package com.segarciat.algs4.ch2.sec3.ex5;
+package com.segarciat.algs4.ch2.sec3.ex05;
 
 import com.segarciat.algs4.ch2.SortUtil;
 import edu.princeton.cs.algs4.StdRandom;
