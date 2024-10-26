@@ -631,6 +631,19 @@ a[0..38] // 39
 		three improvements leads to a performance improvement of about $300\%$, or so
 		I observed..
 	\end{sol}
+	\begin{ex}{24}
+		\emph{Sort-test improvement}. Run empirical studies for large randomly ordered arrays
+		to study the effectiveness  of the modification described in Exercise 2.2.8  for random
+		data. In particular, develop a hypothesis about the average number of times the
+		test (whether an array is sorted) succeeds, as function of $n$ (the original array
+		length for the sort).
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch2.sec2.ex23.MergeOrderCheck}. It uses the
+		same class from Exercise 23 but adds a static variable that keeps track of
+		the number of times the test passes. I observed that the ratio of test successes
+		to the array size $n$ was about $0.29n$ for large $n$ by using a doubling test.
+	\end{sol}
 	\pagebreak
 	\printbibliography
 \end{document}

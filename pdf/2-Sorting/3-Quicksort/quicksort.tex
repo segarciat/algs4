@@ -1,0 +1,331 @@
+\documentclass[12pt, a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+% Limit the page margin to only 1 inch.
+\usepackage[margin=1in]{geometry}
+
+%Imports biblatex package
+\usepackage[
+backend=biber,
+style=alphabetic
+]{biblatex}
+\addbibresource{../../algs4e.bib}
+
+% Enables the `align' environment.
+\usepackage{amsmath}
+% Provides useful environments, such as:
+% - \begin{proof} ...\end{proof}
+\usepackage{amsthm}
+% Enables using \mathbb{}, for example \mathbb{N} for the set of natural numbers.
+\usepackage{amssymb}
+
+% Allows using letters in enumerate list environment. Use, for example:
+%\begin{enumerate}[label=(\alph*)]
+% ...
+%\end{enumerate}
+\usepackage[inline]{enumitem}
+
+% Enable importing external graphic files and provides useful commannds, like \graphicspath{}
+\usepackage{graphicx}
+% Images are located in a directory called images in the current directory.
+\graphicspath{{./images/}}
+
+% Make links look better by default.
+% See: https://tex.stackexchange.com/questions/823/remove-ugly-borders-around-clickable-cross-references-and-hyperlinks
+\usepackage[hidelinks]{hyperref}
+\usepackage{xcolor}
+\hypersetup{
+	colorlinks,
+	linkcolor={red!50!black},
+	citecolor={blue!50!black},
+	urlcolor={blue!80!black}
+}
+
+
+% Code Listings. Source:
+% https://stackoverflow.com/questions/3175105/inserting-code-in-this-latex-document-with-indentation
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+	language=Java,
+	aboveskip=3mm,
+	belowskip=3mm,
+	showstringspaces=false,
+	columns=flexible,
+	basicstyle={\small\ttfamily},
+	numbers=none,
+	numberstyle=\tiny\color{gray},
+	keywordstyle=\color{blue},
+	commentstyle=\color{dkgreen},
+	stringstyle=\color{mauve},
+	breaklines=true,
+	breakatwhitespace=true,
+	tabsize=3
+}
+
+\newcommand{\prob}{\text{P}}
+%\newcommand{\complement}{\mathsf{c}}
+
+% Define an environment called "ex" (for Exercise) so that I can do: \begin{ex}{1.5}...\end{ex}
+\newenvironment{ex}[2][Exercise]
+{\par\medskip\noindent \textbf{#1 #2.}}
+{\medskip}
+
+% Define a solution environment, similar to ex (exercise) environment.
+\newenvironment{sol}[1][Solution]
+{\par\medskip\noindent \textbf{#1.} }
+{\medskip}
+
+\begin{document}
+	\noindent Sergio E. Garcia Tapia \hfill
+	
+	\noindent \emph{Algorithms} by Sedgewick and Wayne (4th edition) \cite{sedgewick_wayne}\hfill
+	
+	\noindent October 25th, 2024\hfill 
+	\section*{2.3: Quicksort}
+	\begin{ex}{1}
+		Show, in the style of the trace given with \texttt{partition()}, how that method
+		partitions the array \texttt{E A S Y Q U E S T I O N}.
+	\end{ex}
+	\begin{sol}
+		We set \texttt{lo} to \texttt{0} which means \texttt{E} is the partition key.
+		Then we start with \texttt{i = lo} and \texttt{j = 12} (this is \texttt{hi = 11}
+		plus 1). We use the \texttt{i} index to scan from the left, starting with
+		\texttt{++i} (and hence \texttt{lo + 1}) and comparing it against \texttt{a[lo]}
+		which is \texttt{E}. If we encounter something equal to or larger than \texttt{E},
+		we stop. Similarly, we scan from the right with index j, starting with \texttt{--j}
+		(meaning \texttt{hi - 1} or \texttt{11} is the first index) and then continue
+		until we encounter a key smaller or equal to the partition key \texttt{E}.
+		\begin{center}
+			\begin{tabular}{c|cc|cccccccccccc}
+				{} & {} & {} & \multicolumn{12}{c}{\texttt{a[]}}\\
+				{} & \texttt{i} & \texttt{j} & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11\\
+				\hline
+				{\color{red} initial values}
+				& 0 & 12
+				& {\color{red}E} & A & S & Y & Q & U & E & S & T & I & O & N\\
+				
+				{\color{red} scan left, scan right}
+				& 2 & 6 
+				& {\color{gray}E} & A & S & {\color{gray} Y} & {\color{gray} Q} & {\color{gray} U}
+				& E & S & T & I & O & N\\
+				
+				{\color{red} exchange}
+				& {\color{red} 2} & {\color{red} 6 }
+				& {\color{gray}E} & {\color{gray}A} & {\color{red}E} & {\color{gray} Y} & {\color{gray} Q} & {\color{gray} U} & {\color{red}S} & {\color{gray}S}
+				& {\color{gray}T} &{\color{gray}I} & {\color{gray}O} & {\color{gray}N}\\
+				
+				{\color{red} scan left, scan right}
+				& {\color{red} 3} & {\color{red} 2 }
+				& {\color{gray}E} & {\color{gray}A} & {\color{black}$\underleftarrow{\text{E}}$} & {\color{black} $\underrightarrow{\text{Y}}$} & {\color{black} $\underleftarrow{\text{Q}}$} & {\color{black} $\underleftarrow{\text{U}}$} & {\color{gray}S} & {\color{gray}S}
+				& {\color{gray}T} &{\color{gray}I} & {\color{gray}O} & {\color{gray}N}\\
+				
+				{\color{red} final exchange}
+				& {\color{red} 3} & {\color{red} 2 }
+				& {\color{red}E} & {\color{gray}A} & {\color{red} E} & {\color{gray} Y} & {\color{gray} Q} & {\color{gray} U} & {\color{gray}S} & {\color{gray}S}
+				& {\color{gray}T} &{\color{gray}I} & {\color{gray}O} & {\color{gray}N}\\
+				
+				{\color{red} result}
+				& {} & {\color{red} 2 }
+				& {\color{black}E} & {\color{black}A} & {\color{black} E} & {\color{black} Y} & {\color{black} Q} & {\color{black} U} & {\color{black}S} & {\color{black}S}
+				& {\color{black}T} &{\color{black}I} & {\color{black}O} & {\color{black}N}\\
+			\end{tabular}
+		\end{center}
+	\end{sol}
+	\begin{ex}{2}
+		Show, in the style of the quicksort trace given in this section, how quicksort sorts
+		the array \texttt{E A S Y Q U E S T I O N} (for the purposes of this exercise, ignore
+		the initial shuffle).
+	\end{ex}
+	\begin{sol}
+		\begin{center}
+			\begin{tabular}{ccc|cccccccccccc}
+				{} & {} & {} & \multicolumn{12}{c}{\texttt{a[]}}\\
+				\texttt{lo} & \texttt{j} & \texttt{hi} & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11\\
+				
+				\hline
+				
+				{} & {} & {} & {\color{black}E} & {\color{black} A} & {\color{black} S} & {\color{black} Y} & {\color{black} Q} & {\color{black} U} & {\color{black} E} & {\color{black} S} & {\color{black} T} & {\color{black} I} & {\color{black} O}
+				& {\color{black} N}\\
+				
+				0 & {\color{red}2} & 11 & {\color{black}E} & {\color{black} A} & {\color{red} E} & {\color{black} Y} & {\color{black} Q} & {\color{black} U} & {\color{black} S} & {\color{black} S} & {\color{black} T} & {\color{black} I} & {\color{black} O}
+				& {\color{black} N}\\
+				
+				0 & {\color{red}1} & 1 & {\color{black}A} & {\color{red} E} & {\color{gray} E} & {\color{gray} Y} & {\color{gray} Q} & {\color{gray} U} & {\color{gray} S} & {\color{gray} S} & {\color{gray} T} & {\color{gray} I} & {\color{gray} O}
+				& {\color{gray} N}\\
+				
+				{\color{gray}0} & {} & {\color{gray}0} & {\color{red}A} & {\color{gray} E} & {\color{gray} E} & {\color{gray} Y} & {\color{gray} Q} & {\color{gray} U} & {\color{gray} S} & {\color{gray} S} & {\color{gray} T} & {\color{gray} I} & {\color{gray} O}
+				& {\color{gray} N}\\
+				
+				{\color{black}3} & {\color{red}11} & {\color{black}11} & {\color{gray}A} & {\color{gray} E} & {\color{gray} E} & {\color{black} N} & {\color{black} Q} & {\color{black} U} & {\color{black} S} & {\color{black} S} & {\color{black} T} & {\color{black} I} & {\color{black} O} & {\color{red} Y}\\
+				
+				{\color{black}3} & {\color{red}4} & {\color{black}10} & {\color{gray}A} & {\color{gray} E} & {\color{gray} E} & {\color{black} I} & {\color{red} N} & {\color{black} U} & {\color{black} S} & {\color{black} S} & {\color{black} T} & {\color{black} Q} & {\color{black} O} & {\color{gray} Y}\\
+				
+				{\color{gray}3} & {} & {\color{gray}3} & {\color{gray}A} & {\color{gray} E} & {\color{gray} E} & {\color{red} I} & {\color{gray} N} & {\color{gray} U} & {\color{gray} S} & {\color{gray} S} & {\color{gray} T} & {\color{gray} Q} & {\color{gray} O} & {\color{gray} Y}\\
+				
+				{\color{black}5} & {\color{red}10} & {\color{black}10} & {\color{gray}A} & {\color{gray} E} & {\color{gray} E} & {\color{gray} I} & {\color{gray} N} & {\color{black} O} & {\color{black} S} & {\color{black} S} & {\color{black} T} & {\color{black} Q} & {\color{red} U} & {\color{gray} Y}\\
+				
+				{\color{black}5} & {\color{red}5} & {\color{black}9} & {\color{gray}A} & {\color{gray} E} & {\color{gray} E} & {\color{gray} I} & {\color{gray} N} & {\color{red} O} & {\color{black} S} & {\color{black} S} & {\color{black} T} & {\color{black} Q} & {\color{gray} U} & {\color{gray} Y}\\
+				
+				{\color{black}6} & {\color{red}7} & {\color{black}9} & {\color{gray}A} & {\color{gray} E} & {\color{gray} E} & {\color{gray} I} & {\color{gray} N} & {\color{gray} O} & {\color{black} Q} & {\color{red} S} & {\color{black} T} & {\color{black} S} & {\color{gray} U} & {\color{gray} Y}\\
+				
+				{\color{gray}6} & {\color{red}} & {\color{gray}6} & {\color{gray}A} & {\color{gray} E} & {\color{gray} E} & {\color{gray} I} & {\color{gray} N} & {\color{gray} O} & {\color{red} Q} & {\color{gray} S} & {\color{gray} T} & {\color{gray} S} & {\color{gray} U} & {\color{gray} Y}\\
+				
+				{\color{black}8} & {\color{red}9} & {\color{black} 9} & {\color{gray}A} & {\color{gray} E} & {\color{gray} E} & {\color{gray} I} & {\color{gray} N} & {\color{gray} O} & {\color{gray} Q} & {\color{gray} S} & {\color{black} S} & {\color{red}T} & {\color{gray} U} & {\color{gray} Y}\\
+				
+				{\color{gray}8} & {\color{red}} & {\color{gray} 8} & {\color{gray}A} & {\color{gray} E} & {\color{gray} E} & {\color{gray} I} & {\color{gray} N} & {\color{gray} O} & {\color{gray} Q} & {\color{gray} S} & {\color{red} S} & {\color{gray}T} & {\color{gray} U} & {\color{gray} Y}\\
+				
+				{} & {} & {} & {\color{gray}A} & {\color{black} E} & {\color{black} E} & {\color{black} I} & {\color{black} N} & {\color{black} O} & {\color{black} Q} & {\color{black} S} & {\color{black} S} & {\color{black}T} & {\color{black} U} & {\color{black} Y}\\
+			\end{tabular}
+		\end{center}
+	\end{sol}
+	\begin{ex}{3}
+		What is the maximum number of times during the execution of \texttt{Quick.sort()}
+		that that the largest item can be exchanged, for an array of length \texttt{n}?
+	\end{ex}
+	\begin{sol}
+		Suppose that the array's entries are all distinct. If the largest key is at the end,
+		then no exchange will ever occur:
+		\begin{lstlisting}[language={}]
+* * * * * L
+		\end{lstlisting}
+		Here, \texttt{L} stands for largest. If the largest key is at the beginning, then it
+		will be the first partition key, and one exchange will occur.
+		\begin{lstlisting}[language={}]
+L * * * * *
+* * * * * L
+		\end{lstlisting}
+		Thus, at least one exchange occurs. To explore whether more than one can occur,
+		we can consider the case when it is not the partition item, and not at the last position.
+		
+		If the partition item is not the largest key, then right scan will never end due to
+		a comparison with the largest largest key. This is because the right scan continues as
+		long as a key larger than the partition key is encountered. One consequence
+		is that the largest item will not be involved in the final exchange, because
+		\texttt{j} will always move past the largest key if it encounters it. Therefore,
+		all exchanges with the largest item occur when the right scan encounters the largest
+		key and the scan indices have not crossed. In that case, since it is encountered
+		by the right scan, any swap exchanging it with the key encountered on the left
+		scan will move the largest key forward. That is, the largest key is never moved
+		to a lower position. Since we're assuming that it is not the partitioning key
+		and not at the end, this suggest there's at most $n-2$ moves forward.
+		
+		Though $n-2$ is an upper bound on the number of exchanges, I don't know if it is
+		the maximum because I cannot think of a distribution of the keys that would cause
+		all $n-2$ exchanges to occur (or for that matter, a scenario where more than
+		2 exchanges occur). For example, it could be $2$ times if it's to the right
+		of the partitioning key, and the value at the end of the array is larger than
+		the partitioning key.
+		\begin{lstlisting}[language={}]
+2 L * * 1 3
+2 1 * * L 3
+		\end{lstlisting}
+		In that case, the largest key is exchanged up, but not to the last position, so
+		that at least one more exchange will be at a different partitioning stage in order
+		to place it at the end. See \href{https://stackoverflow.com/a/47702552}{user named Panic
+		on StackOverflow} who claims the maximum is $\lfloor n / 2\rfloor$ and gives an example
+		for $n=10$.
+	\end{sol}
+	\begin{ex}{4}
+		Suppose that the initial random shuffle is omitted. Give six arrays of ten elements
+		for which \texttt{Quick.sort()} uses the worst-case number of compares?
+	\end{ex}
+	\begin{sol}
+		\begin{lstlisting}[language={}]
+// sorted array, distinct keys
+1 2 3 4 5 6 7 8 9 10
+
+// inversely sorted, distinct keys
+10 9 8 7 6 5 4 3 2 1
+
+// largest followed by increasing sequence
+10 1 2 3 4 5 6 7 8 9
+
+// smallest followed by decreasing sequence
+1 10 9 8 7 6 5 4 3 2
+
+// bitonic (increase then decrease)
+1 2 3 4 5 10 9 8 7 6
+
+		\end{lstlisting}
+	\end{sol}
+	\begin{ex}{5}
+		Give a code fragment that sorts an array that is known to consist of items having
+		just two distinct keys.
+	\end{ex}
+	\begin{sol}
+		The 3-way partitioning method would work for this. However, I came up with
+		the following:
+		\begin{lstlisting}
+			// Find first index of largest key.
+			int i = 0;
+			while (i < a.length - 1 && !less(a[i + 1], a[i]))
+				i++;
+			for (int j = i + 1; j < a.length; j++) {
+				if (less(a[j], a[j - 1]))
+					exch(a, i++, j);
+			}
+		\end{lstlisting}
+	\end{sol}
+	\begin{ex}{6}
+		Write a program to compute the exact value of $C_n$, and compare the exact value
+		with the approximation $2n\ln n$, for $n=100$, $1,000$, and $10,000$.
+	\end{ex}
+	\begin{ex}{8}
+		About how many compares will \texttt{Quick.sort()} make when sorting an array of $n$
+		items that are all equal?
+	\end{ex}
+	\begin{sol}
+		Consider partition call. Since the partition key is always equal to the item
+		it is compared against, the left and right scans always move by 1 before
+		a swap is necessary. As a result, the number of times that the left scan
+		index increases and the number of times the right scan index decreases are
+		within 1 of one another (depending the parity of $n$). Thus, the scan indices
+		cross around the center of the array, and partition index \texttt{j} falls
+		around the middle. At this point, about $\sim n$ compares have occurred,
+		once for each compare against the left pointer and one for each compare
+		against the right pointer. Since all keys are equal, the process now proceeds
+		by induction when it is cut in half, now yielding about $n/2$ compares for
+		each half. If we see it as a binary tree, then its height is about $\sim \lg n$
+		and at each level there's about $n$  compares. Thus we get $\sim n\lg n$
+		compares overall.
+	\end{sol}
+	\begin{ex}{9}
+		Explain what happens when \texttt{Quick.sort()} is run on an array having items
+		with just two distinct keys, and then explain what happens when it is run on an
+		array having just three distinct keys.
+	\end{ex}
+	\begin{sol}
+		First consider the case with two distinct keys (for simplicity, say their values
+		are 1 and 2). Suppose the smallest key is at the beginning, meaning a 1. The right
+		scan index \texttt{i} will stop at every comparison. The left scan index \texttt{j}
+		will stop each time a 1 is encountered, causing a swap to occur. By the time the 
+		scan indices cross, the array will sorted. However, the sorting algorithm will
+		continue, and it will now work on two halves that both consist of only equal
+		items. The sort the continues as in Exercise 8. A similar case occurs when
+		sorting the pivot is the largest item.
+		
+		When it consists of only three distinct items, call them 1, 2, 3. Then
+		there's a few cases:
+		\begin{itemize}
+			\item If the first pivot is 1, then once again the left scan index always stops,
+			and so does the right one. The end result of this first partition
+			\texttt{a[lo..j]} has all the 1s, and\texttt{a[j+1..hi]} has all the 2s
+			and 3s. Now this continues as in the 2 item case.
+			\item If the first pivot is 3, then the right scan index stops only
+			when a 3 is encountered. The left scan index stops every time. By
+			the end, \texttt{a[j..hi]} has all the 3s,  and \texttt{a[lo..j-1]}
+			has the 1s and 2s. Now we proceed as in the 2 item case.
+			\item If the first pivot is 2, then by the end, \texttt{a[lo..j-1]}
+			has 1s and 2s, and \texttt{a[j+1..hi]} has 2s and 3s. Thus both cases
+			proceed as int he 2 element case.
+		\end{itemize}
+	\end{sol}
+	\pagebreak
+	\printbibliography
+\end{document}
