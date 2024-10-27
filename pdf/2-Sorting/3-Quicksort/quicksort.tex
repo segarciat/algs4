@@ -279,6 +279,108 @@ L * * * * *
 	\begin{sol}
 		See the \texttt{com.segarciat.algs4.ch2.sec3.ex06.QuicksortCompares} class.
 	\end{sol}
+	\begin{ex}{7}
+		Find the expected number of sub-arrays of size $0$, $1$, and $2$ when quicksort
+		is used to sort an array of $N$ items with distinct keys. If you are mathematically
+		inclined, do the math; if not, run experiments to develop hypotheses.
+	\end{ex}
+	\begin{sol}
+		One idea I had was to call $T(N)$ the expected number of arrays of size
+		$0$, $1$, and $2$ for an array of $N$ distinct items. We know that
+		$T(0)=1$, since the array has size $0$ and quicksort will not be
+		called recursively to partition it. Similarly, $T(1)=1$. For
+		$T(2)$, if we consider the original array of size $2$ to be sub-array,
+		then at $T(2)\geq 1$. When quicksort encounters such an array,
+		it will always partition it into an array of size 0 and an array of size 1.
+		Thus, $T(2)=3$.
+		
+		Now consider the case where $N\geq 3$. We know \texttt{Quick.sort()}
+		partitions the array at each step. For example, if $j=0$ is the first
+		index chosen after \texttt{partition()} is called, then this leads to
+		recursively calls to sort \texttt{a[0..-1]} and \texttt{a[1..N-1]}, which
+		are arrays of size 0 and size $N-1$, respectively. Similarly, if $j=1$
+		is chosen as the first partition index instead, then the array is
+		split into \texttt{a[0..0]} and \texttt{a[2..N-1]}, which are arrays
+		of size $1$ and $N-2$, respectively. Continuing this way, for $N\geq 3$, we
+		can express $T(N)$ as a recurrence by taking the average as we break it up as follows:
+		\begin{align*}
+			T(0)&=1\\
+			T(1)&=1\\
+			T(2)&=3\\
+			T(N)&= \frac{1}{N}\left([T(0) + T(N-1)] + [T(1) + T(N-2)] + \cdots+[T(N-1) + T(0)]\right)\\
+			&=\frac{1}{N}\sum_{j=0}^{N-1}[T(j)+T(N-j)]\\
+			&=\frac{2}{N}\cdot \sum_{j=0}^{N-1}T(j),\quad N\geq 3
+		\end{align*}
+		Then, I followed \href{https://math.stackexchange.com/questions/2116763/recurrence-relation-with-summation-of-previous-terms}{Paul Sinclair's suggestion on this StackExchange post}
+		and defined $S(N)=\sum_{j=0}^{N}T(j)$ in order to transfer my recurrence
+		into one that would be easier to solve. For $N\geq 3$, this meant that
+		\begin{align*}
+			S(N)-S(N-1)&=\frac{2}{N}S(N-1),\quad N\geq 3\\
+		\end{align*}
+		Thus, the recurrence for $S(N)$ is
+		\begin{align*}
+			S(0) &= 1\\
+			S(1) &= 2\\
+			S(2) &= 5\\
+			S(N)&=\frac{N+2}{N}S(N-1),\quad N\geq 3
+		\end{align*}
+		I did not know how to solve this recurrence but according to
+		Wolframalpha, the solution turns out to be
+		\begin{align*}
+			S(N)&=\frac{1}{2}\cdot c\cdot (N+1)(N+2),\quad N\geq 3.
+		\end{align*}
+		By the recurrence relation for $S(N)$, we find that
+		\begin{align*}
+			S(3) &= \frac{3+2}{3}S(2)=\frac{5}{3}\cdot 5=\frac{25}{3}
+		\end{align*}
+		Thus, we can solve for $c$:
+		\begin{align*}
+			\frac{25}{3}=S(3)=\frac{1}{2}c\cdot (3+1)(3+2)=\frac{c}{2}\cdot (4)(5)=10c
+		\end{align*}
+		so
+		\begin{align*}
+			c = \frac{25}{30}=\frac{5}{6}.
+		\end{align*}
+		Now for $N\geq 4$, we can use the recurrence for $S(N)$ to get
+		\begin{align*}
+			T(N)&=S(N)-S(N-1)\\
+			&=\frac{2}{N}S(N-1)\\
+			&=\frac{2}{N}\cdot \frac{1}{2}\cdot c\cdot N(N+1)\\
+			&=c(N+1)\\
+			&=\frac{5}{6}(N+1)
+		\end{align*}
+		Thus, $T(N)$ is proportional to the $N$, the size of the array, and the
+		constant of proportionality is $\frac{5}{6}$. Thus, quicksort will produce
+		about $\sim \frac{5}{6}N$ sub-arrays of size 0, 1, and 2, on the average.
+		
+		See \texttt{com.segarciat.algs4.ch2.sec3.ex07.QuicksortCompares}, a program
+		I wrote to count the number of arrays of size 2 or less and how it compares to
+		the array size. Below is a sample output from a particular run:
+		\begin{lstlisting}[language={}]
+n = 2, Count of Arrays of size 2 or less = 3, Ratio of count to n = 1.50
+n = 4, Count of Arrays of size 2 or less = 4, Ratio of count to n = 1.00
+n = 8, Count of Arrays of size 2 or less = 8, Ratio of count to n = 0.98
+n = 16, Count of Arrays of size 2 or less = 14, Ratio of count to n = 0.89
+n = 32, Count of Arrays of size 2 or less = 28, Ratio of count to n = 0.87
+n = 64, Count of Arrays of size 2 or less = 53, Ratio of count to n = 0.83
+n = 128, Count of Arrays of size 2 or less = 105, Ratio of count to n = 0.82
+n = 256, Count of Arrays of size 2 or less = 213, Ratio of count to n = 0.83
+n = 512, Count of Arrays of size 2 or less = 422, Ratio of count to n = 0.82
+n = 1024, Count of Arrays of size 2 or less = 859, Ratio of count to n = 0.84
+n = 2048, Count of Arrays of size 2 or less = 1707, Ratio of count to n = 0.83
+n = 4096, Count of Arrays of size 2 or less = 3404, Ratio of count to n = 0.83
+n = 8192, Count of Arrays of size 2 or less = 6845, Ratio of count to n = 0.84
+n = 16384, Count of Arrays of size 2 or less = 13676, Ratio of count to n = 0.83
+n = 32768, Count of Arrays of size 2 or less = 27291, Ratio of count to n = 0.83
+n = 65536, Count of Arrays of size 2 or less = 54660, Ratio of count to n = 0.83
+n = 131072, Count of Arrays of size 2 or less = 109285, Ratio of count to n = 0.83
+n = 262144, Count of Arrays of size 2 or less = 218374, Ratio of count to n = 0.83
+n = 524288, Count of Arrays of size 2 or less = 436873, Ratio of count to n = 0.83
+n = 1048576, Count of Arrays of size 2 or less = 873932, Ratio of count to n = 0.83
+n = 2097152, Count of Arrays of size 2 or less = 1747220, Ratio of count to n = 0.83
+		\end{lstlisting}
+		These results support the mathematical analysis because $\frac{5}{6}=0.8\overline{3}$.
+	\end{sol}
 	\begin{ex}{8}
 		About how many compares will \texttt{Quick.sort()} make when sorting an array of $n$
 		items that are all equal?
