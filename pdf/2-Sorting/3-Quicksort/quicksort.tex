@@ -639,6 +639,296 @@ n = 2097152, Count of Arrays of size 2 or less = 1747220, Ratio of count to n = 
 			for the integral. The last approximation is Stirling's approximation.
 		\end{proof}
 	\end{sol}
+	\begin{ex}{15}
+		\emph{Nuts and bolts}. (G. J. E. Rawlins). You have a mixed pile of $n$ nuts
+		and $n$ bolts and need to quickly find the corresponding pair of nuts and bolts.
+		Each nut matches exactly one bolt, and each bolt matches exactly one nut.
+		By fitting a nut and bolt together, you can see which is bigger, but it is not
+		possible to directly compare two nuts or two bolts. Give an efficient
+		method for solving the problem.
+	\end{ex}
+	\begin{sol}
+		Start with a nut. Take any bolt. If the bolt is too big for the nut, place
+		it to the right. If the nut is too small for nut, place it to the left. Otherwise,
+		place it in the center. Now all bolts will be on the table, and we've also
+		found the bolt matching the starting nut. Before discarding the match,
+		we pick up another nut, and compare it against the matched bolt. If the bolt
+		is too big, than the bolt for the new nut is on the left bunch of bolts.
+		Otherwise, the bolt for the new nut is on the right. We discard the matched
+		nut and bolt and move on to the correct side. We continue this way until we've
+		found all of the matches. Each time we do this, we pair a nut with a bolt, so
+		the method solves the problem. The fact that it is efficient follows from
+		noticing that this is just applying quicksort.
+	\end{sol}
+	\begin{ex}{16}
+		\emph{Best case}. Write a program that produces a best-case array (with no duplicates)
+		for \texttt{sort()} in Algorithm 2.5: an array of $n$ items with distinct keys
+		having the property that every partition will produce sub-arrays that differ in
+		size by at most 1 (the same sub-array lengths that would happen for $n$ equal
+		keys). (For the purpose of this exercise, ignore the initial shuffle).
+	\end{ex}
+	\begin{sol}
+		In order to obtain the best case, we need an array where the partition
+		key is always the median (or close to it) of the current sub-array.
+		
+		To see this concretely, say $n=16$, and that we allow the possible keys
+		to be $0$ through $n-1=15$, which are also (intentionally) the valid index
+		values for an array of size $n=16$.
+		
+		The first median is $7$, and we can compute it as
+		\begin{align*}
+			\left\lfloor0 + \frac{15 - 0}{2}\right\rfloor = 7
+		\end{align*}
+		We want it to be the first partition key, so we set \texttt{a[0] = 7}.
+		Say we call quicksort on \texttt{a} with 7 as \texttt{a[0]}. Since
+		the \texttt{partition()} method always performs the final exchange
+		with \texttt{j}, the last item in the left sub-array (with keys smaller
+		than 7), that element becomes the next partition key for the left
+		sub-array. By the same reasoning, we want it to be the median,
+		and the median of \texttt{0..6} is 3, so it should be 3. Now
+		we have something like this so far:
+		\begin{lstlisting}[language={}]
+7 < < < < < < 3 > > > > > > > >
+		\end{lstlisting}
+		The \texttt{<} and \texttt{>} are placeholders for items that are less
+		than greater than the partition key (7), before the final exchange (recall
+		the items are all distinct). Notice that we have here \texttt{a[7] = 3}.
+		What about the partition key for the right sub-array for keys \texttt{8..15}?
+		The partition key for the right sub-array will be 8, so it should be
+		the median of the right sub-array, which is 11. So now we have:
+		\begin{lstlisting}[language={}]
+7 < < < < < < 3 11 > > > > > > >
+		\end{lstlisting}
+		In this case, by knowing the median 7, we computed median of the left sub-array
+		and assigned it to \texttt{a[7]}, then the median of the right sub-array
+		and assigned it to \texttt{a[7+1]}.
+		
+		To understand how we would proceed, let's exchange 7 and 3 as quicksort would do,
+		and consider what remains:
+		\begin{lstlisting}[language={}]
+3 * * * * * * 7 11 * * * * * * * // after swap
+3 * * * * * * // focus us now lower sub-array
+		\end{lstlisting}
+		As before, when \texttt{partition()} is called on this sub-array, the
+		final exchange that occurs will involve the next partition item. After
+		the exchange, all items on the left sub-array will be less than 3.
+		The next partitioning item of the left sub-array should be the median
+		of the next left sub-array. The left sub-array would have \texttt{0..2},
+		and its median is 1, so the next partition index should be 1:
+		\begin{lstlisting}[language={}]
+3 < < 1 > > >
+		\end{lstlisting}
+		The right sub-array \texttt{4..6} has a median of \texttt{5}, which
+		becomes its next partition key:
+		\begin{lstlisting}[language={}]
+3 < < 1 5 > >
+		\end{lstlisting}
+		Thus we see that we want \texttt{a[3] = 1} and \texttt{a[3 + 1] = 5}. If we exchange
+		3 and 1 as would \texttt{partition()} in quicksort, so as to continue:
+		\begin{lstlisting}[language={}]
+1 * * 3 5 * * // after swap
+1 * * // focus on lower sub-array
+		\end{lstlisting}
+		Now similar to before, we consider the median of the items left of the
+		partition key (1). The left sub-array is just \texttt{0..0} and the
+		right sub-array is \texttt{2..2}, so we conclude that we should have:
+		\begin{lstlisting}[language={}]
+1 0 2
+		\end{lstlisting}
+		So we set \texttt{a[1] = 0} and \texttt{a[1 + 1] = 2}. Similarly for the
+		sub-array with \texttt{5} as its partition key we have:
+		\begin{lstlisting}[language={}]
+5 4 6
+		\end{lstlisting}
+		If we continued this process, we would get:
+		\begin{lstlisting}[language={}]
+7 0 2 1 5 4 6 3 11 8 10 9 13 12 14 15
+		\end{lstlisting}
+		At each step, the middle value served as the index for the median
+		of the lower half, and the middle value plus 1 served as the index of
+		the upper half. Then to proceed, the algorithm continued in the lower
+		half and upper half going left first, in a recursive way.
+		
+		To formalize this algorithm, start with \texttt{lo = 0}, \texttt{hi = n - 1}:
+		\begin{enumerate}[label=(\roman*)]
+			\item \emph{Compute the median as}: \texttt{mid = lo + (hi - lo) / 2}.
+			
+			\item \emph{Set median of left sub-array}: \texttt{a[mid] = median(a, lo, mid-1)}.
+				This is what \texttt{a[lo]} will first exchange with in quicksort,
+				and it becomes the next partition key of the left sub-array.
+				
+			\item \emph{Set median of right sub-array}: \texttt{a[mid+1] = median(a, mid+1, hi)}.
+			This is what becomes the partition key of the right sub-array.
+		\end{enumerate}
+		The algorithm eventually ends because the search space is cut roughly in half
+		each time. The median of an empty range such as \texttt{lo..lo} is precisely
+		\texttt{lo}, so this becomes the base case. We begin the chain of recursive
+		calls with \texttt{a[0] = \texttt{median(a, 0, n - 1)}}, which would set
+		\texttt{a[0] = 7} in our example above with $n=16$.
+		
+		Below is a trace of this for $n=16$. A green on the left columns under
+		the headers \texttt{lo} and \texttt{mid} denotes a return value
+		as we ascend back up in recursion depth. It is the next value that
+		will be placed in the array. A red index under \texttt{mid} or
+		\texttt{mid + 1} is the index where that return value will be placed.
+		On the right side under the array indices, a star \texttt{*} denotes
+		an entry that has yet to be placed, a gray entry is one that has already
+		been assigned, and a green entry is one that is assigned in the current step.
+		\begin{center}
+			\begin{tabular}{cccc|cccccccccccccccc}
+				\texttt{lo} & \texttt{mid} & \texttt{mid + 1} & \texttt{hi} &
+				0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15\\
+				\hline
+				
+				0 & {} & {} & 15 &
+				* & * & * & * & * & * & * & * & * & * & * & * & * & * & * & * \\
+				
+				0 & 7 & 8 & 15 &
+				* & * & * & * & * & * & * & * & * & * & * & * & * & * & * & * \\
+				
+				0 & 3 & 4 & 6 &
+				* & * & * & * & * & * & * & * & * & * & * & * & * & * & * & * \\
+				
+				0 & 1 & 2 & 2 &
+				* & * & * & * & * & * & * & * & * & * & * & * & * & * & * & * \\
+				
+				{\color{green}0} & {} & {} &0 &
+				* & * & * & * & * & * & * & * & * & * & * & * & * & * & * & * \\
+				
+				0 & {\color{red}1} & 2 & 2 &
+				* & {\color{green}0} & * & * & * & * & * & * & * & * & * & * & * & * & * & * \\
+				
+				{\color{green}2} & {} & {} & 2 &
+				* & {\color{gray}0} & * & * & * & * & * & * & * & * & * & * & * & * & * & * \\
+				
+				0 & {\color{green}1} & {\color{red}2} & 2 &
+				* & {\color{gray}0} & {\color{green}2} & * & * & * & * & * & * & * & * & * & * & * & * & * \\
+				
+				0 & {\color{red}3} & {\color{black}4} & 6 &
+				* & {\color{gray}0} & {\color{gray}2} & {\color{green}1} & * & * & * & * & * & * & * & * & * & * & * & * \\
+				
+				4 & {\color{black}5} & {\color{black}6} & 6 &
+				* & {\color{gray}0} & {\color{gray}2} & {\color{gray}1} & * & * & * & * & * & * & * & * & * & * & * & * \\
+				
+				{\color{green}4} & {} & {} & 4 &
+				* & {\color{gray}0} & {\color{gray}2} & {\color{gray}1} & * & * & * & * & * & * & * & * & * & * & * & * \\
+				
+				{\color{green}4} & {\color{red}5} & {6} & 6 &
+				* & {\color{gray}0} & {\color{gray}2} & {\color{gray}1} & * & {\color{green}4} & * & * & * & * & * & * & * & * & * & * \\
+				
+				{\color{green}6} & {} & {} & 6 &
+				* & {\color{gray}0} & {\color{gray}2} & {\color{gray}1} & * & {\color{gray}4} & * & * & * & * & * & * & * & * & * & * \\
+				
+				{4} & {\color{green}5} & {\color{red}6} & 6 &
+				* & {\color{gray}0} & {\color{gray}2} & {\color{gray}1} & * & {\color{gray}4} & {\color{green}6} & * & * & * & * & * & * & * & * & * \\
+				
+				{0} & {\color{green}3} & {\color{red}4} & 6 &
+				* & {\color{gray}0} & {\color{gray}2} & {\color{gray}1} & {\color{green}5} & {\color{gray}4} & {\color{gray}6} & * & * & * & * & * & * & * & * & * \\
+				
+				{0} & {\color{red}7} & {8} & 15 &
+				* & {\color{gray}0} & {\color{gray}2} & {\color{gray}1} & {\color{gray}5} & {\color{gray}4} & {\color{gray}6} & {\color{green}3} & * & * & * & * & * & * & * & * \\
+				
+				8 & 11 & 12 & 15 &
+				* & {\color{gray}0} & {\color{gray}2} & {\color{gray}1} & {\color{gray}5} & {\color{gray}4} & {\color{gray}6} & {\color{gray}3} & * & * & * & * & * & * & * & * \\
+				
+				8 & 9 & 10 & 10 &
+				* & {\color{gray}0} & {\color{gray}2} & {\color{gray}1} & {\color{gray}5} & {\color{gray}4} & {\color{gray}6} & {\color{gray}3} & * & * & * & * & * & * & * & * \\
+				
+				{\color{green}8} & {} & {} & 8 &
+				* & {\color{gray}0} & {\color{gray}2} & {\color{gray}1} & {\color{gray}5} & {\color{gray}4} & {\color{gray}6} & {\color{gray}3} & * & * & * & * & * & * & * & * \\
+				
+				{8} & {\color{red}9} & {10} & 10 &
+				* & {\color{gray}0} & {\color{gray}2} & {\color{gray}1} & {\color{gray}5} & {\color{gray}4} & {\color{gray}6} & {\color{gray}3} & * & {\color{green}8} & * & * & * & * & * & * \\
+				
+				{\color{green}10} & {} & {} & 10 &
+				* & {\color{gray}0} & {\color{gray}2} & {\color{gray}1} & {\color{gray}5} & {\color{gray}4} & {\color{gray}6} & {\color{gray}3} & * & {\color{gray}8} & * & * & * & * & * & * \\
+				
+				{8} & {\color{green}9} & {\color{red}10} & 10 &
+				* & {\color{gray}0} & {\color{gray}2} & {\color{gray}1} & {\color{gray}5} & {\color{gray}4} & {\color{gray}6} & {\color{gray}3} & * & {\color{gray}8} & {\color{green}10} & * & * & * & * & * \\
+				
+				{8} & {\color{red}11} & {\color{black}12} & 15 &
+				* & {\color{gray}0} & {\color{gray}2} & {\color{gray}1} & {\color{gray}5} & {\color{gray}4} & {\color{gray}6} & {\color{gray}3} & * & {\color{gray}8} & {\color{gray}10} & {\color{green}9} & * & * & * & * \\
+				
+				{12} & {13} & {14} & 15 &
+				* & {\color{gray}0} & {\color{gray}2} & {\color{gray}1} & {\color{gray}5} & {\color{gray}4} & {\color{gray}6} & {\color{gray}3} & * & {\color{gray}8} & {\color{gray}10} & {\color{gray}9} & * & * & * & * \\
+				
+				{\color{green}12} & {} & {} & 12 &
+				* & {\color{gray}0} & {\color{gray}2} & {\color{gray}1} & {\color{gray}5} & {\color{gray}4} & {\color{gray}6} & {\color{gray}3} & * & {\color{gray}8} & {\color{gray}10} & {\color{gray}9} & * & * & * & * \\
+				
+				{\color{black}12} & {\color{red}13} & {14} & 15 &
+				* & {\color{gray}0} & {\color{gray}2} & {\color{gray}1} & {\color{gray}5} & {\color{gray}4} & {\color{gray}6} & {\color{gray}3} & * & {\color{gray}8} & {\color{gray}10} & {\color{gray}9} & * & {\color{green}12} & * & * \\
+				
+				{\color{black}14} & {14} & {15} & 15 &
+				* & {\color{gray}0} & {\color{gray}2} & {\color{gray}1} & {\color{gray}5} & {\color{gray}4} & {\color{gray}6} & {\color{gray}3} & * & {\color{gray}8} & {\color{gray}10} & {\color{gray}9} & * & {\color{gray}12} & * & * \\
+				
+				{\color{green}14} & {} & {} & 13 &
+				* & {\color{gray}0} & {\color{gray}2} & {\color{gray}1} & {\color{gray}5} & {\color{gray}4} & {\color{gray}6} & {\color{gray}3} & * & {\color{gray}8} & {\color{gray}10} & {\color{gray}9} & * & {\color{gray}12} & * & * \\
+				
+				{\color{black}14} & {\color{red}14} & {15} & 15 &
+				* & {\color{gray}0} & {\color{gray}2} & {\color{gray}1} & {\color{gray}5} & {\color{gray}4} & {\color{gray}6} & {\color{gray}3} & * & {\color{gray}8} & {\color{gray}10} & {\color{gray}9} & * & {\color{gray}12} & {\color{green}14} & * \\
+				
+				{\color{green}15} & {} & {} & 15 &
+				* & {\color{gray}0} & {\color{gray}2} & {\color{gray}1} & {\color{gray}5} & {\color{gray}4} & {\color{gray}6} & {\color{gray}3} & * & {\color{gray}8} & {\color{gray}10} & {\color{gray}9} & * & {\color{gray}12} & {\color{gray}14} & * \\
+				
+				{\color{black}14} & {\color{green}14} & {\color{red}15} & 15 &
+				* & {\color{gray}0} & {\color{gray}2} & {\color{gray}1} & {\color{gray}5} & {\color{gray}4} & {\color{gray}6} & {\color{gray}3} & * & {\color{gray}8} & {\color{gray}10} & {\color{gray}9} & * & {\color{gray}12} & {\color{gray}14} & {\color{green}15} \\
+				
+				{12} & {\color{green}13} & {\color{red}14} & 15 &
+				* & {\color{gray}0} & {\color{gray}2} & {\color{gray}1} & {\color{gray}5} & {\color{gray}4} & {\color{gray}6} & {\color{gray}3} & * & {\color{gray}8} & {\color{gray}10} & {\color{gray}9} & * & {\color{gray}12} & {\color{green}14} & {\color{gray}15} \\
+				
+				{8} & {\color{green}11} & {\color{red}12} & 15 &
+				* & {\color{gray}0} & {\color{gray}2} & {\color{gray}1} & {\color{gray}5} & {\color{gray}4} & {\color{gray}6} & {\color{gray}3} & * & {\color{gray}8} & {\color{gray}10} & {\color{gray}9} & {\color{green}13} & {\color{gray}12} & {\color{gray}14} & {\color{gray}15} \\
+				
+				{0} & {\color{green}7} & {\color{red}8} & 15 &
+				* & {\color{gray}0} & {\color{gray}2} & {\color{gray}1} & {\color{gray}5} & {\color{gray}4} & {\color{gray}6} & {\color{gray}3} & {\color{green}11} & {\color{gray}8} & {\color{gray}10} & {\color{gray}9} & {\color{gray}13} & {\color{gray}12} & {\color{gray}14} & {\color{gray}15} \\
+				
+				{\color{red}0} & {} & {} & 15 &
+				{\color{green}7} & {\color{gray}0} & {\color{gray}2} & {\color{gray}1} & {\color{gray}5} & {\color{gray}4} & {\color{gray}6} & {\color{gray}3} & {\color{green}11} & {\color{gray}8} & {\color{gray}10} & {\color{gray}9} & {\color{gray}13} & {\color{gray}12} & {\color{gray}14} & {\color{gray}15} \\
+				
+				{} & {} & {} & {} &
+				{\color{black}7} & {\color{black}0} & {\color{black}2} & {\color{black}1} & {\color{black}5} & {\color{black}4} & {\color{black}6} & {\color{black}3} & {\color{black}11} & {\color{black}8} & {\color{black}10} & {\color{black}9} & {\color{black}13} & {\color{black}12} & {\color{black}14} & {\color{black}15} \\
+			\end{tabular}
+		\end{center}
+		
+		See \texttt{com.segarciat.algs4.ch2.sec3.ex16.QuicksortBestCase} for my implementation
+		of this algorithm. To verify the effectiveness of this algorithm, I used
+		my program from Exercise 2.3.6 to compare the actual compares to the average
+		number of compares, and computed ratios of these quantities. I modified the
+		quicksort algorithm to not perform the random shuffle to ensure the ``best-case"
+		array produced by my algorithm was used as-is. Below are the results of a sample
+		run for different array sizes:
+		\begin{lstlisting}[language={}]
+n=2, actual=3, average=2, actualToAverageRatio=1.50
+n=4, actual=8, average=8, actualToAverageRatio=1.02
+n=8, actual=21, average=24, actualToAverageRatio=0.88
+n=16, actual=54, average=66, actualToAverageRatio=0.82
+n=32, actual=135, average=171, actualToAverageRatio=0.79
+n=64, actual=328, average=424, actualToAverageRatio=0.77
+n=128, actual=777, average=1017, actualToAverageRatio=0.76
+n=256, actual=1802, average=2379, actualToAverageRatio=0.76
+n=512, actual=4107, average=5457, actualToAverageRatio=0.75
+n=1024, actual=9228, average=12321, actualToAverageRatio=0.75
+n=2048, actual=20493, average=27467, actualToAverageRatio=0.75
+n=4096, actual=45070, average=60597, actualToAverageRatio=0.74
+n=8192, actual=98319, average=132535, actualToAverageRatio=0.74
+n=16384, actual=213008, average=287765, actualToAverageRatio=0.74
+n=32768, actual=458769, average=620938, actualToAverageRatio=0.74
+n=65536, actual=983058, average=1332707, actualToAverageRatio=0.74
+n=131072, actual=2097171, average=2847097, actualToAverageRatio=0.74
+n=262144, actual=4456468, average=6057579, actualToAverageRatio=0.74
+n=524288, actual=9437205, average=12841950, actualToAverageRatio=0.73
+n=1048576, actual=19922966, average=27137510, actualToAverageRatio=0.73
+n=2097152, actual=41943063, average=57182262, actualToAverageRatio=0.73
+n=4194304, actual=88080408, average=120179035, actualToAverageRatio=0.73
+n=8388608, actual=184549401, average=251987120, actualToAverageRatio=0.73
+n=16777216, actual=385875994, average=527232369, actualToAverageRatio=0.73
+n=33554432, actual=805306395, average=1100981024, actualToAverageRatio=0.73
+		\end{lstlisting}
+		The data suggests that in order for quicksort to sort the array produced
+		by my algorithm, it requires about $75\%$ of the compares that it would
+		normally need on the average to sort a randomly ordered array. This
+		supports the effectiveness of the algorithm in producing a ``best-case" array.
+	\end{sol}
 	\pagebreak
 	\printbibliography
 \end{document}
