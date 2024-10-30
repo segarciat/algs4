@@ -929,6 +929,29 @@ n=33554432, actual=805306395, average=1100981024, actualToAverageRatio=0.73
 		normally need on the average to sort a randomly ordered array. This
 		supports the effectiveness of the algorithm in producing a ``best-case" array.
 	\end{sol}
+	\begin{ex}{17}
+		\emph{Sentinels}. Modify the code in Algorithm 2.5 to remove both bounds checks in the
+		inner \texttt{while} loops. The test against the left end of the subarray is redundant
+		since the partitioning item acts as a sentinel (\texttt{v} is never less than
+		\texttt{a[lo]}). To enable removal of the other test, put an item whose key is the
+		largest in the whole array into \texttt{a[a.length-1]} just after the shuffle. This
+		item will  never move (except possibly to be swapped with an item having the same key)
+		and will serve as a sentinel in all subarrays involving the end of the array.
+		\emph{Note}: For a subarray that does not involve the end of the array, the leftmost
+		entry to its right serves as a sentinel for the right end of the subarray.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch2.sec3.ex17.QuickSentinel.sort()}.
+	\end{sol}
+	\begin{ex}{18}
+		\emph{Median-of-3-partitioning}. Add median-of-3 partitioning to quicksort, as described
+		in the text (see page 296). Run doubling tests to determine the effectiveness of
+		the change.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch2.sec3.ex18.QuickMedianOf3.sort()}.
+		The improvement was in the order of about $10\%$ or so.
+	\end{sol}
 	\pagebreak
 	\printbibliography
 \end{document}
