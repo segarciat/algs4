@@ -7,6 +7,7 @@ import com.segarciat.algs4.ch2.sec2.ex23.MergeInsertionCutoff;
 import com.segarciat.algs4.ch2.sec2.ex23.MergeNoCopy;
 import com.segarciat.algs4.ch2.sec2.ex23.MergeOrderCheck;
 import com.segarciat.algs4.ch2.sec3.ex18.QuickMedianOf3;
+import com.segarciat.algs4.ch2.sec3.ex19.QuickMedianOf5;
 import edu.princeton.cs.algs4.Heap;
 import edu.princeton.cs.algs4.Insertion;
 import edu.princeton.cs.algs4.Merge;
@@ -40,6 +41,7 @@ public class SortCompare {
 
     public static final String QUICK_SORT = "Quick";
     public static final String QUICK_MEDIAN_OF_3= "QuickMedianOf3";
+    public static final String QUICK_MEDIAN_OF_5= "QuickMedianOf3";
 
     public static final String HEAP_SORT = "Heap";
 
@@ -79,6 +81,8 @@ public class SortCompare {
             Quick.sort(a);
         else if (alg.equalsIgnoreCase(QUICK_MEDIAN_OF_3))
             QuickMedianOf3.sort(a);
+        else if (alg.equalsIgnoreCase(QUICK_MEDIAN_OF_5))
+            QuickMedianOf5.sort(a);
         else if (alg.equalsIgnoreCase(HEAP_SORT))
             Heap.sort(a);
         else {
@@ -119,6 +123,7 @@ public class SortCompare {
                 MERGE_SORT,
                 QUICK_SORT,
                 QUICK_MEDIAN_OF_3,
+                QUICK_MEDIAN_OF_5,
                 HEAP_SORT,
         };
         if (args.length != 4) {

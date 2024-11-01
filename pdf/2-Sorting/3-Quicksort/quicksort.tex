@@ -952,6 +952,29 @@ n=33554432, actual=805306395, average=1100981024, actualToAverageRatio=0.73
 		See \texttt{com.segarciat.algs4.ch2.sec3.ex18.QuickMedianOf3.sort()}.
 		The improvement was in the order of about $10\%$ or so.
 	\end{sol}
+	\begin{ex}{2.3.19}
+		\emph{Median-of-5 partitioning}. Implement a quicksort based on partitioning on
+		the median of a random sample of five items from the sub-array. Put the items
+		of the sample at the appropriate ends so that only the median participates in
+		partitioning. Run doubling tests to determine the effectiveness of the change,
+		in comparison both to the standard algorithm and to the median-of-3 partitioning
+		(see the previous exercise). \emph{Extra credit}: Devise a median-of-5 algorithm
+		that uses fewer than seven compares on any input.
+	\end{ex}
+	\begin{sol}
+		My first mistake when attempting this problem was trying to sort the items.
+		However, after some thought, I recalled that Proposition I in \cite{sedgewick_wayne}
+		says that no compare-based sorting algorithm can guarantee to sort $n$ items
+		with fewer than $\lg(n!)$ compares. With a sample of $5$ keys, we have
+		$\lg(5!)\approx 6.9$, so it's not possible to sort the items with fewer
+		than $7$ compares! Therefore I focused on finding the median of the 5, which should
+		be the partition key, and a key no less than the median, which will be a sentinel
+		at the right side. Nevertheless, I was unable to do it in less than 7 compares,
+		and my approach required at most 7 compares.
+		
+		See \texttt{com.segarciat.algs4.ch2.sec3.ex19.QuickMedianOf5}.
+		
+	\end{sol}
 	\pagebreak
 	\printbibliography
 \end{document}
