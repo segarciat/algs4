@@ -972,8 +972,17 @@ n=33554432, actual=805306395, average=1100981024, actualToAverageRatio=0.73
 		at the right side. Nevertheless, I was unable to do it in less than 7 compares,
 		and my approach required at most 7 compares.
 		
-		See \texttt{com.segarciat.algs4.ch2.sec3.ex19.QuickMedianOf5}.
-		
+		See \texttt{com.segarciat.algs4.ch2.sec3.ex19.QuickMedianOf5}.	
+	\end{sol}
+	\begin{ex}{20}
+		\emph{Non-recursive quicksort}. Implement a non-recursive version of quicksort based on
+		a main loop where a sub-array is popped from a stack to be partitioned, and the
+		resulting sub-arrays are pushed onto the stack. *Note*: Push the larger of the
+		sub-arrays onto the stack first, which guarantees that the stack will have at most
+		$\lg n$ entries.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch2.sec3.ex20.NonRecQuick}.
 	\end{sol}
 	\pagebreak
 	\printbibliography
