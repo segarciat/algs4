@@ -16,6 +16,10 @@ style=alphabetic
 % Provides useful environments, such as:
 % - \begin{proof} ...\end{proof}
 \usepackage{amsthm}
+\usepackage[most]{tcolorbox}
+
+\newtheorem*{proposition}{Proposition}
+
 % Enables using \mathbb{}, for example \mathbb{N} for the set of natural numbers.
 \usepackage{amssymb}
 
@@ -983,6 +987,79 @@ n=33554432, actual=805306395, average=1100981024, actualToAverageRatio=0.73
 	\end{ex}
 	\begin{sol}
 		See \texttt{com.segarciat.algs4.ch2.sec3.ex20.NonRecQuick}.
+	\end{sol}
+	\begin{ex}{21}
+		\emph{Lower bound for sorting with equal keys}. Complete the first part of the proof
+		of \textbf{Proposition M} in \cite{sedgewick_wayne} by following the logic in
+		the proof of \textbf{Proposition I} and using the observation that there are
+		$n!/f_1!f_2!\cdots f_k!$ different ways to arrange keys with $k$ different
+		values, where the $i$th value appears with frequency $f_i$ ($=np_i$, in the
+		notation of \textbf{Proposition M}), with $f_1+\cdots+f_k=n$.
+	\end{ex}
+	\begin{sol}
+		The statement of \textbf{Proposition M} is the following:
+		\begin{tcolorbox}[breakable]
+			\begin{proposition}[Proposition M]
+				No compare-based sorting algorithm can guarantee to sort $n$ items with fewer
+				than $nH-n$ compares, where $H$ is the Shannon entropy, defined from the frequencies
+				of key values.
+			\end{proposition}
+		\end{tcolorbox}
+		\cite{sedgewick_wayne} defines the Shannon entropy as follows: if there are $k$ distinct
+		keys among the $n$ elements of the array, and $f_i$ is the frequency of each key, for
+		integer $i$ in $1\leq i\leq k$, then
+		\[
+		H=-(p_1\lg p_1+p_2\lg p_2+\cdots+p_k\lg p_k)
+		\]
+		where $p_i=f_i/n$, and $\sum_{i=1}^{n}f_i=n$.
+		
+		\begin{proof}
+			In \textbf{Proposition I}, the idea was to use a binary tree to describe
+			the sequence of compares that needed to be performed. Each internal node
+			corresponded to a comparison between the $i$th and $j$th element. The
+			leaves corresponded to a complete sort of the keys. Using the observation
+			that there are $n!/f_1!f_2!\cdots f_k!$ to arrange keys with $k$ different
+			values, this quantity also represents the minimum number of leaves in
+			such a tree. The other key fact in the proof was that the longest path
+			from the root of the tree to a leaf represented the worst-case scenario
+			for the number of compares for a given algorithm. The latter quantity
+			represents the height $h$ of the tree, and since a tree of height
+			$h$ cannot have more leaves than a complete binary tree of height $h$
+			(which has $2^h$ leaves), the inequality we arrive at is:
+			\begin{align*}
+				\frac{n!}{\prod_{i=1}^{k}f_i!}\leq \text{number of leaves}\leq 2^h
+			\end{align*}
+			Then, using the fact that $\lg$ is monotone, applying $\lg$ on
+			both sides yields
+			\begin{align*}
+				\lg\left(\frac{n!}{\prod_{i=1}^{k}f_i}\right)\leq \lg 2^h=h
+			\end{align*}
+			To end the proof, we need to bound the value on the left of this inequality
+			below. To prove this, we need to make use of 
+			\href{https://en.wikipedia.org/wiki/Stirling%27s_approximation}{Stirling's approximation}:
+			\begin{align*}
+				\lg (n!)= n\lg n-n\lg e + O(\lg n)
+			\end{align*}
+			Also, note that
+			\begin{align*}
+				\lg (f_i!)=  \lg 1+\cdots+\lg f_i&\leq f_i\lg f_i\\
+				-\lg (f_i!)&\geq -f_i\lg f_i
+			\end{align*}
+			Using the right-side of Stirling's approximation as a lower bound:
+			\begin{align*}
+				\lg\left(\frac{n!}{\prod_{i=1}^{k}f_i!}\right)
+				&=
+				\lg( n!)-\lg\left(\prod_{i=1}^{k}f_i\right)\\
+				&=
+				\lg (n!)-\sum_{i=1}^{k}\lg (f_i!)\\
+				&\geq n\lg n - n \lg e - \sum_{i=1}^{k}f_i\lg f_i\\
+				&=n\lg n- n \lg e-n\sum_{i=1}^{k}p_i\lg(np_i)\\
+				&=n\lg n-n \lg e-n\sum_{i=1}^{k}p_i\lg n-n\sum_{i=1}^{k}p_i\lg p_i\\
+				&=n\lg n-n\lg e-n\lg n+nH\\
+				&=nH-n \lg e
+			\end{align*}
+			This is close to the requested result.
+		\end{proof}
 	\end{sol}
 	\pagebreak
 	\printbibliography
