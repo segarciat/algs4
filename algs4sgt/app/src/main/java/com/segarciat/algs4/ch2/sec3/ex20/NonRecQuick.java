@@ -6,9 +6,21 @@ import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.Stopwatch;
 
+/**
+ * <strong>2.3.20)</strong>
+ * A non-recursive implementation of quicksort using a stack.
+ *
+ * @author Sergio E. Garcia Tapia
+ */
 public class NonRecQuick {
     private NonRecQuick() {}
 
+    /**
+     * Sorts the given array using quicksort.
+     * @param a The array to be sorted
+     * @param <T> The type of elements in the array.
+     * @throws NullPointerException if the given array is <code>null</code>.
+     */
     public static <T extends Comparable<T>> void sort(T[] a) {
         if (a == null)
             throw new NullPointerException("array cannot be null");
@@ -30,7 +42,7 @@ public class NonRecQuick {
                 continue;
 
             int j = partition(a, lo, hi);
-            // push larger subarray first
+            // push larger sub-array first
             if ((j - lo) > (hi - j)) {
                 subArrays.push(lo);
                 subArrays.push(j-1);
@@ -45,6 +57,16 @@ public class NonRecQuick {
         }
     }
 
+    /**
+     * Partitions the array <code>a[lo..hi]</code> into sub-array <code>a[lo..j-1]</code>
+     * of keys no larger than a given partition key and sub-array <code>a[j+1..hi]</code>
+     * of keys no smaller than a partition key.
+     * @param a The array to partition.
+     * @param lo The lowest valid array index.
+     * @param hi The highest valid array index.
+     * @return The index of where the partition element lies.
+     * @param <T> The type of elements in the array.
+     */
     private static <T extends Comparable<T>> int partition(T[]a, int lo, int hi) {
         T v = a[lo];
         int i = lo;
@@ -65,7 +87,18 @@ public class NonRecQuick {
         return j;
     }
 
+    /**
+     * Times the {@link NonRecQuick#sort(Comparable[])} operation for the
+     * given array size <code>n</code>. Returns the elapsed time to complete
+     * a total of <code>trials</code> runs.
+     * @param n The size of the array.
+     * @param trials The number of trials
+     * @return The total elapsed time to finish all the trials.
+     * @throws IllegalArgumentException if the given integers are nonpositive.
+     */
     private static double timeRandom(int n, int trials) {
+        if (n <= 0 || trials <= 0)
+            throw new IllegalArgumentException("array size and number of trials must be positive");
         Double[] a = new Double[n];
         for (int i = 0; i < n; i++)
             a[i] = StdRandom.uniformDouble();
