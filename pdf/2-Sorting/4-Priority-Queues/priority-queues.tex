@@ -1,0 +1,170 @@
+\documentclass[12pt, a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+% Limit the page margin to only 1 inch.
+\usepackage[margin=1in]{geometry}
+
+%Imports biblatex package
+\usepackage[
+backend=biber,
+style=alphabetic
+]{biblatex}
+\addbibresource{../../algs4e.bib}
+
+% Enables the `align' environment.
+\usepackage{amsmath}
+% Provides useful environments, such as:
+% - \begin{proof} ...\end{proof}
+\usepackage{amsthm}
+\usepackage[most]{tcolorbox}
+
+\newtheorem*{proposition}{Proposition}
+
+% Enables using \mathbb{}, for example \mathbb{N} for the set of natural numbers.
+\usepackage{amssymb}
+
+% Allows using letters in enumerate list environment. Use, for example:
+%\begin{enumerate}[label=(\alph*)]
+% ...
+%\end{enumerate}
+\usepackage[inline]{enumitem}
+
+% Enable importing external graphic files and provides useful commannds, like \graphicspath{}
+\usepackage{graphicx}
+% Images are located in a directory called images in the current directory.
+\graphicspath{{./images/}}
+
+% Make links look better by default.
+% See: https://tex.stackexchange.com/questions/823/remove-ugly-borders-around-clickable-cross-references-and-hyperlinks
+\usepackage[hidelinks]{hyperref}
+\usepackage{xcolor}
+\hypersetup{
+	colorlinks,
+	linkcolor={red!50!black},
+	citecolor={blue!50!black},
+	urlcolor={blue!80!black}
+}
+
+
+% Code Listings. Source:
+% https://stackoverflow.com/questions/3175105/inserting-code-in-this-latex-document-with-indentation
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+	language=Java,
+	aboveskip=3mm,
+	belowskip=3mm,
+	showstringspaces=false,
+	columns=flexible,
+	basicstyle={\small\ttfamily},
+	numbers=none,
+	numberstyle=\tiny\color{gray},
+	keywordstyle=\color{blue},
+	commentstyle=\color{dkgreen},
+	stringstyle=\color{mauve},
+	breaklines=true,
+	breakatwhitespace=true,
+	tabsize=3
+}
+
+\newcommand{\prob}{\text{P}}
+%\newcommand{\complement}{\mathsf{c}}
+
+% Define an environment called "ex" (for Exercise) so that I can do: \begin{ex}{1.5}...\end{ex}
+\newenvironment{ex}[2][Exercise]
+{\par\medskip\noindent \textbf{#1 #2.}}
+{\medskip}
+
+% Define a solution environment, similar to ex (exercise) environment.
+\newenvironment{sol}[1][Solution]
+{\par\medskip\noindent \textbf{#1.} }
+{\medskip}
+
+\begin{document}
+	\noindent Sergio E. Garcia Tapia \hfill
+	
+	\noindent \emph{Algorithms} by Sedgewick and Wayne (4th edition) \cite{sedgewick_wayne}\hfill
+	
+	\noindent November 2nd, 2024\hfill 
+	\section*{2.4: Priority Queues}
+	\begin{ex}{1}
+		Suppose that the sequence \texttt{P R I O * R * * I * T * Y * * * Q U E * * * U * E}
+		(where a letter means \emph{insert} and an asterisk means \emph{remove the maximum})
+		is applied to an initially empty priority queue. Give the sequence of letters
+		returned by the \emph{remove the maximum} operations.
+	\end{ex}
+	\begin{sol}
+		\begin{lstlisting}[language={}]
+P
+P R
+P R I
+P R I O
+P I O // max removed: R
+P I O R
+P I O // max removed: R
+I O // max removed: P
+I O I
+I I // max removed: O
+I I T
+I I // max removed: T
+I I Y
+I I // max removed: Y
+I // max removed: I
+// max removed: I
+Q
+Q U
+Q U E
+Q E // max removed:  U
+E // max removed: Q
+// max removed: E
+U
+// max removed: U
+E
+		\end{lstlisting}
+		At the end, \texttt{E} remains on the queue. The sequence letters returned is:
+		\begin{center}
+			\texttt{R R P O T Y I I U Q E U}
+		\end{center}
+	\end{sol}
+	\begin{ex}{2}
+		Criticize the following idea: To implement \emph{find the maximum} in constant
+		time, why not use a stack  or a queue, but keep track of the maximum value inserted
+		so far, then return that value for \emph{find the maximum}.
+	\end{ex}
+	\begin{sol}
+		One issue is that this only guarantees that the first \emph{find the maximum}
+		operation can be returned in constant time. Once that items is removed, if the client
+		then asks for the next value, this operation then requires linear time.
+	\end{sol}
+	\begin{ex}{3}
+		Provide priority-queue implementations that support \emph{insert} and
+		\emph{remove the maximum}, one for each of the following underlying data structures:
+		unordered array, ordered array, unordered linked list, and ordered linked list.
+		Give a table of the worst-case bounds for each operation for each of your
+		four implementations.
+	\end{ex}
+	\begin{sol}
+		See package \texttt{com.segarciat.algs4.ch2.sec4.ex03}. The time complexities
+		for the two main operations are given below for priority queue with $n$ items:
+		\begin{center}
+			\begin{tabular}{c|c|c}
+				{} & Insert & Remove the maximum\\
+				\hline
+				\texttt{UnorderedArrayMaxPQ} & $O(1)$ & $O(n)$ \\
+				\hline
+				\texttt{OrderedArrayMaxPQ} & $O(n)$ & $O(1)$\\
+				\hline
+				\texttt{UnorderedListMaxPQ} & $O(1)$ & $O(n)$ \\
+				\hline
+				\texttt{OrderedListMaxPQ} & $O(n)$ & $O(1)$
+			\end{tabular}
+		\end{center}
+	\end{sol}
+	\pagebreak
+	\printbibliography
+\end{document}
