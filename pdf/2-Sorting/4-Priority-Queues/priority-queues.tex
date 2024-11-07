@@ -537,6 +537,46 @@ E
 	\begin{sol}
 		See \texttt{com.segarciat.algs4.ch2.sec4.ex19.MaxPQ}.
 	\end{sol}
+	\begin{ex}{22}
+		\emph{Array resizing}. Add array resizing to \texttt{MaxPQ}, and prove bounds
+		like those of Proposition Q for array accesses, in an amortized sense.
+	\end{ex}
+	\begin{sol}
+		I will follow the proof format in Proposition E from Section 1.4:
+		\begin{proof}
+			For each \texttt{insert()} operation that causes the \texttt{pq}
+			array to grow, say from size $n$ to $2n$, consider the $n/2 - 1$
+			operations that most recently caused the priority queue (not
+			the array) to grow to $k$, for $k$ from size $n/2 +2$ to $n$.
+			Each \texttt{insert()} takes about $\sim \lg k$ array accesses.
+			The resize from size $n$ to $2n$ takes $4n$ array accesses.
+			If we average these operations, we get
+			\begin{align*}
+				\frac{4n + \sum_{k=n/2}^{n}\lg k}{\sum_{k = \frac{n}{2} + 1}^{n}1}
+				&\leq \frac{4n+\lg n!}{n/2}\\
+				&\sim \frac{4n+n\lg n}{n / 2}\\
+				&=8+\lg n
+			\end{align*}
+			Here I approximated $\sum_{k=n/2}^{n}\lg k$ as $n\lg n$ using Stirling's
+			approximation. Therefore the cost of these $n / 2 - 1$ \texttt{insert()}
+			operations is about $\sim \lg n$. Because the remaining operations
+			are similarly dependent on the tree depth of the binary heap
+			corresponding to the priority queue, the bounds similarly follow.
+		\end{proof}
+	\end{sol}
+	\begin{ex}{27}
+		\emph{Find the minimum}. Add a \texttt{min()} method to \texttt{MaxPQ}. Your
+		implementation should use constant time and constant extra space.
+	\end{ex}
+	\begin{sol}
+		Simple. We add a private field \texttt{minKey}. On a call to \texttt{insert()},
+		we decide if we should update \texttt{minKey} as follows: if the queue
+		is empty, then the key we are inserting is the minimum; otherwise, if
+		the key being added is smaller, than we update \texttt{minKey} to it.
+		On a call to \texttt{delMax()}, we set \texttt{minKey} to \texttt{null}
+		if the queue becomes empty, since it would be the last key removed
+		from the queue.
+	\end{sol}
 	\pagebreak
 	\printbibliography
 \end{document}
