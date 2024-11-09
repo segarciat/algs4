@@ -537,6 +537,36 @@ E
 	\begin{sol}
 		See \texttt{com.segarciat.algs4.ch2.sec4.ex19.MaxPQ}.
 	\end{sol}
+	\begin{ex}{20}
+		Prove that sink-based heap construction uses at most $2n$ compares and $n$
+		exchanges.
+	\end{ex}
+	\begin{proof}
+		Suppose that $n=2^k-1$ for some positive integer $k$. Then the heap is
+		a perfect binary tree of height $k-1$. At each
+		depth $j=0,\ldots,k-1$, there are $2^j$ nodes, so that
+		\begin{align*}
+			\sum_{j=0}^{k-1}2^j=2^k-1=n
+		\end{align*}
+		At a depth of $k-1$, a call to \texttt{sink()} would not lead to
+		any exchanges because nodes at this depth are leaves. At a depth of $j$,
+		a node may only descend through $k-1-j$ levels as a result of \texttt{sink()}.
+		At most one exchange may occur then, so that the total number of exchanges
+		for the \texttt{sink()} based heap construction is no more than:
+		\begin{align*}
+			\sum_{j=0}^{k-1}2^{j}\cdot (k-1-j)
+			&=k\cdot \sum_{j=0}^{k-1}2^j-\sum_{j=0}^{k-1}2^j
+			-\sum_{j=0}^{k-1}j2^j\\
+			&=(k-1)(2^k-1)-(k-2)2^k - 2\\
+			&=(k-1)(2^k-1)-(k-2)(2^k-1+1)-2\\
+			&=2^k-1-(k-2)-2\\
+			&=n-k
+		\end{align*}
+		This confirms the example given during Proposition R, where if we have
+		a heap of 127 items, it takes 127 exchanges. This holds because
+		$n=127=2^7-1$, so $k=7$, and hence, $120=127-7=n-k$.
+	\end{proof}
+	I will forego proving the general case.
 	\begin{ex}{22}
 		\emph{Array resizing}. Add array resizing to \texttt{MaxPQ}, and prove bounds
 		like those of Proposition Q for array accesses, in an amortized sense.
@@ -575,6 +605,20 @@ E
 	\begin{sol}
 		See \texttt{com.segarciat.algs4.ch2.sec4.ex24.LinkedMaxPQ}
 	\end{sol}
+	\begin{ex}{25}
+		\emph{Computational number theory}. Write a program that prints out all integers of
+		the form $a^3+b^3$ where $a$ and $b$ are integers between $0$ and $n$ in sorted
+		order, without using excessive space. That is, instead of computing an array
+		of the $n^2$ sums and sorting them, build a minimum-oriented priority queue,
+		initially containing $(0^3, 0, 0), (1^3, 1, 0), (2^3,2,0),\ldots,(n^3,n,n)$.
+		Then, while the priority queue is nonempty, \emph{remove the smallest item}
+		$(i^3+j^3, i, j)$, print it, and then, if $j < n$, \emph{insert} the item
+		$(i^3 + (j+1)^3, i, j+1)$. Use this program to find all distinct integer
+		$a$, $b$, $c$, and $d$ between $0$ and $10^6$ such that $a^3+b^3=c^3+d^3$.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch2.sec4.ex25.OrderedSumOfCubes}.
+	\end{sol}
 	
 	\begin{ex}{26}
 		\emph{Heap without exchanges}. Because the \texttt{exchange()} primitive is used
@@ -598,6 +642,29 @@ E
 		if the queue becomes empty, since it would be the last key removed
 		from the queue.
 	\end{sol}
+	\begin{ex}{28}
+		\emph{Selection filter}. Write a program similar to \texttt{TopM} that
+		reads the points $(x, y, z)$ from standard input, takes a value $m$ from
+		the command line, and prints the $m$ points that are closest to the
+		origin in Eucledian distance. Estimate the running time of your client
+		for $n=10^8$ and $m=10^4$.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch2.sec4.ex28.ClosestMPoints}.
+	\end{sol}
+	\begin{ex}{33}
+		\emph{Index priority-queue implementation}. Implement the basic operations in
+		the index priority-queue API on page 320, by modifying \textbf{Algorithm 2.6}
+		as follows: Change \texttt{pq[]} to hold indices, add an array \texttt{keys[]}
+		to hold the key values, and add an array \texttt{qp[]} that is the inverse
+		of \texttt{pq[]} --- \texttt{qp[i]} gives the position of \texttt{i} in
+		\texttt{pq[]} (the index \texttt{j} such that \texttt{pq[j]} is \texttt{i}).
+		Then modify the code in \textbf{Algorithm 2.6} to maintain these data structures.
+		Use the convention that \texttt{qp[i] = -1} if \texttt{i} is not on the queue,
+		and include a method \texttt{contains()} that tests this condition. You need
+		to modify the helper methods \texttt{exchange()} and \texttt{less()}, but
+		not \texttt{sink()} and \texttt{swim()}.
+	\end{ex}
 	\pagebreak
 	\printbibliography
 \end{document}
