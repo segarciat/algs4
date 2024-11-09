@@ -564,6 +564,27 @@ E
 			corresponding to the priority queue, the bounds similarly follow.
 		\end{proof}
 	\end{sol}
+	\begin{ex}{24}
+		\emph{Priority queue with explicit links}. Implement a priority queue
+		using a heap-ordered binary tree, but use a triply linked structure instead
+		of an array. You will need three links per node: two to traverse down the
+		tree and one to traverse up the tree. Your implementation should guarantee
+		logarithmic running time per operation, even if no maximum priority-queue
+		size is known ahead of time.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch2.sec4.ex24.LinkedMaxPQ}
+	\end{sol}
+	
+	\begin{ex}{26}
+		\emph{Heap without exchanges}. Because the \texttt{exchange()} primitive is used
+		in the \texttt{sink()} and \texttt{swim()} operations, the items are loaded
+		and stored twice as often as necessary. Give more efficient implementations
+		to avoid this inefficiency, a la insertion sort (see Exercise 2.1.25).
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch2.sec4.ex.26.MaxPQ}.
+	\end{sol}
 	\begin{ex}{27}
 		\emph{Find the minimum}. Add a \texttt{min()} method to \texttt{MaxPQ}. Your
 		implementation should use constant time and constant extra space.
