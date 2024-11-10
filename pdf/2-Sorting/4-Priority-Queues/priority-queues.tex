@@ -649,8 +649,31 @@ E
 		origin in Eucledian distance. Estimate the running time of your client
 		for $n=10^8$ and $m=10^4$.
 	\end{ex}
-	\begin{sol}
+	\begin{sol}	
 		See \texttt{com.segarciat.algs4.ch2.sec4.ex28.ClosestMPoints}.
+	\end{sol}
+	\begin{ex}{29}
+		\emph{Min/max priority queue}. Design a data type that supports the following
+		operations: \emph{insert}, \emph{delete the maximum}, and \emph{delete the minimum}
+		(all in logarithmic time); and \emph{find the maximum} and \emph{find the minimum}
+		(both in constant time). \emph{Hint}: Use two heaps.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch2.sec4.ex29.MinMaxPQ}. I solved this by storing
+		all items in both queues. I had to overcome the issue of loitering so
+		as to ensure the implementation was garbage-collection friendly.
+	\end{sol}
+	\begin{ex}{30}
+		\emph{Dynamic median-finding}. Design a data type that supports \emph{insert}
+		in logarithmic time, \emph{find the median} in constant time, and
+		\emph{delete the median} in logarithmic time. \emph{Hint}: Use a min-heap and
+		a max-heap.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch2.sec4.ex30.MedianPQ}. I solved this by
+		storing the largest half of the items in the min-pq and the smaller half
+		of the items in the max-pq. At any time, min-pq was either equal 1 item larger
+		than max-pq, and min-pq holds the median as its minimum element. 
 	\end{sol}
 	\begin{ex}{33}
 		\emph{Index priority-queue implementation}. Implement the basic operations in
@@ -665,6 +688,17 @@ E
 		to modify the helper methods \texttt{exchange()} and \texttt{less()}, but
 		not \texttt{sink()} and \texttt{swim()}.
 	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch2.sec4.ex33.IndexMinPQ}.
+	\end{sol}
+	\begin{ex}{34}
+		\emph{Index priority-queue implementation (additional operations)}.
+		Add \texttt{minIndex()}, \texttt{changeKey()}, and \texttt{delete()}
+		to your implementation of \textbf{Exercise 2.4.33}.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch2.sec4.ex34.IndexMinPQ}.
+	\end{sol}
 	\pagebreak
 	\printbibliography
 \end{document}
