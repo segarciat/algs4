@@ -212,7 +212,69 @@ style=alphabetic
 	\begin{ex}{6}
 		Implement a recursive version of \texttt{select()}.
 	\end{ex}
-	
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch2.sec5.ex06.RecursiveSelect}.
+	\end{sol}
+	\begin{ex}{7}
+		About how many compares are required, on average, to find the smallest
+		of $n$ items using \texttt{select()}?
+	\end{ex}
+	\begin{sol}
+		By \texttt{Proposition U}, the average number of compares to find
+		the $k$th smallest is $\sim 2n + 2\cdot k\ln (n/k) + 2(n - k)\cdot \ln(n/(n-k))$.
+		As $k\to 0$, this quantity approaches $2n$, suggesting the average.
+	\end{sol}
+	\begin{ex}{8}
+		Write a program \texttt{Frequency} that reads strings from standard input and
+		prints the number of times each string occurs, in descending order of frequency.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch2.sec5.ex08.Frequency}. I have implemented
+		this by using a minimum-oriented priority queue with \texttt{String} objects
+		read from standard input, and a max-oriented priority queue with \texttt{StringCountNode}
+		objects, a data type I defined that simply holds a \texttt{String} read from
+		standard input and its frequency.
+	\end{sol}
+	\begin{ex}{9}
+		Develop a data type that allows you to write a client that can sort a file
+		such as the one shown on below:
+		\begin{lstlisting}[language={}]
+# input (DJIA volumes for each day)
+ 1-Oct-28	3500000
+ 2-Oct-28	3850000
+ 3-Oct-28	4060000
+ 4-Oct-28	4330000
+ 5-Oct-28	4360000
+...
+30-Dec-99	554680000
+31-Dec-99	374049984
+ 3-Jan-00	931800000
+ 4-Jan-00	1009000000
+ 5-Jan-00	1085500032
+ 
+# output
+  19-Aug-40 130000
+  26-AUg-40	160000
+  24-Jul-40	200000
+  10-Aug-42 210000
+  23-Jun-42 210000
+  ...
+  23-Jul-02 2441019904
+  17-Jul-02 2566500096
+  15-Jul-02 2574799872
+  19-Jul-02 2654099968
+  24-Jul-02 2775555936
+		\end{lstlisting}
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch2.sec5.ex09.DJIAVolume}.
+	\end{sol}
+	\begin{ex}{10}
+		Create a data type \texttt{Version} that represents a software version number,
+		such as \texttt{115.1.1}, \texttt{115.10.1}, \texttt{115.10.2}. Implement
+		the \texttt{Comparable} interface so that \texttt{115.1.1} is less than
+		\texttt{115.10.1}, and so forth.
+	\end{ex}
 	\pagebreak
 	\printbibliography
 \end{document}
