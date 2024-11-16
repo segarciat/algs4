@@ -275,6 +275,68 @@ style=alphabetic
 		the \texttt{Comparable} interface so that \texttt{115.1.1} is less than
 		\texttt{115.10.1}, and so forth.
 	\end{ex}
+	\begin{ex}{12}
+		\emph{Scheduling}. Write a program \texttt{SPT.java} that reads job names and
+		processing times from standard input and prints a schedule that minimizes
+		average completion time using the shortest processing time first rule, as described
+		on page 349.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch2.sec5.ex12}.
+	\end{sol}
+	\begin{ex}{13}
+		\emph{Load balancing}. Write a program \texttt{LPT.java} that takes an integer
+		$m$ as a command-line argument, reads job names and processing times from standard
+		input and prints a schedule assigning the jobs to $m$ processors that approximately
+		minimizes the time when the last job completes using the longest processing time
+		first rule, as described on page 349.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch2.sec5.ex13}.
+	\end{sol}
+	\begin{ex}{14}
+		\emph{Sort by reverse domain}. Write a data type \texttt{Domain} that represents
+		domain names, including an appropriate \texttt{compareTo()} where the natural order
+		is in order of the \emph{reverse} domain name. For example, the reverse domain name
+		of \texttt{cs.princeton.edu} is \texttt{edu.princeton.cs}. This is useful for web
+		log analysis. \emph{Hint}: Use \texttt{s.split("\textbackslash\textbackslash.")}
+		to split the string \texttt{s} into tokens, delimited by dots. Write a client that
+		reads domain names from standard input and prints the reverse domains in sorted
+		order.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch2.sec5.ex14}.
+	\end{sol}
+	\begin{ex}{15}
+		\emph{Spam campaign}. To initiate an illegal spam campaign, you have a list of
+		email addresses from various domains (the part of the email address that follows
+		the \texttt{@} symbol). To better forge the return addresses, you want to send the
+		email from another user at the same domain. For example, you might want to forge an
+		email from \texttt{wayne@princeton.edu} to \texttt{rs@princeton.edu}. How would you
+		process the email list to make this an efficient task?
+	\end{ex}
+	\begin{sol}
+		I would use a priority queue to sort the list by domain. Then I would begin by
+		taking address from the queue, which is the first forge senders. I would take
+		other address off and as long as the the it is in the same domain as the current
+		sender, I would set its sender as the first sender. I would keep track of the
+		last sender removed at each step. As soon as the domain of the current domain
+		differs from that of the last sender removed, I would arrange for the first
+		sender to receive an email from the last sender removed. Then I would update
+		the first sender to be the email just removed, the one from the new domain.
+	\end{sol}
+	\begin{ex}{2.5.16}
+		\emph{Unbiased election}. In order to thwart bias against candidates whose
+		names appear toward the end of the alphabet, California sorted the candidates
+		appearing on its 2003 gubernational ballot by using the following order of
+		characters:
+		\begin{lstlisting}[language={}]
+		R W Q O J M V A H B S G Z X N T C I E K U P D Y F L
+		\end{lstlisting}
+	\end{ex}
+	Create a data type where this is the natural order and write a client \texttt{California}
+	with a single static method \texttt{main()} that sorts strings according to this
+	ordering. Assume that each string is composed solely of uppercase letters.
 	\pagebreak
 	\printbibliography
 \end{document}
