@@ -325,7 +325,7 @@ style=alphabetic
 		sender to receive an email from the last sender removed. Then I would update
 		the first sender to be the email just removed, the one from the new domain.
 	\end{sol}
-	\begin{ex}{2.5.16}
+	\begin{ex}{16}
 		\emph{Unbiased election}. In order to thwart bias against candidates whose
 		names appear toward the end of the alphabet, California sorted the candidates
 		appearing on its 2003 gubernational ballot by using the following order of
@@ -333,10 +333,42 @@ style=alphabetic
 		\begin{lstlisting}[language={}]
 		R W Q O J M V A H B S G Z X N T C I E K U P D Y F L
 		\end{lstlisting}
+		Create a data type where this is the natural order and write a client \texttt{California}
+		with a single static method \texttt{main()} that sorts strings according to this
+		ordering. Assume that each string is composed solely of uppercase letters.
 	\end{ex}
-	Create a data type where this is the natural order and write a client \texttt{California}
-	with a single static method \texttt{main()} that sorts strings according to this
-	ordering. Assume that each string is composed solely of uppercase letters.
+	
+	\begin{ex}{17}
+		\emph{Check stability}. Extend your \texttt{check()}method from \textbf{Exercise 2.1.16}
+		to call \texttt{sort()} for a given array and return \texttt{true} if \texttt{sort()}
+		sorts the array \emph{in a stable manner}, \texttt{false} otherwise. Do not assume that
+		\texttt{sort()} is restricted to move data only with \texttt{exchange()}.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch2.sec5.ex17.Stability}.
+	\end{sol}
+	\begin{ex}{18}
+		\emph{Force stability}. Write a wrapper method that makes any sort stable by creating
+		a new key type that allows you to append each key's index to the key, call
+		\texttt{sort()}, then restore the original key after the sort.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch2.sec5.ex18.ForceStability}.
+	\end{sol}
+	\begin{ex}{19}
+		\emph{Kendall tau distance}. Write a program \texttt{KendallTau.java} that computes
+		the Kendall tau distance between two permutations in linearithmic time.
+	\end{ex}
+	\begin{sol}
+		Given two permutations, if a pair \texttt{i} and \texttt{j} are in different
+		order, then exactly one of the two permutations has an inversion involving that
+		pair. However, this is not a biconditional, because it is possible that a pair
+		\texttt{i} and \texttt{j} appears in the same order in both permutations, but
+		they are both inversions.
+		
+		What about if we computed the Kendall tau distance to the identity for one of
+		the, and for the other we use the reverse of the identity?
+	\end{sol}
 	\pagebreak
 	\printbibliography
 \end{document}
