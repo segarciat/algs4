@@ -360,14 +360,31 @@ style=alphabetic
 		the Kendall tau distance between two permutations in linearithmic time.
 	\end{ex}
 	\begin{sol}
-		Given two permutations, if a pair \texttt{i} and \texttt{j} are in different
-		order, then exactly one of the two permutations has an inversion involving that
-		pair. However, this is not a biconditional, because it is possible that a pair
-		\texttt{i} and \texttt{j} appears in the same order in both permutations, but
-		they are both inversions.
+		From page 345, we know the following:
+		\begin{itemize}
+			\item A permutation (rankings) is an array of \texttt{n} integers where each of
+			the integers between \texttt{0} and \texttt{n-1} appears exactly once.
+			\item The Kendall tau distance between two permutations is the number of pairs
+			that are in different order in the two rankings.
+			\item The number of inversions in an array is the Kendall tau distance between
+			the array and the identity permutation.
+		\end{itemize}
+		Given permutations \texttt{a} and \texttt{b}, we can have the order of the elements
+		in \texttt{b} define the ``sort order". For example, if we have arrays:
+		\begin{lstlisting}[language={}]
+a: 0 3 1 6 2 5 4
+b: 1 0 3 6 4 2 5
+		\end{lstlisting}
+		Then, according to array \texttt{b}, the sort order is:
+		\begin{lstlisting}[language={}]
+s: [ 1, 0, 5, 2, 4, 6, 3 ]
+		\end{lstlisting}
+		Notice that if we consider \texttt{b} as a mapping from the integer indices
+		to its array values, then \texttt{s} is the inverse.
 		
-		What about if we computed the Kendall tau distance to the identity for one of
-		the, and for the other we use the reverse of the identity?
+		Now we can use mergesort to sort \texttt{a} according to the order define
+		by \texttt{b} (according to \texttt{s}), counting inversions along the
+		way.
 	\end{sol}
 	\pagebreak
 	\printbibliography
