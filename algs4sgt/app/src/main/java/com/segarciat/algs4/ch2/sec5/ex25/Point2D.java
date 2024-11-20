@@ -16,7 +16,7 @@ public final class Point2D {
         this.x = x;
         this.y = y;
         r = Math.sqrt(x * x + y * y);
-        theta = Math.atan(y / x);
+        theta = Math.atan2(y, x);
     }
 
     public double x() {
@@ -42,7 +42,22 @@ public final class Point2D {
         );
     }
 
-    public static class XOrder implements Comparator<Point2D> {
+    public double squaredDistanceTo(Point2D that) {
+        return Math.pow(this.x() - that.x(), 2) +
+                Math.pow(this.y() - that.y(), 2);
+    }
+
+    /**
+     * A Comparator for sorting by distance to this point.
+     */
+    public Comparator<Point2D> distanceToPointOrder() {
+        return new DistanceToPointOrder();
+    }
+
+    /**
+     * A comparator for sorting by x coordinate.
+     */
+    private static class XOrder implements Comparator<Point2D> {
 
         @Override
         public int compare(Point2D p, Point2D q) {
@@ -50,7 +65,10 @@ public final class Point2D {
         }
     }
 
-    public static class YOrder implements Comparator<Point2D> {
+    /**
+     * A comparator for sorting by y coordinate.
+     */
+    private static class YOrder implements Comparator<Point2D> {
 
         @Override
         public int compare(Point2D p, Point2D q) {
@@ -58,11 +76,44 @@ public final class Point2D {
         }
     }
 
-    public static class DistanceToOriginOrder implements Comparator<Point2D> {
+    /**
+     * A comparator for sorting by distance to origin.
+     */
+    private static class RadiusOrder implements Comparator<Point2D> {
 
         @Override
         public int compare(Point2D p, Point2D q) {
             return Double.compare(p.r(), q.r());
+        }
+    }
+
+    /**
+     * A comparator for sorting by distance to this point.
+     */
+    private class DistanceToPointOrder implements Comparator<Point2D> {
+
+        @Override
+        public int compare(Point2D p, Point2D q) {
+            return Double.compare(squaredDistanceTo(p), squaredDistanceTo(q));
+        }
+    }
+
+    /**
+     * A comparator for sorting by polar angle to this point.
+     */
+    private class PolarAngleToPointOrder implements Comparator<Point2D> {
+
+        @Override
+        public int compare(Point2D p, Point2D q) {
+            double pX = p.x() - x();
+            double pY = p.y() -y();
+            double pTheta = Math.atan2(pY, pX);
+
+            double qX = q.x() - x();
+            double qY = q.y() - y();
+            double qTheta = Math.atan2(qY, qX);
+
+            return Double.compare(pTheta, qTheta);
         }
     }
 }
