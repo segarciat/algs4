@@ -54,6 +54,15 @@ public final class Point2D {
         return new DistanceToPointOrder();
     }
 
+    public Comparator<Point2D> polarAngleToOrder() {
+        return new PolarAngleToPointOrder();
+    }
+
+    @Override
+    public String toString() {
+        return "(%f, %f)".formatted(x, y);
+    }
+
     /**
      * A comparator for sorting by x coordinate.
      */
@@ -106,7 +115,7 @@ public final class Point2D {
         @Override
         public int compare(Point2D p, Point2D q) {
             double pX = p.x() - x();
-            double pY = p.y() -y();
+            double pY = p.y() - y();
             double pTheta = Math.atan2(pY, pX);
 
             double qX = q.x() - x();

@@ -60,10 +60,16 @@ so we have array
 s = [ 1, 0, 5, 2, 4, 6, 3 ]
 ```
 
-Effectively, `s` defines an order.
+For example, `b[6]` being `5` means that `5` is the `6`th value in the sort.
+By using `s`, we can know  where `5` belongs, since `s[5]` is `6`. Now
+if `a` is to be sorted according to `b`, then `5` should be the last value
+in the list, and since `s[4]` is `4`, that means that `4` is still the `4`th
+value. Now since `a[5] = 5` and `a[6] = 4`, that means that `a` orders
+`5` before `4`, which is out of order according to `b`, saying that `5`
+should be the `6`th element. We can detect this as follows:
 
-For example, say we want to see if `4` and `5` appear in different order.
-Note that `a[5] == 5` and `a[6] == 4`. The value of `5` according
-to `s` is `6`, because `s[5] == 6`, and the value of `4` according to `s` is `4`,
-because `s[4] == 4`. Since `s[a[5]] < s[a[4]]`, it follows that `5` and `4`
-are out of order  in `a` and `b`.
+- `s[a[5]]` is `s[5]` which is `6`.
+- `s[a[6]]` is `s[4]` which is `4`
+- We see `a[5]` appears before `a[6]`, but `a[5]` is `5` which is the
+`6`th value, and `a[6]` is `4`, which is the `4`th value (according to `b`).
+Hence, `5` and `4` are out of order in `a` relative to `b`.
