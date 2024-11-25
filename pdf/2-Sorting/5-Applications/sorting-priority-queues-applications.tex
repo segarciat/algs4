@@ -386,6 +386,55 @@ s: [ 1, 0, 5, 2, 4, 6, 3 ]
 		by \texttt{b} (according to \texttt{s}), counting inversions along the
 		way.
 	\end{sol}
+	\begin{ex}{25}
+		\emph{Points in the plane}. Write three \texttt{static} comparators for the
+		\texttt{Point2} data type of page 77, one that compares by their $x$ coordinate,
+		one that compares by their $y$-coordinate, and one that compares by their distance
+		from the origin. Write two non-\texttt{static} comparators for the \texttt{Point2D}
+		data type, one that compares them by their distance to a specified point and one
+		that compares them by their polar angle with respect to a specified point.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch2.sec5.ex25}.
+	\end{sol}
+	\begin{ex}{26}
+		\emph{Simple polygon}. Given $N$ points in the plane, draw a simple polygon with the
+		$N$ points as vertices. \emph{Hint}: Find the point $p$ with the smallest $y$ coordinate,
+		breaking ties with the smallest $x$ coordinate. Connect the points in increasing order
+		of the polar angle they make with $p$.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch2.sec5.ex26.DrawPolygon}.
+	\end{sol}
+	\begin{ex}{27}
+		\emph{One-dimensional intervals}. Write three comparators for the \texttt{Interval1D}
+		data type of page 77, one that compares intervals by their minimum endpoint, one that
+		compares intervals by their maximum endpoint, and one that compares intervals by
+		their length.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch2.sec5.ex27}.
+	\end{sol}
+	\begin{ex}{28}
+		\emph{Sort files by name}. Write a program \texttt{FileSorter} that takes
+		the name of a directory as a command-line argument and prints out all of the files
+		in that directory sorted by file name. \emph{Hint}: Use the \texttt{File} data type.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch2.sec5.ex28.FileSorter}.
+	\end{sol}
+	\begin{ex}{29}
+		\emph{Sort files by size and date of last modification}. Write comparators for the
+		type \texttt{File} to order by increasing/decreasing order of file size,
+		ascending/descending order of file name, and ascending/descending order of last
+		modification date. Use these comparators in a program \texttt{LS} that
+		takes a command-line argument and lists the file in the current directory according
+		to a specified order, e.g., \texttt{"-t"} to sort by timestamp. Support multiple
+		flags to break ties. Be sure to use a stable sort.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch2.sec5.ex29.LS}.
+	\end{sol}
 	\pagebreak
 	\printbibliography
 \end{document}
