@@ -1,0 +1,179 @@
+\documentclass[12pt, a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+% Limit the page margin to only 1 inch.
+\usepackage[margin=1in]{geometry}
+
+%Imports biblatex package
+\usepackage[
+backend=biber,
+style=alphabetic
+]{biblatex}
+\addbibresource{../../algs4e.bib}
+
+% Enables the `align' environment.
+\usepackage{amsmath}
+% Provides useful environments, such as:
+% - \begin{proof} ...\end{proof}
+\usepackage{amsthm}
+\usepackage[most]{tcolorbox}
+
+\newtheorem*{proposition}{Proposition}
+
+% Enables using \mathbb{}, for example \mathbb{N} for the set of natural numbers.
+\usepackage{amssymb}
+
+% Allows using letters in enumerate list environment. Use, for example:
+%\begin{enumerate}[label=(\alph*)]
+% ...
+%\end{enumerate}
+\usepackage[inline]{enumitem}
+
+% Enable importing external graphic files and provides useful commannds, like \graphicspath{}
+\usepackage{graphicx}
+% Images are located in a directory called images in the current directory.
+\graphicspath{{./images/}}
+
+% Make links look better by default.
+% See: https://tex.stackexchange.com/questions/823/remove-ugly-borders-around-clickable-cross-references-and-hyperlinks
+\usepackage[hidelinks]{hyperref}
+\usepackage{xcolor}
+\hypersetup{
+	colorlinks,
+	linkcolor={red!50!black},
+	citecolor={blue!50!black},
+	urlcolor={blue!80!black}
+}
+
+
+% Code Listings. Source:
+% https://stackoverflow.com/questions/3175105/inserting-code-in-this-latex-document-with-indentation
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+	language=Java,
+	aboveskip=3mm,
+	belowskip=3mm,
+	showstringspaces=false,
+	columns=flexible,
+	basicstyle={\small\ttfamily},
+	numbers=none,
+	numberstyle=\tiny\color{gray},
+	keywordstyle=\color{blue},
+	commentstyle=\color{dkgreen},
+	stringstyle=\color{mauve},
+	breaklines=true,
+	breakatwhitespace=true,
+	tabsize=3
+}
+
+\newcommand{\prob}{\text{P}}
+%\newcommand{\complement}{\mathsf{c}}
+
+% Define an environment called "ex" (for Exercise) so that I can do: \begin{ex}{1.5}...\end{ex}
+\newenvironment{ex}[2][Exercise]
+{\par\medskip\noindent \textbf{#1 #2.}}
+{\medskip}
+
+% Define a solution environment, similar to ex (exercise) environment.
+\newenvironment{sol}[1][Solution]
+{\par\medskip\noindent \textbf{#1.} }
+{\medskip}
+
+\begin{document}
+	\noindent Sergio E. Garcia Tapia \hfill
+	
+	\noindent \emph{Algorithms} by Sedgewick and Wayne (4th edition) \cite{sedgewick_wayne}\hfill
+	
+	\noindent November 10th, 2024\hfill 
+	\section*{3.1: Symbol Tables}
+	\begin{ex}{1}
+		Write a client that creates a symbol table mapping letter grades to numerical
+		scores, as in the table below, then reads from standard input a list of letter grades
+		and computes and prints the GPA (the average of the numbers corresponding to the
+		grades).
+		
+		\begin{center}
+			\begin{tabular}{c|c|c|c|c|c|c|c|c|c|c}
+				A+ & A & A- & B+ & B & B- & C+ & C & C- & D & F\\
+				\hline
+				4.33 & 4.00 & 3.67 & 3.33 & 3.00 & 2.67 & 2.33 & 2.00 & 1.67 & 1.00 & 0.00
+			\end{tabular}
+		\end{center}
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch3.sec1.ex01.GPA}
+	\end{sol}
+	\begin{ex}{2}
+		Develop a symbol-table implementation \texttt{ArrayST} that uses an (unordered)
+		array as the underlying data structure to implement our basic symbol-table API.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch3.sec1.ex02.ArrayST}.
+	\end{sol}
+	\begin{ex}{3}
+		Develop a symbol-table implementation of \texttt{OrderedSequentialSearchST} that
+		uses an ordered linked list as the underlying data structure to implement our
+		ordered symbol-table API.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch3.sec1.ex03.OrderedSequentialSearchST}.
+	\end{sol}
+	\begin{ex}{4}
+		Develop \texttt{Time} and \texttt{Event} ADTs that allow processing of data as in
+		the example illustrated on page 367.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch3.sec1.ex04.Time}. The class is immutable, and it
+		it implements \texttt{Comparable<Time>}, so that it has a natural order.
+		I was unclear about what an \texttt{Event} ADT would include, so I did not provide
+		an implementation for this ADT.
+	\end{sol}
+	\begin{ex}{5}
+		Implement \texttt{size()}, \texttt{delete()}, and \texttt{keys()} for
+		\texttt{SequentialSearchST}.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch3.sec1.ex05.SequentialSearchST}.
+	\end{sol}
+	\begin{ex}{6}
+		Give the number of calls to \texttt{put()} and \texttt{get()} issued by
+		\texttt{FrequencyCounter}, as a function of the number $W$ of words and
+		the number $D$ of distinct words in the input.
+	\end{ex}
+	\begin{sol}
+		The following assumes that the minimum length accepted for a word is $1$,.
+		
+		During the first phase, the program builds the symbol tables by processing
+		all $W$ words. For each word, there is a call to \texttt{contains()},
+		for a total of $W$ such calls. Since a call to \texttt{put()} is made
+		regardless of the result, there are $W$ calls to \texttt{put()} during
+		this phase. Each result of \texttt{false} from the call to \texttt{contains()}
+		corresponds to a distinct word, so there are $D$ such outcomes. Thus,
+		there are $W-D$ direct calls to \texttt{get()} in the branch of the
+		\texttt{if-else}, where \texttt{get()} is used to retrieve the count
+		of a previously-seen word. Note also that each call to \texttt{contains()}
+		leads to a call to \texttt{get()}, accounting for $W$ more calls.
+		
+		In the second phase, one addition call to \texttt{put()} is made, which enters the
+		empty string, so that there are now $D+1$ keys in the symbol table.
+		In the loop, $2$ calls to \texttt{get()} are made in each iteration, for
+		a total of $2(D+1)$ calls. A final call to \texttt{get()} is made after the
+		loop.
+		
+		Thus, if $f$ is the number of calls made to \texttt{put()}, and $g$
+		is the number of calls made to \texttt{get()}, then
+		\begin{align*}
+			f(W, D) &= W + 1\\
+			g(W, D) &= W + (W - D) + 2\dot (D+1)+1\\
+			&=2W+D+3
+		\end{align*}
+	\end{sol}
+	\pagebreak
+	\printbibliography
+\end{document}
