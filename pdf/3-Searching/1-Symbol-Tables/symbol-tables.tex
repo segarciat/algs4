@@ -174,6 +174,98 @@ style=alphabetic
 			&=2W+D+3
 		\end{align*}
 	\end{sol}
+		\begin{ex}{7}
+		What is the average number of distinct keys that \texttt{FrequencyCounter} will
+		find among $N$ random nonnegative integers less than 1,000, for
+		$N=10,10^2,10^3,10^4,10^5$, and $10^6$?
+	\end{ex}
+	\begin{sol}
+		Consider the random experiment of picking $N$ integers at random, where
+		each integer is between 0 and 999, and is chosen independently of the other.
+		Then each outcome is an $N$-tuple, where each component is an integer between 1 and 1,000.
+		Let $X$ be a random variable that counts the number of distinct keys in an $N$-tuple.
+		Then $X$ is a discrete random variables, whose values range from $1$ through
+		$\min\{N, 1000\}$.
+		
+		Consider the number of outcomes with $X=k$ distinct integers. If $k$
+		is not an integer, or $k >\min\{N, 1000\}$, or $k \leq 0$, then there are
+		$0$ such outcomes. Otherwise, we can count in two steps:
+		\begin{enumerate}[label=(\roman*)]
+			\item Choose $k$ distinct integers. There are $\binom{1000}{k}$ ways
+			of doing this, for $1\leq k\leq 1000$, and $0$ for $k>1000$.
+			\item Having chosen the $k$ distinct keys, there are $\binom{N}{k}\cdot k!$
+			possible positions for them.
+			\item To ensure $k$ distinct integers, each of the remaining integers
+			must be one of the $k$ integers we have seen before. Since there are $N-k$
+			positions to fill, and $k$ integers to choose from, there are $k^{N-k}$ ways
+			to do this (we repeat an experiment of choosing among $k$ values a total
+			of $N-k$ times).
+		\end{enumerate}
+		By the multiplication principle of counting, we find that there are
+		$\binom{1000}{k}\cdot \binom{N}{k}\cdot  k^{N-K}$ ways to choose $k$ distinct integers
+		when choosing a total of $N$ integers. There are a total of $1000^N$ outcomes.
+		Since every outcome is equally likely, the probability of an outcome having
+		$k$ distinct keys is therefore equal to:
+		\begin{align*}
+			P(\{X=k\})=\frac{\binom{1000}{k}\cdot \binom{N}{k}\cdot k!\cdot  k^{N-k}}{1000^N},
+			\quad 1\leq k\leq \min\{1000, N\},\quad N \text{ fixed}.
+		\end{align*}
+		Unfortunately, writing a closed form for this is difficult, and so is evaluating it
+		as-is, and it's hard to verify its correctness. My goal was then to compute
+		the expectation as:
+		\begin{align*}
+			E[X] = \sum_{k=1}^{\min\{N, 1000\}}P(\{X=k\})
+		\end{align*}
+		I found an alternative approach in this \href{https://math.stackexchange.com/a/2770036}{Stack Overflow answer by qwr}.
+		The idea is to let $A=\{0,\ldots,999\}$, the set of numbers that we choose from
+		(sample) at random, and the let $X_j$ be an indicator random variable.
+		That is, if we sample $N$ elements from $A$, then $X_j=1$ if $j$ is in the
+		sample, and $0$ otherwise, where $j\in A$.
+		
+		The idea is that we have a collection of random variables $X_0,\ldots,X_{999}$,
+		and since we sample at random. Then, by defining
+		$X=\sum_{j=0}^{999}X_j$, we obtain a random variable $X$ that gives
+		the number of distinct keys in the sample. Then, we use the fact that
+		the expectation is linear (regardless of independence), meaning:
+		\begin{align*}
+			E[X] = E\left[\sum_{j=0}^{999}X_j\right]=\sum_{j=0}^{999}E[X_j]
+		\end{align*}
+		Therefore, this reduces the problem of finding the expectation of $X$
+		(the average number of distinct values in a sample) to finding the
+		expectation of the indicator random variables. The latter turns out
+		to be simple, and user \texttt{dwr} argues as follows. Consider
+		the number of ways to choose a sample of $N$ items without $j$ in it.
+		There are $1000-1$ other numbers, and $N$ numbers to choose (with replacement),
+		so this amounts to $(1000-1)^N$ choices. Meanwhile, there's $1000^N$ ways to
+		choose $N$ integers from the sample.
+		
+		Thus,
+		\begin{align*}
+			\prob(\{X_j=0\})=\frac{999^N}{1000^N}
+		\end{align*}
+		which means that
+		\begin{align*}
+			\prob(\{X_j=1\})=1-\left(\frac{999}{1000}\right)^N
+		\end{align*}
+		Now the expectation of $X_j$ is simple:
+		\begin{align*}
+			E[X_j]=0\cdot P(\{X_j=0\}) + 1\cdot P(\{X_j=1\})=1-\left(\frac{999}{1000}\right)^N
+		\end{align*}
+		Hence, by linearity of expectation:
+		\begin{align*}
+			E[X]=1000\cdot \left(1-\left(\frac{999}{1000}\right)^N\right)
+		\end{align*}
+		Now, plugging in the different $N$ values:
+		\begin{center}
+			\begin{tabular}{c|cccccc}
+				$N$ & 10 & $10^2$ & $10^3$ & $10^4$ & $10^5$ & $10^6$ \\
+				\hline
+				Average & 9.96 & 95.21 & 632.30 & 999.95 & 1000.00 & 1000.00
+			\end{tabular}
+		\end{center}
+		See \texttt{com.segarciat.algs4.ch3.sec1.ex07.AverageDistinct}, which
+		verifies these results.
+	\end{sol}
 	\pagebreak
 	\printbibliography
 \end{document}
