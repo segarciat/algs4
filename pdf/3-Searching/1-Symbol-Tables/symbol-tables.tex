@@ -266,6 +266,113 @@ style=alphabetic
 		See \texttt{com.segarciat.algs4.ch3.sec1.ex07.AverageDistinct}, which
 		verifies these results.
 	\end{sol}
+	\begin{ex}{8}
+		What is the most frequency used word of ten letters or more in \emph{Tale of Two Cities}?
+	\end{ex}
+	\begin{sol}
+		It is \texttt{monseigneur}, which I found out by running the program
+		directly. See \texttt{com.segarciat.algs4.ch3.sec1.ex08}.
+	\end{sol}
+	\begin{ex}{9}
+		Add code to \texttt{FrequencyCounter} to keep track of the \emph{last} call to
+		\texttt{put()}. Print the last word inserted and the number of words that
+		were processed in the input stream prior to this intersection. Run your program
+		for \texttt{tale.txt} with length cutoffs 1, 8, and 10.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch3.sec1.ex09.FrequencyCounter}.
+	\end{sol}
+	\begin{ex}{12}
+		Modify \texttt{BinarySearchST} to maintain one array of \texttt{Item} objects that
+		conntain keys and values, rather than two parallel arrays. Add a constructor that
+		takes an array of \texttt{Item} values as argument and uses mergesort to sort the array.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch3.sec1.ex12.BinarySearchST}.
+	\end{sol}
+	\begin{ex}{13}
+		Which of the symbol-table implementations in this section would you use for an
+		application that does $10^3$ \texttt{put()} operations and $10^6$ \texttt{get()}
+		operations, randomly intermixed? Justify your answer.
+	\end{ex}
+	\begin{sol}
+		I would use a \texttt{BinarySearchST} because the relative number of search
+		operations is far greater. It's true that they are intermixed, which means
+		the cost of an insert (\texttt{put()}) is linear in the current length
+		off the symbol-table. However, if we were to use a \texttt{SequentialSearchST},
+		both operations are have a linear time complexity on the average. Meanwhile,
+		logarithmic performance of the search operation for \texttt{BinarySearchST}
+		gives us an edge since we have such a high proportion of searches.
+	\end{sol}
+	\begin{ex}{14}
+		Which of the symbol-table implementations would you use for an application that
+		does $10^6$ \texttt{put()} operations and $10^3$ \texttt{get()} operations, randomly
+		intermixed? Justify your answer.
+	\end{ex}
+	\begin{sol}
+		Although inserts are slow for \texttt{BinarySearchST}, I would still opt for
+		them in this scenario because \texttt{SequentialSearchST} perform poorly
+		on large symbol-tables. For example, to find out that a key is not in the 
+		linked list, we must search the entire linked list.
+	\end{sol}
+	\begin{ex}{16}
+		Implement the \texttt{delete()} method for \texttt{BinarySearchST}.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch3.sec1.ex16.BinarySearchST}.
+	\end{sol}
+	\begin{ex}{17}
+		Implement the \texttt{floor()} method for \texttt{BinarySearchST}.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch3.sec1.ex17.BinarySearchST}.
+	\end{sol}
+	\begin{ex}{18}
+		Prove that the \texttt{rank()} method in \texttt{BinarySearchST} is correct.
+	\end{ex}
+	\begin{sol}
+		\begin{proof}
+			Suppose that \texttt{key} is not \texttt{null}, and that the array we are
+			searching for \texttt{key} is ordered with all keys distinct.
+			
+			If after computing \texttt{mid}, the index of the middle of key, we find that the array
+			at that index matches \texttt{key}, then the algorithms stops. Since the array
+			is ordered an all keys are unique, any item at an index larger than \texttt{mid}
+			cannot be less than \texttt{key}, and all keys at an index less than
+			\texttt{mid} compare less than \texttt{key}. Therefore, the number of keys in the
+			array that are less than the key at index \texttt{mid} is precisely \texttt{mid},
+			because arrays are 0-indexed.
+			
+			Suppose that after comparison we find that \texttt{cmp < 0}. This means that
+			\texttt{keys[mid]} is larger than \texttt{key}. In reducing the search space to \texttt{lo..mid-1}, the value of \texttt{lo} (which is its known rank so far) does not change, consistent with the fact that all keys at an index higher than or equal
+			to \texttt{mid} are strictly larger than \texttt{key}. That is, they cannot contribute
+			ot the rank.
+			
+			Suppose that after comparison we find that \texttt{cmp > 0}. That is,
+			\texttt{key} compares larger than \texttt{keys[mid]}. By the transitivity
+			of the total ordering of \texttt{compareTo()}, this means \texttt{key}
+			is larger than the keys in the index range \texttt{0..mid}, which constitutes
+			a total of \texttt{mid + 1} keys. This is consistent with the update of \texttt{lo}
+			to \texttt{mid + 1} in this range.
+			
+			After every iteration, we maintain the invariant that \texttt{key} is greater
+			than all of the keys in the index range \texttt{0..lo-1}, a total of \texttt{lo}
+			keys. The search eventually ends because the length of the interval reduces by
+			half each time, and when the length is 0, it reduces by 1, so that eventually
+			the condition \texttt{lo <= hi} becomes \texttt{false}. With the invariant
+			maintained after each iteration, we are certain that \texttt{lo} indeed represents
+			the number of keys less than \texttt{key}, its rank.
+		\end{proof}
+	\end{sol}
+	\begin{ex}{19}
+		Modify \texttt{FrequencyCounter} to print all of the values having the highest frequency
+		of occurrence, not just one of them. \emph{Hint}: Use a \texttt{Queue}.
+	\end{ex}
+	\begin{ex}{20}
+		Complete the proof of \textbf{Proposition B} (show that it holds for all values
+		of $n$). \emph{Hint}: Start by showing that $C(n)$ is monotonic: $C(n)\leq C(n+1)$
+		for all $n\geq 0$.
+	\end{ex}
 	\pagebreak
 	\printbibliography
 \end{document}
