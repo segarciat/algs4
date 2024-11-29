@@ -368,11 +368,134 @@ style=alphabetic
 		Modify \texttt{FrequencyCounter} to print all of the values having the highest frequency
 		of occurrence, not just one of them. \emph{Hint}: Use a \texttt{Queue}.
 	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch3.sec1.ex19.FrequencyCounter}. Each time a key with
+		a larger frequency is encounter, the queue is cleared, and the whenever a key
+		with the same frequency as the current largest frequency is encountered, we add
+		to the queue.
+	\end{sol}
 	\begin{ex}{20}
 		Complete the proof of \textbf{Proposition B} (show that it holds for all values
 		of $n$). \emph{Hint}: Start by showing that $C(n)$ is monotonic: $C(n)\leq C(n+1)$
 		for all $n\geq 0$.
 	\end{ex}
+	\begin{sol}
+		\begin{proof}
+			We begin by showing that $C(n)$ is monotone by strong induction. That is, we first
+			show that $C(n+1)\geq C(n)$ for all non-negative integers $n$. The base
+			case is certainly true since $C(0)=0$ and $C(1)=1$, so $C(1)\geq C(0)$.
+			For the inductive hypothesis, suppose that $n\geq 1$, and that $C(k+1)\geq C(k)$
+			for all $0\leq k< n$.
+			
+			\begin{enumerate}[label=(\roman*)]
+				\item Suppose that $n$ is even, meaning that $n=2 k$ for a non-negative
+				integer $k$. The proof of \textbf{Proposition B} established that
+				\begin{align*}
+					C(n)=C(2\cdot k)\leq C(\lfloor 2k / 2\rfloor) + 1 = C(k) + 1
+				\end{align*}
+				by arguing that the middle element is examine (justifying the $+1$)
+				and that that search must continue in either half.
+				Since $n$ is even, we know that $n+1$ is odd, and the algorithm divides
+				the array into two pieces of size $k$ after examining the middle entry.
+				This implies that the above inequality becomes an inequality in this
+				case:
+				\begin{align*}
+					C(n + 1) = C(\lfloor \frac{2k+1}{2}\rfloor) + 1 = C(k)+1,\quad \text{n is even}.
+				\end{align*}
+				Hence we see that $C(n)\leq C(k)+1=C(n+1)$ when $n$ is even.
+				\item Now if $n$ is odd, meaning $n=2k+1$, where for some integer $k\in\mathbb{N}$,
+				once again we have
+				\begin{align*}
+					C(n)=C(k) + 1
+				\end{align*}
+				Then $n+1=2k+2$ is even. After examining the middle entry, the search may go left
+				into the array of size $k$, requiring $C(k)$ comparisons, or will may go right
+				into the array size $k+1$ and will require $C(k+1)$ comparisons. Since $k<n$,
+				we know by the inductive hypothesis that $C(k)\leq C(k+1)$, so regardless
+				of which piece it descends into, we have $C(n+1)\leq C(k)+1=C(n)$, when
+				$n$ is odd.
+			\end{enumerate}
+			We conclude by mathematical induction on $n$ that $C(n)$ is monotone.
+			Now let $n>0$, and let $m$ be the largest power of $m$ such that
+			$2^m\leq n\leq  2^{m+1} - 1$. Then
+			\begin{align*}
+				C(n)\leq C(2^{m+1}-1)\leq m+1\leq \lfloor \lg n\rfloor +1 \leq \lg n + 1
+			\end{align*}
+		\end{proof}
+	\end{sol}
+	\begin{ex}{21}
+		\emph{Memory usage}. Compare the memory usage of \texttt{BinarySearchST} with that
+		of \texttt{SequentialSearchST} for $n$ key-value pairs, under the assumptions described
+		in Section 1.4. Do not count the memory for the keys and values themselves, but
+		do count references to them. For \texttt{BinarySearchST}, assume that array resizing
+		is used, so that hte array is between 25 percent and 100 percent .
+	\end{ex}
+	\begin{sol}
+		For \texttt{SequentialSearchST}, we have 16 bytes of class overhead, and 8 bytes
+		for its reference to the  \texttt{first} field, and 4 bytes for its \texttt{int}
+		instance variable \texttt{n} for the size, and 4 bytes of padding, for a total
+		of 32 bytes. For each key-value pair there is a \texttt{Node} that takes up 16
+		nodes of overhead, 8 bytes of overhead for a reference to the enclosing class,
+		8 bytes for the key reference, 8 bytes for the value reference, and 8 bytes for a
+		reference to the \texttt{next} \texttt{Node} object, a total of 48 bytes per node.
+		Hence, the cost is about $32+48n$ bytes.
+		
+		For the \texttt{BinarySearchST} implementation with two arrays (one for the keys
+		and one of the values), there are 8 bytes for a reference to each of them,
+		and 24 bytes of overhead for each of them. There's also 4 bytes for the length
+		\texttt{n} of the symbol-table, and 4 bytes
+		of padding, which is 72 bytes total. For each key and each value, there are
+		8 bytes for the key reference and 8 bytes for the value reference. In the
+		best scenario, when the array is 100 percent full (meaning no references
+		are \texttt{null}), this amounts of $16n$ bytes. If it's 25 percent full,
+		the amount of space is roughly quadrupled even though there are \texttt{null}
+		references, for a total of $64n$ bytes. Therefore, this implementation takes
+		up between $72+16n$ and $72+64n$ bytes.
+	\end{sol}
+	\begin{ex}{22}
+		\emph{Self-organizing search}. A self-organizing search algorithm is one that
+		rearranges items to make those that are accessed frequently likely to be found
+		early in the search. Modify your search implementation for \textbf{Exercise 3.1.2}
+		to perform the following action on every search hit: move the key-value pair
+		found to the beginning of the list, moving all pairs between the beginning of the
+		list and the vacated position to the right one position. This procedure is called
+		the \emph{move-to-front} heuristic.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch3.sec1.ex22.ArrayST}.
+	\end{sol}
+	\begin{ex}{23}
+		\emph{Analysis of binary search}. Prove that the maximum number of compares used
+		for a binary search in a table of size $n$ is precisely the number of bits in
+		the binary representation of $n$, because the operation of shifting 1 bit to the
+		right converts the binary representation of $n$ into the binary representation
+		of $\lfloor n / 2\rfloor$.
+	\end{ex}
+	\begin{sol}
+		\begin{proof}
+			Suppose that $n$ is a posive integer. If $n$ has $m$ bits, then we have to
+			show that the maximum number of compares is $m$.
+			
+			During each iteration, the index \texttt{mid} is computed by finding the
+			halfway point of the current subarray. At the start, the subarray spans
+			the indices \texttt{0..n - 1}, which has length $n$. The index \texttt{mid}
+			splits the array into two subarrays \texttt{lo..mid-1} and \texttt{mid+1..hi},
+			with the rightmost one having length $\lfloor n / 2\rfloor$, and the leftmost one
+			being either the same length or 1 smaller. The algorithm will require
+			a maximum number of compares if the search descends into the larger subarray
+			after each iteration (or either subarray when their lengths are the same).
+			Hence if $k$ is the current subarray length (where $k=n$ at the start), then
+			at each step we would choose the subarray of length $\lfloor k / 2 \rfloor$.
+			
+			A compare is done as long as \texttt{lo <= hi}, meaning that the subarray
+			length is at least 1, meaning $k\geq 1$ and hence the binary representation
+			of $k$ has at least 1 nonzero bit. Since integer division by $2$ is equivalent
+			to a right shift by 1 bit, each iteration shifts the bits in the binary
+			representation of $n$. Since the binary representation of $n$ has $m$ bits,
+			the algorithm will continue for at most $m$ right shifts (and hence $m$ divisions
+			by 2).
+		\end{proof}
+	\end{sol}
 	\pagebreak
 	\printbibliography
 \end{document}
