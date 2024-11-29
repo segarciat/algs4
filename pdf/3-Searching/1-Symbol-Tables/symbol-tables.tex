@@ -496,6 +496,56 @@ style=alphabetic
 			by 2).
 		\end{proof}
 	\end{sol}
+	\begin{ex}{25}
+		\emph{Software caching}. Since the default implementation of \texttt{contains()}
+		calls \texttt{get()}, the inner loop of \texttt{FrequencyCounter}
+		\begin{lstlisting}[language=java]
+			if (!st.contains(word))
+			    st.put(word, 1);
+			else
+			    st.put(word, st.get(word) + 1);
+		\end{lstlisting}
+		leads to two or three searches for the same key. To enable clear code like this
+		without sacrificing efficiency, we can use a technique known as \emph{software caching},
+		where we save the location of the most recently accessed key in an instance variable.
+		Modify \texttt{SequentialSearchST} and \texttt{BinarySearchST} to take advantage of
+		this idea.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch3.sec1.ex25}.
+	\end{sol}
+	\begin{ex}{26}
+		\emph{Frequency count from a dictionary}. Modify \texttt{FrequencyCounter} to take
+		the name of a dictionary file as its argument, count frequencies of the words from
+		standard input that are also in that file, and print two tables of the words with
+		their frequencies, one sorted by frequency, the other in the order found in the
+		dictionary file.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch3.sec1.ex26.FrequencyCounter}.
+	\end{sol}
+	\begin{ex}{27}
+		\emph{Small tables}. Suppose that a \texttt{BinarySearchST} client has $S$ search
+		operations and $n$ distinct keys. Give the order of growth of $S$ such that the cost
+		of building the table is the same as the cost of all searches.
+	\end{ex}
+	\begin{sol}
+		By \textbf{Proposition B} in \cite{sedgewick_wayne}, inserting $n$ key-value pairs
+		into an initially empty table uses about $2n^2$ array accesses, and binary search
+		on an array of $n$ keys takes no more than $\lg n + 1$ compares. Since the order
+		of growth of ta search operation corresponds to the order of growth of binary search,
+		we can let the cost $C$ of the search operations be given by $C=S\cdot \lg n$,
+		and we seek $S$ such that $C(n)\sim 2n^2$. For this to happen, we need
+		$S\sim \frac{2n^2}{\lg n}$.
+	\end{sol}
+	\begin{ex}{28}
+		\emph{Ordered insertions}. Modify \texttt{BinarySearchST} so that inserting a key that
+		is larger than all keys in the table takes constant time (so that building a table by
+		calling \texttt{put()} for keys that are in ordered takes linear time).
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch3.sec1.ex28,.BinarySearchST}.
+	\end{sol}
 	\pagebreak
 	\printbibliography
 \end{document}
