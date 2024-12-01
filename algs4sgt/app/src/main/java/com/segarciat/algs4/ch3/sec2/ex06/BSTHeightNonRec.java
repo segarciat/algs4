@@ -117,7 +117,7 @@ public final class BSTHeightNonRec<Key extends Comparable<Key>, Value>{
 
     private Node<Key, Value> put(Node<Key, Value> node, Key key, Value value) {
         if (node == null) {
-            return new Node<>(key, value, 0, 0);
+            return new Node<>(key, value, 1, 0);
         }
 
         int cmp = key.compareTo(node.key);

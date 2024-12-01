@@ -125,7 +125,7 @@ public final class BSTAvgComparesNonRec<Key extends Comparable<Key>, Value>{
 
     private Node<Key, Value> put(Node<Key, Value> node, Key key, Value value, int depth) {
         if (node == null) {
-            return new Node<>(key, value, 0, depth);
+            return new Node<>(key, value, 1, depth);
         }
 
         int cmp = key.compareTo(node.key);
