@@ -1,6 +1,13 @@
 package com.segarciat.algs4.ch3.sec2.ex14;
 
+import edu.princeton.cs.algs4.Queue;
+import edu.princeton.cs.algs4.Quick;
+import edu.princeton.cs.algs4.Stack;
+import edu.princeton.cs.algs4.StdRandom;
+
+import java.util.Arrays;
 import java.util.NoSuchElementException;
+import java.util.Scanner;
 
 /**
  * <strong>3.2.14)</strong>
@@ -94,14 +101,13 @@ public final class BSTNonRec<Key extends Comparable<Key>, Value>{
         }
 
         current = new Node<>(key, val, 1);
-        if (cmp < 0) {
+        if(root == null) {
+            root = current;
+        } else if (cmp < 0) {
             parent.left = current;
         } else {
             parent.right = current;
         }
-
-        if (root == null)
-            root = current;
     }
 
     public Key min() {
@@ -136,12 +142,12 @@ public final class BSTNonRec<Key extends Comparable<Key>, Value>{
         while (current != null) {
             int cmp = key.compareTo(current.key);
 
-            if (cmp > 0) {
+            if  (cmp < 0) {
+                current = current.left;
+            } else if (cmp > 0) {
                 floorNode = current;
                 current = current.right;
-            }else if  (cmp < 0)
-                current = current.left;
-            else {
+            } else {
                 return key;
             }
         }
@@ -215,7 +221,98 @@ public final class BSTNonRec<Key extends Comparable<Key>, Value>{
         return null;
     }
 
+    /**
+     * Based on the no-argument implementation of <code>keys()</code>
+     * in https://algs4.cs.princeton.edu/32bst/NonrecursiveBST.java.html
+     */
     public Iterable<Key> keys(Key lo, Key hi) {
+        if (lo == null || hi == null)
+            throw new NullPointerException("lo and hi must not be null");
 
+        Queue<Key> queue = new Queue<>();
+        if (root == null || hi.compareTo(lo) < 0)
+            return queue;
+
+        Stack<Node<Key, Value>> stack = new Stack<>();
+        Node<Key, Value> current = root;
+        while (current != null || !stack.isEmpty()) {
+            if (current != null) {
+                // Always push without processing, but descend conditionally
+                stack.push(current);
+                if (lo.compareTo(current.key) < 0) {
+                    current = current.left;
+                } else {
+                    current = null;
+                }
+            } else {
+                // pop, process, and descend conditionally
+                current = stack.pop();
+
+                int cmpLo = lo.compareTo(current.key);
+                int cmpHi = hi.compareTo(current.key);
+                if (cmpLo <= 0 && cmpHi >= 0) {
+                    queue.enqueue(current.key);
+                }
+
+                if (cmpHi > 0) {
+                    current = current.right;
+                } else {
+                    current = null;
+                }
+            }
+        }
+
+        return queue;
+    }
+
+    public Iterable<Key> keys() {
+        return keys(min(), max());
+    }
+
+    public static void main(String[] args) {
+        BSTNonRec<Integer, Integer> bst = new BSTNonRec<>();
+
+        Integer[] vals = new Integer[10];
+        for (int i = 0; i < 10; i++) {
+            vals[i] = StdRandom.uniformInt(0, 1000);
+            bst.put(vals[i], 0);
+        }
+
+        Quick.sort(vals);
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            System.out.println();
+            System.out.printf("Array values: %s%n", Arrays.toString(vals));
+            System.out.println("Enter q to quit, or two numbers representing a range separated by a space: ");
+
+            if (!scanner.hasNext()) {
+                System.exit(0);
+            }
+
+            String input = scanner.nextLine();
+            if ("q".equals(input)) {
+                System.exit(0);
+            }
+
+            String[] tokens = input.split("\\s+");
+
+            if (tokens.length != 2) {
+                continue;
+            }
+
+            try {
+                int lo = Integer.parseInt(tokens[0]);
+                int hi = Integer.parseInt(tokens[1]);
+
+                System.out.println();
+                System.out.print("Keys in range: ");
+                for (Integer val : bst.keys(lo, hi)) {
+                    System.out.print(val + " ");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Please provide two numbers.");
+            }
+            System.out.println();
+        }
     }
 }

@@ -188,6 +188,126 @@ style=alphabetic
 			\item This is a valid sequence.
 		\end{enumerate}
 	\end{sol}
+		\begin{ex}{5}
+		Suppose that we have an estimate ahead of time of how often search keys are
+		to be accessed in a BST, and the freedom to insert them in any order that we
+		desire. Should the keys be inserted into the tree in increasing order, decreasing
+		order of likely frequency of access, or some other order? Explain your answer.
+	\end{ex}
+	\begin{sol}
+		Increasing order is not desirable because it leads to a worst-case tree where
+		every internal node hade has 1 null link and the leaf node has 2 null links
+		(in essence, a linked list).
+		
+		Decreasing order of likely frequency of access biases towards the most frequency
+		accessed nodes. However, if that order corresponds to the increasing or decreasing
+		order of the keys, for example, then we may again have a worst-case tree.
+		
+		The safest thing to do is to insert them in an order that yields a balanced tree.
+		Suppose that there are $n$ keys, and suppose we place them in sorted order,
+		$k_0,k_1,\ldots,k_{n-1}$, so that $k_{i-1} \leq k_{i}$ for all $1\leq i\leq n$.
+		Let \texttt{lo = 0}, and \texttt{hi = n - 1}
+		Then we can insert them as follows:
+		\begin{enumerate}[label=(\roman*)]
+			\item If \texttt{lo > hi}, stop.
+			\item Compute the middle key at index \texttt{mid = lo + (hi - lo) / 2}.
+			This key $k_{mid}$ is the root.
+			\item Set the left child of $k_{mid}$ to the tree resulting from (recursively) applying
+			the algorithm to the subset of keys $k_0,\ldots,k_{mid-1}$.
+			\item Set the right child of $k_{mid}$ to the tree resulting from (recursively) applying
+			the algorithm to the subset of keys $k_{mid+1},\ldots,k_{hi}$.
+		\end{enumerate}
+		Notice this is effectively placing the partitioning the array like quicksort.
+	\end{sol}
+	\begin{ex}{6}
+		Add to \texttt{BST} a method \texttt{height()} that computes the height of the tree.
+		Develop two implementations: a recursive method (which takes linear time and space
+		proportional to the height), and a method like \texttt{size()} that adds a field to
+		each node in the tree (and takes linear space and constant time per query).
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch3.sec2.ex06.BST}.
+	\end{sol}
+	\begin{ex}{7}
+		Add to \texttt{BST} a recursive method \texttt{avgCompares()} that computes the average
+		number of compares reuired by a random search hit in a given BST (the internal path length
+		of the tree divided by its size, plus one). Develop two implementations: a recursive method
+		(which takes linear time and space proportional to the height), and a method like
+		\texttt{size()} that adds a field to each node in the tree (and takes linear space and
+		constant time per query).
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch3.sec2.ex07.BST}.
+	\end{sol}
+	\begin{ex}{8}
+		Write a static method \texttt{optCompares()} that takes an integer argument \texttt{n}
+		and computes the number of compares required by a random search hit in an optional
+		(perfectly balanced) BST with \texttt{n} nodes, where all the null links are on the
+		same level if the number of links is a power of 2 or one of two levels otherwise.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch3.sec2.ex08.BSTOptCompares}.
+	\end{sol}
+	\begin{ex}{9}
+		Draw all the different BST shapes that can result when \texttt{n} keys are inserted
+		into an initially empty tree, for \texttt{n} = \texttt{2, 3, 4, 5}, and \texttt{6}.
+	\end{ex}
+	\begin{sol}
+		See Figure~\ref{fig:ex-09} for \texttt{n = 2, 3, 4}. I considered the reflections
+		on the $y$-axis to be of the same shape, so I chose not to draw them.
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.6\textwidth]{exercise-09}
+			\caption{Exercise 9: All binary-search tree shapes for $n=2,3,4$ vertices.}
+			\label{fig:ex-09}
+		\end{figure}
+	\end{sol}
+	\begin{ex}{10}
+		Write a test client for \texttt{BST} that tests the implementations of \texttt{min()},
+		\texttt{max()}, \texttt{floor()}, \texttt{ceiling()}, \texttt{select()}, \texttt{rank()},
+		\texttt{delete()}, \texttt{deleteMin()}, \texttt{deleteMax()}, and \texttt{keys()} that
+		are given in the text. Start with the standard indexing client given on page 370.
+		Add code to take additional command-line arguments, as appropriate.
+	\end{ex}
+	\begin{ex}{11}
+		How many binary tree shapes of $n$ nodes are there with height $n$? How many different
+		ways are there to insert $n$ different keys into an initially empty BST that result
+		in a tree of height $n-1$? (See \textbf{Exercise 3.2.2})
+	\end{ex}
+	\begin{sol}
+		There are 0 binary tree shapes of $n$ nodes with height $n$, because the height
+		of a tree is the maximum depth among all of the nodes, and the smallest node
+		is that of the root which is $0$.
+		
+		However, there are $2^{n-1}$ binary ways to insert $n$ different keys into an
+		initially empty BST that results in a tree of height $n-1$. A path from the root
+		to the leaf in such a tree of height $n-1$ consists of a sequence of left and right
+		turns. At each node, we make a decision of whether to go left or right. Since there
+		are $n-1$ edges, and we choose to lean left or right at each step, we get $2^{n-1}$.
+	\end{sol}
+	\begin{ex}{12}
+		Develop a \texttt{BST} implementation that omits \texttt{rank()} and \texttt{select()}
+		and does not use a count field in \texttt{Node}.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch3.sec2.ex11.BST}.
+	\end{sol}
+	\begin{ex}{13}
+		Give nonrecursive implementations of \texttt{get()} and \texttt{put()} for \texttt{BST}.
+		The implementation of \texttt{put()} is more complicated because of the need to save
+		a pointer to the parent node to link in the new node at the bottom. Also, you need
+		a separate pass to check whether the key is already in the table because of the need
+		to update the counts. Since there are many more searches than inserts in performance-critical
+		implementations, using this code for \texttt{get()} is justified; the corresponding change
+		for \texttt{put()} might not be noticed.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch3.sec2.ex13.BSTNonRec}.
+	\end{sol}
+	\begin{ex}{14}
+		Give nonrecursive implementations of \texttt{min()}, \texttt{max()}, \texttt{floor()},
+		\texttt{ceiling()}, \texttt{rank()}, \texttt{select()}, and \texttt{keys()}.
+	\end{ex}
 	\pagebreak
 	\printbibliography
 \end{document}
