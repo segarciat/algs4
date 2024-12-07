@@ -308,6 +308,42 @@ style=alphabetic
 		Give nonrecursive implementations of \texttt{min()}, \texttt{max()}, \texttt{floor()},
 		\texttt{ceiling()}, \texttt{rank()}, \texttt{select()}, and \texttt{keys()}.
 	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch3.sec2.ex14.BSTNonRec}.
+	\end{sol}
+	\begin{ex}{15}
+		Give the sequences of nodes examined when the methods in \texttt{BST} are used to
+		compute each of the following quantities for the tree drawn in Figure~\ref{fig:ex-15}.
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.4\textwidth]{exercise-15}
+			\caption{Exercise 15: Binary Search Tree}
+			\label{fig:ex-15}
+		\end{figure}
+		\begin{enumerate}[label=(\alph*)]
+			\item \texttt{floor("Q")}
+			\item \texttt{select(5)}
+			\item \texttt{ceiling("Q")}
+			\item \texttt{rank("J")}
+			\item \texttt{size("D", "T")}
+			\item \texttt{keys("D", "T")}
+		\end{enumerate}
+	\end{ex}
+	\begin{sol}
+		\begin{enumerate}[label=(\alph*)]
+			\item \texttt{"E"}, \texttt{"Q"}
+			\item \texttt{"E"}, \texttt{"Q"}
+			\item \texttt{"E"}, \texttt{"Q"}
+			\item \texttt{"E"}, \texttt{"Q"}, \texttt{"J"}
+			\item First the \texttt{contains(hi)} call leads to the following
+			sequence: \texttt{"E"}, \texttt{"Q"}, \texttt{"T"}. Then the call
+			to \texttt{rank(hi)} leads to the sequence \texttt{"E"}, \texttt{"Q"},
+			\texttt{"T"}. Then, the call \texttt{rank(lo)} leads to the sequence
+			\texttt{"E", "D"}.
+			\item \texttt{"E"}, \texttt{"D"}, \texttt{"Q"}, \texttt{"J"}, \texttt{"M"},
+			\texttt{"T"}
+		\end{enumerate}
+	\end{sol}
 	\pagebreak
 	\printbibliography
 \end{document}

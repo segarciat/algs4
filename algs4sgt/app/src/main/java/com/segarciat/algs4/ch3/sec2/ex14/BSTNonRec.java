@@ -101,7 +101,7 @@ public final class BSTNonRec<Key extends Comparable<Key>, Value>{
         }
 
         current = new Node<>(key, val, 1);
-        if(root == null) {
+        if (root == null) {
             root = current;
         } else if (cmp < 0) {
             parent.left = current;
