@@ -344,6 +344,153 @@ style=alphabetic
 			\texttt{"T"}
 		\end{enumerate}
 	\end{sol}
+	\begin{ex}{16}
+		Define the \emph{external path length} of a tree to be the sum of the number of
+		nodes on the paths from the root to all null links. Prove that the difference between
+		the external and internal path length in any binary tree with $n$ nodes is $2n$
+		(see \textbf{Proposition C}).
+	\end{ex}
+	\begin{sol}
+		\begin{proof}
+			Let $E_n$ represent the external path length of a tree of size $n$,
+			and $I_n$ represent the internal path length of a tree of size $n$,
+			where $n$ is a positive integer. The proof is by induction on $n$.
+			
+			For the base case, let $n=1$. Since the root has one node, that node
+			is the root at depth $0$, and the internal node path length is $0$.
+			The root has two null links, and since the root is the only node on
+			the path to them, it follows that the external path length is $2$.
+			Since $I_1=0$, $E_1=2$, and $E_1-I_1=2=2\cdot 1$, we see that the base
+			case holds.
+			
+			For the inductive case, suppose we have a tree of $n\geq 1$ nodes,
+			and that $E_n-I_n=2n$. Suppose that we add a new node, increasing
+			the tree size to $n+1$. If $k$ is the depth of the new node, then
+			the internal path length of the tree is now $E_{n+1}=I_n+k$.
+			
+			When the new node was inserted, it replaced a null link, which contributed precisely
+			$k$ to the external path length; on the other hand, the new node
+			contributed two new null links to the tree, and reaching each requires
+			traversing through $k+1$ nodes. Hence, the external path length
+			of the new tree is $E_{n+1}=E_n-k+2(k+1)=E_n+k+2$. Now see that
+			\begin{align*}
+				E_{n+1}-I_{n+1}&=(E_n+k+2)-(I_n+k)\\
+				&=(E_n-I_n)+2\\
+				&=2n+2\\
+				&=2(n+1),
+			\end{align*}
+			so the inductive step is asserted. By the principle of mathematical induction,
+			the result now holds for all natural numbers.
+		\end{proof}
+	\end{sol}
+	\begin{ex}{17}
+		Draw the sequence of BSTs that results when you delete the keys from the tree of
+		\textbf{Exercise 3.2.1}, one by one, in the order they were inserted.
+	\end{ex}
+	\begin{sol}
+		See Figure~\ref{fig:ex-17}.
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.7\textwidth]{exercise-17}
+			\caption{Exercise 17: Sequence of binary trees produced when deleting
+			the keys from Exercise 1 in the order they were inserted.}
+			\label{fig:ex-17}
+		\end{figure}
+	\end{sol}
+	\begin{ex}{18}
+		Draw the sequence of BSTs that results when you delete the keys of \textbf{Exercise 3.2.1},
+		one by one, in alphabetical order.
+	\end{ex}
+	\begin{sol}
+		See Figure~\ref{fig:ex-18}.
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.7\textwidth]{exercise-18}
+			\caption{Exercise 18: Sequence of binary trees produced when deleting
+				the keys from Exercise 1 in alphabetical order.}
+			\label{fig:ex-18}
+		\end{figure}
+	\end{sol}
+	\begin{ex}{19}
+		Draw the sequence of BSTs that results when you delete the keys from the tree
+		of \textbf{Exercise 3.2.1}, one by one, by successively deleting the key at the
+		root.
+	\end{ex}
+	\begin{sol}
+		See Figure~\ref{fig:ex-19}.
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.7\textwidth]{exercise-19}
+			\caption{Exercise 19: Sequence of binary trees produced when successively
+				deleting the roots from the final tree in Exercise 1 .}
+			\label{fig:ex-19}
+		\end{figure}
+	\end{sol}
+	\begin{ex}{20}
+		Prove that the running time of the two-argument \texttt{keys()} in a BST
+		is at most proportional to the tree height plus the number of keys in the
+		range.
+	\end{ex}
+	\begin{sol}
+		\begin{proof}
+			Suppose that the two arguments of \texttt{keys()} are \texttt{lo}
+			and \texttt{hi}. The recursive depth is dictated by the ceiling
+			of \texttt{lo} or the floor of \texttt{hi}.
+			
+			The algorithm descends into a left or right subtree effectively searching
+			for \texttt{ceiling(lo)} and \texttt{floor(hi)}, taking time proportional
+			to the tree height in the worst case. Once found, further recursive calls
+			that lead to keys out of range are skipped, and the recursive calls return
+			to their caller to complete the inorder traversal. This means that the
+			duration of the traversal corresponds directly to the number of keys
+			in the range \texttt{lo..hi}.
+			
+			Altogether, the running time of the two-argument \texttt{keys()}
+			is bounded by the tree height plus the number of keys in the search
+			range \texttt{lo..hi}.
+		\end{proof}
+	\end{sol}
+	\begin{ex}{21}
+		Add a BST method \texttt{randomKey()} that returns a random key from the symbol table
+		in time proportional to the tree height, in +the worst case.
+	\end{ex}
+	\begin{sol}
+		We can easily implement this by using \texttt{select()}, passing as
+		the rank \texttt{k} a random integer between 0 and \texttt{size() - 1};
+		see \texttt{com.segarciat.algs4.ch3.sec2.ex21.BST}.
+	\end{sol}
+	\begin{ex}{22}
+		Prove that if a node in a BST has two children, its successor has no left child
+		and its predecessor has no right child.
+	\end{ex}
+	\begin{sol}
+		\begin{proof}
+			Suppose \texttt{x} is a node in a BST with left child \texttt{y} and right child
+			\texttt{z}. The successor is defined to be the next largest node in the binary
+			tree. Since nodes with keys larger than the key of \texttt{x} are in the right
+			subtree of \texttt{x}, this means the successor of \texttt{x} is in the subtree
+			rooted at \texttt{z}.
+			
+			Suppose the successor of \texttt{x} is called \texttt{z*} By definition of the
+			successor, there are no nodes with keys between \texttt{x} and \texttt{z*}, and
+			hence no nodes with keys smaller than the key of \texttt{z*} but larger than the
+			key of \texttt{x}. This implies that the key of \texttt{z*} is the minimum of the
+			keys of the nodes in the subtree rooted at \texttt{z}. Since \texttt{z*} has the
+			minimum key of all nodes in the subtree rooted at \texttt{z}, it has no left
+			child (otherwise, its left child would have the minimum key).
+			
+			Similarly, the predecessor
+			of \texttt{x} is the maximum node \texttt{y*} of the subtree rooted at its left child \texttt{y}. By a similar reasoning \texttt{y*} has no right child.
+		\end{proof}
+	\end{sol}
+	\begin{ex}{23}
+		Is \texttt{delete()} commutative? (Does deleting \texttt{x}, then \texttt{y} give
+		the same result as deleting \texttt{y}, the \texttt{x})?
+	\end{ex}
+	\begin{ex}{24}
+		Prove that no compare-based algorithm can build a BST using fewer than $\lg n!\sim n\lg n$
+		compares.
+	\end{ex}
 	\pagebreak
 	\printbibliography
 \end{document}
