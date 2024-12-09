@@ -491,6 +491,82 @@ style=alphabetic
 		Prove that no compare-based algorithm can build a BST using fewer than $\lg n!\sim n\lg n$
 		compares.
 	\end{ex}
+	\begin{sol}
+		\begin{proof}
+			Suppose that a compared-based algorithm was able to build a BST using
+			fewer than $\lg n!\sim n\lg n$ compares. Since the keys in the BST are sorted,
+			this implies that the algorithm can sort $n$ items with fewer than
+			$\lg n!$ compares, contradicting \textbf{Proposition I} in Section 2.2
+			of \cite{sedgewick_wayne}.
+		\end{proof}
+	\end{sol}
+	\begin{ex}{25}
+		\emph{Perfect balance}. Write a program that inserts a set of keys into an initially
+		empty BST such that the tree produced is equivalent to binary search, in the
+		sense that the sequence of compares done in the search for any key in the BST
+		is the same as the sequence of compares used by binary search for the same
+		key.
+	\end{ex}
+	\begin{sol}
+		During binary search, the middle key of the current range is compared at
+		each step against the search key. See \texttt{com.segarciat.algs4.ch3.sec2.ex25.PerfectBalance}.
+	\end{sol}
+	\begin{ex}{27}
+		\emph{Memory usage}. Compare the memory usage of \texttt{BST} with the memory usage
+		of \texttt{BinarySearchST} and \texttt{Sequential SearchST} for $n$ key-value pairs,
+		under the assumptions described in Section 1.4 (see \textbf{Exercise 3.1.21}).
+		Do not count memory for the keys and values themselves, but do count references to them.
+		Then draw a diagram that depicts the precise memory usage of a BST with \texttt{String}
+		keys and \texttt{Integer} values (such as the ones built by \texttt{FrequencyCounter}),
+		and then estimate the memory usage (in bytes) for the BST built when \texttt{FrequencyCounter}
+		uses \texttt{BST} for \emph{Tale of Two cities}.
+	\end{ex}
+	\begin{sol}
+		In \textbf{Exercise 3.1.21}, I determined that the memory usage for \texttt{SequentialSearchST}
+		for $n$ key-value pairs would be $32+48n$ bytes plus the cost of the keys and values
+		themselves. I also determined that the cost of \texttt{BinarySearchST} is between $72+16n$
+		and $72+64n$ bytes, plus the cost for the keys and values themselves.
+		
+		For \texttt{BST}, first we consider the cost of each \texttt{Node}. This consists
+		of 16 bytes of overhead, 8 bytes overhead for the reference to the enclosing class, 8
+		bytes for the reference to the \texttt{key} field, 8 bytes for the reference
+		to the \texttt{val} field, \texttt{16} bytes total to account for the references
+		to \texttt{left} and \texttt{right}, \texttt{4} bytes for the reference to
+		\texttt{n}, and 4 bytes of padding. The total memory cost for a \texttt{Node} is
+		thus 64 bytes. The \texttt{BST} class has 16 bytes of overhead, 8 bytes for the
+		reference to \texttt{root}, and $64n$ bytes for all $n$ nodes (key-value pairs),
+		making the memory cost $24+64n$ bytes
+		plus the cost of the $n$ keys and values themselves.
+		
+		An \texttt{Integer} takes up \texttt{24} bytes, so $n$ integer values amounts to
+		$24n$ bytes. The cost of a \texttt{String} according to Section 1.4 on page
+		202 of \cite{sedgewick_wayne} is $56+2m$ where $m$ is the total number of characters in
+		the \texttt{String} object. If $M$ is the length of the largest \texttt{String}
+		key, then the cost is bounded by
+		\[
+		24+64n+24n+n\cdot (56+2M)=24+144n+2Mn
+		\]
+		
+		The longest word in \emph{Tale of Two Cities} is \texttt{farmergeneralhowsoever},
+		which has 22 characters, and the shortest ``word" has 1 character. There are
+		$10,674$ distinct words in the text. Therefore, letting $n=10674$ and $M=22$,
+		we see that the memory cost $T$ is bounded by
+		\begin{align*}
+			24+144\cdot 10674+2\cdot 1\cdot 10674&\leq T\leq 24+144\cdot 10674+2\cdot 22\cdot 10674\\
+			1558428& \leq T\leq 2006736
+		\end{align*}
+		This means it takes up at least 1.486 MiB and at most 1.913 MiB.
+	\end{sol}
+	\begin{ex}{30}
+		\emph{BST reconstruction}. Given the preorder (or postorder) traversal of a BST
+		(not including null nodes), design an algorithm to reconstruct the BST.
+	\end{ex}
+	\begin{sol}
+		For preorder, we add the keys in the same order; for postorder, we can add
+		the keys to a stack and traverse the postorder in reverse.
+		
+		See \texttt{com.segarciat.algs4.ch3.sec2.ex30.BSTReconstruction}.
+	\end{sol}
 	\pagebreak
 	\printbibliography
 \end{document}
