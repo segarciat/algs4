@@ -268,8 +268,111 @@ style=alphabetic
 		height is monotonically increasing.
 	\end{ex}
 	\begin{sol}
-		Depends on what we mean by the tree height. The black three height monotonically
-		increases, but the tree height strictly increases.
+		True. Because the keys are inserted in increasing order, they always fall on the rightmost
+		child of the rightmost leaf. However, such a tree would have a right-leaning red link,
+		so it is rotated left to complete the insertion. When the link is rotated left, the height
+		remains unaffected.
+		
+		As the insertions continue, there will never be a tree with two consecutive right-leaning
+		links, because the previous insertion would rotate the link left. We will have
+		to perform color flips, but they do not change the height either. The color flips will create
+		new right-leaning red links, which may need to be handled by rotation, but the tree
+		height is not decreased as a result of this.
+		
+		One effect that color flips have, however, is that because they always occur
+		in a right subtree (due to the pattern of inserting keys in increasing order),
+		they will create right-leaning red links. When these occur further up the tree,
+		there is potential for them to decrease the tree height. However, this does not happen
+		because when they occur the subtrees differ by height of 1 (with the right
+		subtree being the larger), so the rotation to the left does not affect the overall
+		tree height.
+	\end{sol}
+	\begin{ex}{14}
+		Draw the red-black BST that results when you insert letters \texttt{A} through
+		\texttt{K} in order into an initially empty tree, then describe what happens in general
+		when trees are built by insertion of keys in ascending order.
+	\end{ex}
+	\begin{sol}
+		See Figure~\ref{fig:ex-14}
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.8\textwidth]{exercise-14}
+			\caption{Inserting keys in decreasing order into a red-black BST.}
+			\label{fig:ex-14}
+		\end{figure}
+		See the explanation in Exercise 13.
+	\end{sol}
+	
+	\begin{ex}{15}
+		Answer the previous two questions for the case when the keys are inserted in \emph{descending}
+		order.
+	\end{ex}
+	\begin{sol}
+		The tree height is not monotonically increasing.
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.8\textwidth]{exercise-15}
+			\caption{Inserting keys in decreasing order into a red-black BST.}
+			\label{fig:ex-15}
+		\end{figure}
+		In Figure~\ref{fig:ex-15}, we see that after \texttt{T} is inserted, the sequence
+		of transformations takes us from a tree of height 3 to a tree of height 2. The
+		reason is that since left-leaning red links are valid, they are allowed to remain.
+		Since all insertions result in left-leaning red links, we will often encounter two
+		consecutive left-leaning red links, which must be handle via a right rotation.
+		At the bottom of a tree, this does not affect the height. However, the further
+		rotations triggered can change the height, such as the one happening at the
+		root in the figure. There, the rotation makes \texttt{W} the root, and the
+		leaves of greatest depth in the tree are the leaves in \texttt{W}'s subtree.
+		The rotation decreases their depth by 1, and hence the height of the
+		overall tree.
+	\end{sol}
+	\begin{ex}{20}
+		Compute the internal path length in a perfectly balanced BST of $n$ nodes, when
+		$n$ is a power of 2 minus 1.
+	\end{ex}
+	\begin{sol}
+		Let $n=2^m-1$. Then the BST has height $m-1$. Such a tree is a perfect binary tree.
+		At depth $k$ there are $2^k$ nodes, so the internal path length is
+		\begin{align*}
+			\sum_{k=0}^{m-1}k\cdot 2^k
+		\end{align*}
+	\end{sol}
+	\begin{ex}{23}
+		\emph{2-3 trees without balance restriction}. Develop an implementation of the basic
+		symbol-table API that uses 2-3 trees that are not necessarily balanced as the underlying
+		data structure. Allow 3-nodes to lean either way. Hook the new node onto the bottom
+		with a \emph{black} link when inserting into a 3-node at the bottom. Run experiments
+		to develop a hypothesis estimating the average length in a tree built from $n$ random
+		insertions.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch3.sec3.ex23.TwoThreeST}.
+	\end{sol}
+	\begin{ex}{25}
+		\emph{Top-down 2-3-4 trees}. Develop an implementation of the basic symbol-table API
+		that uses balanced 2-3-4 trees as the underlying data structure, using the red-black
+		representation and the insertion method described in the text, where 4-nodes are split
+		by flipping colors on the way down the search path and balancing on the way up.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch3.sec3.ex25.TwoThreeFourST}
+	\end{sol}
+	\begin{ex}{26}
+		\emph{Single top-down pass}. Develop a modified version of your solution to
+		\textbf{Exercise 3.2.25} that does \emph{not} use recursion. Complete all the work
+		splitting and balancing 4-nodes (and balancing 3-nodes) on the way down the tree,
+		finishing with an insertion at the bottom.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch3.sec3.ex26.TwoThreeFourST}
+	\end{sol}
+	\begin{ex}{31}
+		\emph{Tree drawing}. Add a method \texttt{draw()} to \texttt{RedBlackBST} that
+		draws red-black BST figures in the style of the text (see \textbf{Exercise 3.2.38}).
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch3.sec3.ex31.RedBlackBST}
 	\end{sol}
 	
 	\pagebreak
