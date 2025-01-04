@@ -374,6 +374,32 @@ style=alphabetic
 	\begin{sol}
 		See \texttt{com.segarciat.algs4.ch3.sec3.ex31.RedBlackBST}
 	\end{sol}
+	\begin{ex}{32}
+	\end{ex}
+	\begin{sol}
+		\begin{proof}
+			First we can show that the coloring yields a 2-3-4 tree. Say we color
+			red any link from a node of even height to a node of odd height.
+			There are five cases:
+			\begin{enumerate}
+				\item If a node has odd height, then the parity of the height of
+				the children is irrelevant; the links to these nodes are black,
+				so the node is a 2-node.
+				\item If a node has even height and both of its children are of
+				even height, then the links to these nodes is black, making
+				the current node a 2-node.
+				\item If a node has even height and only one of its children has
+				odd height, then the link to that node only is red, so we have
+				a 3-node (either left-leaning or right-leaning).
+				\item If a node has even height and both children are of odd height,
+				then both links are red, so we have a 4-node (note that since
+				the children have odd height, the links from them are black).
+			\end{enumerate}
+			Hence, all nodes are either 2-nodes, 3-nodes, or 4-nodes, meaning we have
+			a 2-3-4 tree. To show that it is perfectly balanced, we need to show
+			that all null links are all the same distance from the root.
+		\end{proof}
+	\end{sol}
 	
 	\pagebreak
 	\printbibliography
