@@ -10,7 +10,8 @@ import edu.princeton.cs.algs4.SequentialSearchST;
  */
 public final class PerfectHashFunction {
     private static int hashLetter(int a, int m, char c) {
-        return (a * (c - 'A')) % m;
+        int k = c - 'A';
+        return (a * k) % m;
     }
 
     public static void main(String[] args) {

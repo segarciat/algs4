@@ -1,12 +1,14 @@
-package com.segarciat.algs4.ch3.sec4.ex02;
+package com.segarciat.algs4.ch3.sec4.ex09;
+
+import java.util.NoSuchElementException;
 
 /**
- * <strong>3.4.2</strong> Implements {@link edu.princeton.cs.algs4.SeparateChainingHashST}
- * by directly using the linked-list code from {@link edu.princeton.cs.algs4.SequentialSearchST}.
- *
+ * <strong>3.4.9</strong>
+ * Implements {@link #delete(Object)} for {@link edu.princeton.cs.algs4.SeparateChainingHashST}.
+ * Based on {@link com.segarciat.algs4.ch3.sec4.ex02.SeparateChainingHashST}.
  * @author Sergio E. Garcia Tapia
  */
-public final class SeparateChainingHashST <Key, Value> {
+public final class SeparateChainingHashST<Key, Value> {
     private final int m;
     private int n;
     private final Node<Key, Value>[] st;
@@ -62,7 +64,7 @@ public final class SeparateChainingHashST <Key, Value> {
 
     public void put(Key key, Value val) {
         if (key == null)
-            throw new NullPointerException("cannot put a null key");
+            throw new NullPointerException("cannot use a null key");
 
         // find the node
         int h = hash(key);
@@ -79,7 +81,24 @@ public final class SeparateChainingHashST <Key, Value> {
 
     public void delete(Key key) {
         if (key == null)
-            throw new NullPointerException("cannot delete a null key");
-        put(key, null);
+            throw new NullPointerException("key cannot be null");
+
+        int h = hash(key);
+        Node<Key, Value> prev = null;
+        Node<Key, Value> current = st[h];
+        while (current != null && !current.key.equals(key)) {
+            prev = current;
+            current = current.next;
+        }
+
+        // did not find the key
+        if (current == null)
+            throw new NoSuchElementException("key does not exist");
+
+        if (prev == null)
+            st[h] = current.next;
+        else
+            prev.next = current.next;
+        n--;
     }
 }
