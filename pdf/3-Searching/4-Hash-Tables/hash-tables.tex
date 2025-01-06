@@ -641,6 +641,31 @@ Y: 3
 	\begin{sol}
 		See \texttt{com.segarciat.algs4.ch3.sec4.ex21.LinearProbingHashST}.
 	\end{sol}
+	\begin{ex}{22}
+		Implement \texttt{hashCode()} for various types: \texttt{Point2D}, \texttt{Interval},
+		\texttt{Interval2D}, and \texttt{Date}.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch3.sec4.ex22}.
+	\end{sol}
+	\begin{ex}{23}
+		Consider modular hashing for string keys with \texttt{R = 256} and \texttt{m = 255}.
+		Show that this is a bad choice because any permutation of letters within a string
+		hashes to the same value.
+	\end{ex}
+	\begin{sol}
+		Modular hashing would treat each characters as a base-256 integer. If $c$ is such
+		a character, then a single character would be hashed as follows:
+		\begin{align*}
+			(R \cdot hash + c) \mod m&=(256\cdot hash + c)\mod 255&=(hash + c)\mod 255
+		\end{align*}
+		where the last equality follows from the fact that $256=1\mod 255$.
+		In a multi-character string, each character would be weighted by a power of $R$ that
+		corresponds to its position. However, because $R\mod m$ is 1, all characters
+		are weighed the same. Thus, the position of characters becomes irrelevant,
+		implying that order no longer places a role and hence any permutation leads
+		to the same hash.
+	\end{sol}
 	\pagebreak
 	\printbibliography
 \end{document}
