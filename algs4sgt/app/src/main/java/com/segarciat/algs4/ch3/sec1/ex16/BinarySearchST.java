@@ -5,8 +5,8 @@ import edu.princeton.cs.algs4.Queue;
 import java.util.NoSuchElementException;
 
 /**
- * <strong>3.1.12)</strong>
- * Builds on Exercise 3.1.16 by adding an implementation
+ * <strong>3.1.16)</strong>
+ * Builds on Exercise 3.1.12 by adding an implementation
  * of the <code>delete()</code> method.
  * @author Sergio E. Garcia Tapia
  */
