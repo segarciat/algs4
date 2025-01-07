@@ -666,6 +666,102 @@ Y: 3
 		implying that order no longer places a role and hence any permutation leads
 		to the same hash.
 	\end{sol}
+	\begin{ex}{24}
+		Analyze the space usage of separate chaining, linear probing, and BSTs for
+		\texttt{double} keys. Present your results in a table like the one on page 476.
+	\end{ex}
+	\begin{sol}
+		\begin{itemize}
+			\item \texttt{SeparateChainingHashST}: There are 16 bytes of object overhead,
+			$4$ bytes for the reference to its \texttt{m} field, and 8 bytes for the reference
+			variable \texttt{st}, and 24 bytes for the array object itself\texttt{st} (16
+			bytes overhead, 4 bytes for its length field, and 4 bytes padding). With
+			4 bytes of padding, we arrive at $56$ bytes. Now, there are $m$
+			\texttt{SequentialSearchST} objects, each requiring 32 bytes when empty
+			(see \textbf{Exercise 3.1.21}), and an $8$ byte reference to them, for
+			a total of $8m$ bytes worth of references. Overall, this means $40m$ bytes.
+			If there are $n$ \texttt{double} in the table (regardless
+			of which \texttt{SequentialSearchST} they are in), then the extra cost is $56n$,
+			because each is store in a \texttt{Node} that takes up about 48 bytes,
+			plus the actual cost for the \texttt{double} themselves, which are autoboxed
+			to \texttt{Double}. Overall, the overhead is about $56+40m + 56n$,
+			plus the cost for the \texttt{double} themselves.
+			\item \texttt{LinearProbingHashST}: There are $16$ bytes of object overhead,
+			$4$ bytes for the \texttt{n} field, $4$ bytes for the \texttt{m} field,
+			$8$ bytes for the reference to the \texttt{keys} array and $24$ bytes for the
+			array itself thus totaling $32$ due to \texttt{keys}, and similarly for the
+			\texttt{vals} array, for a total of $88$ bytes. Now, for each key-value pair,
+			there are 8 bytes for a reference to a key and 8 bytes for a reference to a value.
+			When the table is half-full, meaning $n=m/2$, we have $2\cdot 8n$ for the keys and
+			$2\cdot 8n$ for the values (times 2 because of the reference to unoccupied entries).
+			It could also be one-eight full, in which case it's $8\cdot 8n$ in both cases.
+			Altogether, the cost is around $88 + 32n$ to $88+128n$. This does not account
+			for the \texttt{double} values themselves, and the fact that they would be subject
+			to autoboxing to \texttt{Double}.
+		\end{itemize}
+	\end{sol}
+	\begin{ex}{25}
+		\emph{Hash cache}. Modify \texttt{Transaction} on page 462 to maintain an instance
+		variable \texttt{hash}, so that \texttt{hashCode()} can save the hash value
+		the first time it is called for each object, and does not have to recompute it
+		on subsequent calls. \emph{Note}: This idea works only for immutable types.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch3.sec4.ex25.Transaction}.
+	\end{sol}
+	\begin{ex}{26}
+		\emph{Lazy delete for linear probing}. Add to \texttt{LinearProbingHashST} a
+		\texttt{delete()} method that deletes a key-value pair by setting the value to
+		\texttt{null} (but not removing the key) and later removing the pair from the
+		table in \texttt{resize()}. Your primary challenge is to decide when to call
+		\texttt{resize()}. \emph{Note}: You should overwrite the \texttt{null} value if
+		a subsequent \texttt{put()} operations associates a new value with the key.
+		Make sure that your program takes into account the number of such \emph{tombstone}
+		items, as well as the number of empty positions, in making
+		the decision whether to expand or contract the table.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch3.sec4.ex26.LinearProbingHashST}.
+	\end{sol}
+	\begin{ex}{30}
+		\emph{Chi-square statistic}. Add a method to \texttt{SeparateChainingHashST} to compute the
+		$\chi^2$ statistic for the hash table. With $n$ keys and table size $m$, this
+		number is defined by the equation:
+		
+		\begin{align*}
+		\chi^2 = (m/n) \cdot ((f_0 - n/m)^2 + (f_1 - n/m)^2 + \cdots + (f_{m-1} - n/m)^2)
+		\end{align*}
+		
+		where $f_i$ is the number of keys with has value $i$. This statistic is one way of
+		checking our assumption that the hash function produces random values. If so, this
+		statistic obeys a $\chi^2$ distribution with $m-1$ degrees of freedom, so its mean
+		is $m-1$, and its variance is $2\cdot (m-1)$.
+	\end{ex}
+	\begin{ex}{34}
+		\emph{Hash cost}. Determine empirically the ratio of the time required for \texttt{hash()}
+		to the time required for \texttt{compareTo()}, for as many commonly-used types of
+		keys for which you can get meaningful results.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch3.sec4.ex34}.
+	\end{sol}
+	\begin{ex}{36}
+		\emph{List length range}. Write a program that inserts $n$ random \texttt{int} keys into
+		a hash table of size $n / 100$ using separate chaining, then finds the length
+		of the shortest and longest lists, for $n=10^3,10^4,10^5,10^6$.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch3.sec4.ex36}.
+	\end{sol}
+	\begin{ex}{38}
+		\emph{Separate-chaining distribution}. Write a program that inserts $10^5$ random non-negative
+		integers less than $10^6$ into a hash table of size $10^5$ using separate chaining, and
+		that plots the total cost for each $10^3$ consecutive insertions. Discuss the extent to
+		which your results validate \textbf{Proposition K}.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch3.sec4.ex38}.
+	\end{sol}
 	\pagebreak
 	\printbibliography
 \end{document}
