@@ -88,14 +88,14 @@ public final class BinarySearchST<Key extends Comparable<Key>, Value> {
         if (key == null)
             throw new NullPointerException("cannot add a null key");
         // get from cache
-        if (mostRecent < n && key.compareTo(items[mostRecent].key()) == 0) {
+        if (mostRecent >=0 && key.compareTo(items[mostRecent].key()) == 0) {
             return items[mostRecent].val();
         }
 
         int i = rank(key);
         if (i < n && key.compareTo(items[i].key()) == 0) {
             // search hit
-            i = mostRecent;
+            mostRecent = i;
             return items[i].val();
         } else {
             // search miss
@@ -110,6 +110,7 @@ public final class BinarySearchST<Key extends Comparable<Key>, Value> {
             delete(key);
             return;
         }
+
         int i = rank(key);
         if (i < n && key.compareTo(items[i].key()) == 0) {
             items[i].val = val;
