@@ -1,0 +1,205 @@
+\documentclass[12pt, a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+% Limit the page margin to only 1 inch.
+\usepackage[margin=1in]{geometry}
+
+%Imports biblatex package
+\usepackage[
+backend=biber,
+style=alphabetic
+]{biblatex}
+\addbibresource{../../algs4e.bib}
+
+% Enables the `align' environment.
+\usepackage{amsmath}
+% Provides useful environments, such as:
+% - \begin{proof} ...\end{proof}
+\usepackage{amsthm}
+\usepackage[most]{tcolorbox}
+
+\newtheorem*{proposition}{Proposition}
+
+% Enables using \mathbb{}, for example \mathbb{N} for the set of natural numbers.
+\usepackage{amssymb}
+
+% Allows using letters in enumerate list environment. Use, for example:
+%\begin{enumerate}[label=(\alph*)]
+% ...
+%\end{enumerate}
+\usepackage[inline]{enumitem}
+
+% Enable importing external graphic files and provides useful commannds, like \graphicspath{}
+\usepackage{graphicx}
+% Images are located in a directory called images in the current directory.
+\graphicspath{{./images/}}
+
+% Make links look better by default.
+% See: https://tex.stackexchange.com/questions/823/remove-ugly-borders-around-clickable-cross-references-and-hyperlinks
+\usepackage[hidelinks]{hyperref}
+\usepackage{xcolor}
+\hypersetup{
+	colorlinks,
+	linkcolor={red!50!black},
+	citecolor={blue!50!black},
+	urlcolor={blue!80!black}
+}
+
+
+% Code Listings. Source:
+% https://stackoverflow.com/questions/3175105/inserting-code-in-this-latex-document-with-indentation
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+	language=Java,
+	aboveskip=3mm,
+	belowskip=3mm,
+	showstringspaces=false,
+	columns=flexible,
+	basicstyle={\small\ttfamily},
+	numbers=none,
+	numberstyle=\tiny\color{gray},
+	keywordstyle=\color{blue},
+	commentstyle=\color{dkgreen},
+	stringstyle=\color{mauve},
+	breaklines=true,
+	breakatwhitespace=true,
+	tabsize=3
+}
+
+\newcommand{\prob}{\text{P}}
+%\newcommand{\complement}{\mathsf{c}}
+
+% Define an environment called "ex" (for Exercise) so that I can do: \begin{ex}{1.5}...\end{ex}
+\newenvironment{ex}[2][Exercise]
+{\par\medskip\noindent \textbf{#1 #2.}}
+{\medskip}
+
+% Define a solution environment, similar to ex (exercise) environment.
+\newenvironment{sol}[1][Solution]
+{\par\medskip\noindent \textbf{#1.} }
+{\medskip}
+
+\begin{document}
+	\noindent Sergio E. Garcia Tapia \hfill
+	
+	\noindent \emph{Algorithms} by Sedgewick and Wayne (4th edition) \cite{sedgewick_wayne}\hfill
+	
+	\noindent January 07, 2025\hfill 
+	\section*{3.5: Applications}
+	\begin{ex}{1}
+		Implement \texttt{SET} and \texttt{HashSET} as "wrapper class" clients of \texttt{ST}
+		and \texttt{HashST}, respectively (provide dummy values and ignore them).
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch3.sec5.ex01}.
+	\end{sol}
+	\begin{ex}{2}
+		Develop a \texttt{SET} implementation by starting with the code for \texttt{SequentialSearchST}
+		and eliminating all the code involving values.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch3.sec5.ex02}.
+	\end{sol}
+	\begin{ex}{3}
+		Develop a \texttt{SET} implementation \texttt{BinarySearchSET} by starting with the code for
+		\texttt{BinarySearchST} and eliminating all the code involving values.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch3.sec5.ex03}.
+	\end{sol}
+	\begin{ex}{4}
+		Develop classes \texttt{HashSTint} and \texttt{HashSTdouble} for maintaining sets of keys of
+		primitive \texttt{int} and \texttt{double} types, respectively. (Convert generics to primitive
+		types in the code of \texttt{LinearProbingHashST}).
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch3.sec5.ex04}.
+	\end{sol}
+	\begin{ex}{8}
+		Modify \texttt{LinearProbingHashST} to keep duplicate keys in the table.
+		Return \emph{any} value associated with the given key for \texttt{get()}, and
+		remove \emph{all} items in the table that have keys equal to the given
+		key for \texttt{delete()}.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch3.sec5.ex08}.
+	\end{sol}
+	\begin{ex}{9}
+		Modify \texttt{BST} to keep duplicate keys in the tree. Return \emph{any} value associated
+		with the given key for \texttt{get()}, and remove \emph{all} items in the table that have
+		keys equal to the given key for \texttt{delete()}.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch3.sec5.ex09}.
+	\end{sol}
+	\begin{ex}{12}
+		Modify \texttt{LookupCSV} to associate with each key all values that appear
+		in key-value pairs with that key in the input (not just the most recent,
+		as in the associative-array abstraction).
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch3.sec5.ex12}.
+	\end{sol}
+	\begin{ex}{13}
+		Modify \texttt{LookupCSV} to make a program \texttt{RangeLookupCSV} that takes two key
+		values from the standard input and prints all key-value pairs in the \texttt{.csv}
+		file such that the key falls within the range specified.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch3.sec5.ex13}.
+	\end{sol}
+	\begin{ex}{14}
+		Develop and test a static method \texttt{invert()} that takes as argument an
+		\texttt{ST<String, Bag<String>>} and produces as return value the inverse
+		of the given symbol table (a symbol table of the same type).
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch3.sec5.ex14}.
+	\end{sol}
+	\begin{ex}{15}
+		Write a program that takes a string on standard input and an integer $k$
+		as command-line argument and puts on standard output a sorted list of the
+		$k$-grams (substrings of length $k$) found in the string, each followed by
+		its index in the string.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch3.sec5.ex15}.
+	\end{sol}
+	\begin{ex}{16}
+		Add a method \texttt{sum()} to \texttt{SparseVector} that takes a \texttt{SparseVector}
+		as argument and returns a \texttt{SparseVector} that is the term-by-term sum of this
+		vector and the argument vector. \emph{Note}: You need \texttt{delete()} (and special
+		attention to precision) to handle the case when an entry becomes 0.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch3.sec5.ex16}.
+	\end{sol}
+	\begin{ex}{17}
+		\emph{Finite mathematical sets}. Your goal is to develop an implementation of
+		the following API for processing finite mathematical sets:
+		\begin{lstlisting}[language={}]
+		public class MathSET<Key>
+MathSet(Key[] universe)        // Create the empty set (using given universe)
+void add(Key key)                   // put key into the set
+MathSET<Key> complement()                   // set of keys int he universe that are not in this set.
+void union(MathSET<Key> a)          // put any keys from a into the set that are not
+// already there.
+void intersection(MathSET<Key> a)   // remove any keys from this set that are not in a.
+void delete(Key key)                // remove key from the set
+boolean contains(Key key)              // is key in the set?
+boolean isEmpty()                      // is the set empty?
+int size()                         // number of keys in the set
+		\end{lstlisting}
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch3.sec5.ex17}.
+	\end{sol}
+	\pagebreak
+	\printbibliography
+\end{document}
