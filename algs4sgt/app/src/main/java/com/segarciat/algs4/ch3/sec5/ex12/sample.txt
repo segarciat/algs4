@@ -1,0 +1,6 @@
+fish,pescatarian
+peanut,vegan
+milk,calcium
+peanut,allergen
+milk,allergen
+beef,red-mean
