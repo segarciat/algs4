@@ -23,6 +23,10 @@ public final class LinearProbingHashST <Key, Value> {
         this.m = cap;
     }
 
+    public LinearProbingHashST() {
+        this(16);
+    }
+
     public int size() {
         return n;
     }

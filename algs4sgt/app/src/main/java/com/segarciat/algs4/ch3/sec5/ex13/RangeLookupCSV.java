@@ -11,7 +11,7 @@ import edu.princeton.cs.algs4.StdIn;
  * keys, and displaying all key-value pairs for keys in that range.
  * @author Sergio E. Garcia Tapia
  */
-public final class LookupCSV {
+public final class RangeLookupCSV {
     public static void main(String[] args) {
         In in = new In(args[0]);
         int keyField = Integer.parseInt(args[1]);

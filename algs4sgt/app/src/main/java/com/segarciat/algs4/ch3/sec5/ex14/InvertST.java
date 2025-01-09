@@ -5,7 +5,8 @@ import edu.princeton.cs.algs4.ST;
 
 /**
  * <strong>3.5.14)</strong>
- *
+ * Implements a method {@link #invert(ST)} that inverts a symbol table.
+ * @author Sergio E. Garcia Tapia
  */
 public final class InvertST {
     public static ST<String, Bag<String>> invert(ST<String, Bag<String>> st) {
@@ -49,11 +50,22 @@ public final class InvertST {
         bag.add("irrational");
         bag.add("real");
 
+        System.out.println("Original symbol table:");
+        for (String key: st.keys())  {
+            System.out.print(key + ":");
+            for (String val: st.get(key))
+                System.out.print(" " + val);
+            System.out.println();
+        }
+
         ST<String, Bag<String>> ts = invert(st);
-        for (String key: ts) {
-            System.out.println(key);
+        System.out.println();
+        System.out.println("Inverted Table");
+        for (String key: ts.keys())  {
+            System.out.print(key + ":");
             for (String val: ts.get(key))
-                System.out.println("  " + val);
+                System.out.print(" " + val);
+            System.out.println();
         }
     }
 }
