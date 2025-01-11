@@ -90,115 +90,50 @@ style=alphabetic
 	
 	\noindent \emph{Algorithms} by Sedgewick and Wayne (4th edition) \cite{sedgewick_wayne}\hfill
 	
-	\noindent January 07, 2025\hfill 
-	\section*{3.5: Applications}
+	\noindent January 09, 2025\hfill 
+	\section*{4.1: Undirected Graphs}
 	\begin{ex}{1}
-		Implement \texttt{SET} and \texttt{HashSET} as "wrapper class" clients of \texttt{ST}
-		and \texttt{HashST}, respectively (provide dummy values and ignore them).
+		What is the maximum number of edges in a graph with $V$ vertices and no parallel
+		edges? What is the minimum number of edges in a graph with $V$ vertices, none of
+		which are isolated (have degree $0$)?
 	\end{ex}
 	\begin{sol}
-		See \texttt{com.segarciat.algs4.ch3.sec5.ex01}.
+		No parallel edges means that at most one edge connects any two given nodes.
+		For any vertex $v_i$, there are $V$ possible edge candidates, including $v_0$
+		itself (because loops are not disallowed, we can assume they are allowed).
+		Then, for $v_1$, there are $V-1$ edges allowed: one for $v_1$, and one for each
+		other vertex, except $v_0$. Continuing this way, we find that there is
+		a maximum of $V!$ ($V$ factorial) edges.
+		
+		If $V$ is even, then the minimum is $V / 2$, since we can pair all vertices.
+		If $V$ is odd, it is $\lfloor V / 2\rfloor + 1$.
 	\end{sol}
 	\begin{ex}{2}
-		Develop a \texttt{SET} implementation by starting with the code for \texttt{SequentialSearchST}
-		and eliminating all the code involving values.
+		Draw, in the style of the figure in the text (page 524), the adjacency lists
+		built by \texttt{Graph}'s input stream constructor for the file \texttt{tinyGex2.txt}
+		depicted at left.
 	\end{ex}
-	\begin{sol}
-		See \texttt{com.segarciat.algs4.ch3.sec5.ex02}.
-	\end{sol}
 	\begin{ex}{3}
-		Develop a \texttt{SET} implementation \texttt{BinarySearchSET} by starting with the code for
-		\texttt{BinarySearchST} and eliminating all the code involving values.
+		Create a copy constructor for \texttt{Graph} that takes as input a graph
+		\texttt{G} and creates and initializes a new copy of the graph. Any changes
+		a client makes to \texttt{G} should not affect the newly created graph.
 	\end{ex}
 	\begin{sol}
-		See \texttt{com.segarciat.algs4.ch3.sec5.ex03}.
+		See \texttt{com.segarciat.algs4.ch4.sec1.ex03}.
 	\end{sol}
 	\begin{ex}{4}
-		Develop classes \texttt{HashSTint} and \texttt{HashSTdouble} for maintaining sets of keys of
-		primitive \texttt{int} and \texttt{double} types, respectively. (Convert generics to primitive
-		types in the code of \texttt{LinearProbingHashST}).
+		Add a method \texttt{hasEdge()} to \texttt{Graph} which takes two \texttt{int}
+		arguments \texttt{v} and \texttt{w} and returns \texttt{true} if the graph has
+		an edge \texttt{v-w}, \texttt{false} otherwise.
 	\end{ex}
 	\begin{sol}
-		See \texttt{com.segarciat.algs4.ch3.sec5.ex04}.
+		See \texttt{com.segarciat.algs4.ch4.sec1.ex04}.
 	\end{sol}
-	\begin{ex}{8}
-		Modify \texttt{LinearProbingHashST} to keep duplicate keys in the table.
-		Return \emph{any} value associated with the given key for \texttt{get()}, and
-		remove \emph{all} items in the table that have keys equal to the given
-		key for \texttt{delete()}.
+	\begin{ex}{5}
+		Modify \texttt{Graph} to disallow parallel edges and self-loops.
 	\end{ex}
 	\begin{sol}
-		See \texttt{com.segarciat.algs4.ch3.sec5.ex08}.
-	\end{sol}
-	\begin{ex}{9}
-		Modify \texttt{BST} to keep duplicate keys in the tree. Return \emph{any} value associated
-		with the given key for \texttt{get()}, and remove \emph{all} items in the table that have
-		keys equal to the given key for \texttt{delete()}.
-	\end{ex}
-	\begin{sol}
-		See \texttt{com.segarciat.algs4.ch3.sec5.ex09}.
-	\end{sol}
-	\begin{ex}{12}
-		Modify \texttt{LookupCSV} to associate with each key all values that appear
-		in key-value pairs with that key in the input (not just the most recent,
-		as in the associative-array abstraction).
-	\end{ex}
-	\begin{sol}
-		See \texttt{com.segarciat.algs4.ch3.sec5.ex12}.
-	\end{sol}
-	\begin{ex}{13}
-		Modify \texttt{LookupCSV} to make a program \texttt{RangeLookupCSV} that takes two key
-		values from the standard input and prints all key-value pairs in the \texttt{.csv}
-		file such that the key falls within the range specified.
-	\end{ex}
-	\begin{sol}
-		See \texttt{com.segarciat.algs4.ch3.sec5.ex13}.
-	\end{sol}
-	\begin{ex}{14}
-		Develop and test a static method \texttt{invert()} that takes as argument an
-		\texttt{ST<String, Bag<String>>} and produces as return value the inverse
-		of the given symbol table (a symbol table of the same type).
-	\end{ex}
-	\begin{sol}
-		See \texttt{com.segarciat.algs4.ch3.sec5.ex14}.
-	\end{sol}
-	\begin{ex}{15}
-		Write a program that takes a string on standard input and an integer $k$
-		as command-line argument and puts on standard output a sorted list of the
-		$k$-grams (substrings of length $k$) found in the string, each followed by
-		its index in the string.
-	\end{ex}
-	\begin{sol}
-		See \texttt{com.segarciat.algs4.ch3.sec5.ex15}.
-	\end{sol}
-	\begin{ex}{16}
-		Add a method \texttt{sum()} to \texttt{SparseVector} that takes a \texttt{SparseVector}
-		as argument and returns a \texttt{SparseVector} that is the term-by-term sum of this
-		vector and the argument vector. \emph{Note}: You need \texttt{delete()} (and special
-		attention to precision) to handle the case when an entry becomes 0.
-	\end{ex}
-	\begin{sol}
-		See \texttt{com.segarciat.algs4.ch3.sec5.ex16}.
-	\end{sol}
-	\begin{ex}{17}
-		\emph{Finite mathematical sets}. Your goal is to develop an implementation of
-		the following API for processing finite mathematical sets:
-		\begin{lstlisting}[language={}]
-		public class MathSET<Key>
-MathSet(Key[] universe)        // Create the empty set (using given universe)
-void add(Key key)                   // put key into the set
-MathSET<Key> complement()                   // set of keys int he universe that are not in this set.
-void union(MathSET<Key> a)          // put any keys from a into the set that are not
-// already there.
-void intersection(MathSET<Key> a)   // remove any keys from this set that are not in a.
-void delete(Key key)                // remove key from the set
-boolean contains(Key key)              // is key in the set?
-boolean isEmpty()                      // is the set empty?
-int size()                         // number of keys in the set
-		\end{lstlisting}
-	\end{ex}
-	\begin{sol}
-		See \texttt{com.segarciat.algs4.ch3.sec5.ex17}.
+		See \texttt{com.segarciat.algs4.ch4.sec1.ex05}.
 	\end{sol}
 	\pagebreak
 	\printbibliography
