@@ -111,8 +111,37 @@ style=alphabetic
 	\begin{ex}{2}
 		Draw, in the style of the figure in the text (page 524), the adjacency lists
 		built by \texttt{Graph}'s input stream constructor for the file \texttt{tinyGex2.txt}
-		depicted at left.
+		depicted at left (input from \texttt{tinyGex2.txt}).
+		\begin{lstlisting}[language={}]
+12
+16
+ 8  4
+ 2  3
+ 1 11
+ 0  6
+ 3  6
+10  3
+ 7 11
+ 7  8
+11  8
+ 2  0
+ 6  2
+ 5  2
+ 5 10
+ 5  0
+ 8  1
+ 4  1
+		\end{lstlisting}
 	\end{ex}
+	\begin{sol}
+		See Figure~\ref{fig:ex-02}.
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.5\textwidth]{exercise-02}
+			\caption{Adjacency list representation for undirected graph from \texttt{tinyGex2.txt}}
+			\label{fig:ex-02}
+		\end{figure}
+	\end{sol}
 	\begin{ex}{3}
 		Create a copy constructor for \texttt{Graph} that takes as input a graph
 		\texttt{G} and creates and initializes a new copy of the graph. Any changes
@@ -135,6 +164,44 @@ style=alphabetic
 	\begin{sol}
 		See \texttt{com.segarciat.algs4.ch4.sec1.ex05}.
 	\end{sol}
+	\begin{ex}{6}
+		Consider the four-vertex graph with edges \texttt{0-1}, \texttt{1-2}, \texttt{2-3},
+		and \texttt{3-0}. Draw an array of adjacency-lists that could \emph{not} have been
+		built calling \texttt{addEdge()} for these edges \emph{no matter what order}.
+	\end{ex}
+	\begin{sol}
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.3\textwidth]{exercise-06}
+			\caption{Impossible adjacency-lists for a four-vertex graph with edges
+			\texttt{0-1}, \texttt{1-2}, \texttt{2-3}, and \texttt{3-0}.}
+			\label{fig:ex-06}
+		\end{figure}
+		See Figure~\ref{fig:ex-06}. The contents suggest that
+		\begin{enumerate}
+			\item According to 0's adjacency list, \texttt{0-3} comes before \texttt{0-1}.
+			\item According to 3's adjacency list, \texttt{2-3} comes before \texttt{0-3}.
+			\item According to 2's adjacency list, \texttt{1-2} comes before \texttt{2-3}.
+			\item According to 1's adjacency list, \texttt{0-1} comes before \texttt{1-2}.
+		\end{enumerate}
+		According to the first three, the implied order is
+		\begin{lstlisting}[language=java]
+1-2
+2-3
+0-3
+0-1
+		\end{lstlisting}
+		but then 1's adjacency list says that \texttt{0-1} comes before \texttt{1-2},
+		which contradicts that \texttt{0-1} comes last in the list above. This can
+		be seen from the adjacency lists because there must be first pair, which means
+		that there is a pair of vertices \texttt{v} and \texttt{w} that are last in each
+		other's adjacency lists. That would imply that \texttt{v-w} (or \texttt{w-v})
+		was the first edge inserted. That doesn't happen in the figure, however.
+	\end{sol}
+	\begin{ex}{7}
+		Develop a test client for \texttt{Graph} that reads a graph from the input stream
+		named as command-line argument and then prints it, relying on \texttt{toString()}.
+	\end{ex}
 	\pagebreak
 	\printbibliography
 \end{document}

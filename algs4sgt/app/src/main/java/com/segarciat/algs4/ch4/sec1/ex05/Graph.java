@@ -1,4 +1,4 @@
-package com.segarciat.algs4.ch4.ex05;
+package com.segarciat.algs4.ch4.sec1.ex05;
 
 import edu.princeton.cs.algs4.Bag;
 import edu.princeton.cs.algs4.In;

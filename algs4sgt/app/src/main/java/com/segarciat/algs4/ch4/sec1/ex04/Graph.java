@@ -1,13 +1,13 @@
-package com.segarciat.algs4.ch4.ex03;
+package com.segarciat.algs4.ch4.sec1.ex04;
 
 import edu.princeton.cs.algs4.Bag;
 import edu.princeton.cs.algs4.In;
 
 /**
- * <strong>4.1.3)</strong>
- * Extends {@link edu.princeton.cs.algs4.Graph} by adding
- * a copy-constructor {@link #Graph(Graph)}. The remaining
- * method implementations are as given in the text.
+ * <strong>4.1.4)</strong>
+ * Extends {@link edu.princeton.cs.algs4.Graph} by adding a method
+ * {@link #hasEdge(int, int)} that checks whether an <code>v-w</code>
+ * exists.
  * @author Sergio E. Garcia Tapia
  */
 public final class Graph {
@@ -34,14 +34,6 @@ public final class Graph {
             int w = in.readInt();
             addEdge(v, w);
         }
-    }
-
-    public Graph(Graph G) {
-        this(G.V());
-        this.E = G.E;
-        for (int v = 0; v < V; v++)
-            for (int w: G.adj[v])
-                this.adj[v].add(w);
     }
 
     public int V() {
@@ -72,5 +64,14 @@ public final class Graph {
             sb.append(System.lineSeparator());
         }
         return sb.toString();
+    }
+
+    public boolean hasEdge(int v, int w) {
+        if (v < 0 || w < 0 || v >= V || w >= V)
+            throw new IllegalArgumentException("invalid vertex");
+        for (int u: adj[v])
+            if (u == w)
+                return true;
+        return false;
     }
 }
