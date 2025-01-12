@@ -15,10 +15,6 @@ public final class Graph {
     private final int V;
     private int E;
 
-    public int E() {
-        return E;
-    }
-
     public Graph(int V) {
         this.V = V;
         adj = (Bag<Integer>[]) new Bag[V];
@@ -28,7 +24,7 @@ public final class Graph {
 
     public Graph(In in) {
         this(in.readInt());
-        int E = in.readInt();
+        E = in.readInt();
         for (int i = 0; i < E; i++) {
             int v = in.readInt();
             int w = in.readInt();
@@ -38,6 +34,9 @@ public final class Graph {
 
     public int V() {
         return V;
+    }
+    public int E() {
+        return E;
     }
 
     public void addEdge(int v, int w) {

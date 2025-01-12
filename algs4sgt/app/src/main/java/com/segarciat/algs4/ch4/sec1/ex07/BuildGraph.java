@@ -3,6 +3,12 @@ package com.segarciat.algs4.ch4.sec1.ex07;
 import edu.princeton.cs.algs4.Graph;
 import edu.princeton.cs.algs4.In;
 
+/**
+ * <strong>4.1.7)</strong>
+ * Uses the constructor that accepts a file stream to build
+ * and display a graph specified in a given file.
+ * @author Sergio E. Garcia Tapia
+ */
 public final class BuildGraph {
     public static void main(String[] args) {
         if (args.length != 1) {

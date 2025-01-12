@@ -111,7 +111,7 @@ style=alphabetic
 	\begin{ex}{2}
 		Draw, in the style of the figure in the text (page 524), the adjacency lists
 		built by \texttt{Graph}'s input stream constructor for the file \texttt{tinyGex2.txt}
-		depicted at left (input from \texttt{tinyGex2.txt}).
+		depicted at left (input from \texttt{tinyGex2.txt}) (see also Figure~\ref{fig:tinyGex2-graph}).
 		\begin{lstlisting}[language={}]
 12
 16
@@ -132,6 +132,12 @@ style=alphabetic
  8  1
  4  1
 		\end{lstlisting}
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.2\textwidth]{exercise-02-graph}
+			\caption{Graph from \texttt{tinyGex2.txt}.}
+			\label{fig:tinyGex2-graph}
+		\end{figure}
 	\end{ex}
 	\begin{sol}
 		See Figure~\ref{fig:ex-02}.
@@ -202,6 +208,181 @@ style=alphabetic
 		Develop a test client for \texttt{Graph} that reads a graph from the input stream
 		named as command-line argument and then prints it, relying on \texttt{toString()}.
 	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch4.sec1.ex07}.
+	\end{sol}
+	\begin{ex}{8}
+		Develop an implementation of the \texttt{Search} API on page 528 that uses \texttt{UF},
+		as described in the text.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch4.sec1.ex08}.
+	\end{sol}
+	\begin{ex}{9}
+		Show, in the style of page 533, a detailed trace of the call \texttt{dfs(0)}
+		for the graph built by \texttt{Graph}'s input stream constructor for the file
+		\texttt{tinyGex2.txt} (see \texttt{Exercise 4.1.2} and Figure~\ref{fig:tinyGex2-graph}).
+		Also, draw the tree represented by \texttt{edgeTo[]}.
+	\end{ex}
+	\begin{sol}
+		From Figure~\ref{fig:tinyGex2-graph}, we see that $G$ is not connected, so
+		we can focus on the connected component of $G$ that contains \texttt{0}.
+		See Figure~\ref{fig:ex-09-dfs} for the race, and Figure~\ref{fig:ex-09-tree}
+		for the tree.
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.9\textwidth]{exercise-09-dfs}
+			\caption{Trace of depth-first search to find all paths from \texttt{0} on \texttt{tinyGex2.txt}.}
+			\label{fig:ex-09-dfs}
+		\end{figure}
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.05\textwidth]{exercise-09-edgeTo-tree}
+			\caption{Tree built from Figure~\ref{fig:ex-09-dfs}.}
+			\label{fig:ex-09-tree}
+			\end{figure}
+	\end{sol}
+	\begin{ex}{10}
+		Prove that every connected graph has a vertex whose removal (including all
+		incident edges) will not disconnect the graph, and write a DFS method that
+		finds such a vertex. \emph{Hint}: Consider a vertex whose adjacent vertices
+		are all marked.
+	\end{ex}
+	\begin{sol}
+		\begin{proof}
+			Suppose $G$ is connected. If we choose any vertex $s$, \textbf{Proposition A}
+			in Section 4.1 of \cite{sedgewick_wayne} implies that the depth-first search
+			algorithm marks all vertices in the graph, since $G$ is connected.
+			Eventually, the algorithm encounters a vertex whose adjacent vertices
+			are all marked. Otherwise, the algorithm always finds a new unmarked
+			vertex, but this must stop after at most $|G|$ steps because at that
+			point all vertices in the graph have been marked.
+			
+			Let $u$ be the vertex whose adjacent vertices have all been marked. If we remove
+			$u$ and all edges connected to it, then the graph remains connected. To see
+			this, suppose $v$ and $w$ are two distinct vertices, neither of which are $u$.
+			If $v$ or $w$ were adjacent to $u$, then the fact that its adjacent vertices
+			have been marked means that a path to either $v$ or $w$ from $s$ was already
+			found. Otherwise, if neither $v$ nor $w$ were adjacent to $u$, then the
+			fact that depth-first search marks all vertices means that there is a path
+			from $s$ to both $v$ and $w$. Thus, if $p_{vs}$ is a path from $v$ to $s$,
+			and $p_{sw}$ is a path from $s$ to $w$, then concatenating $p_{vs}$ and $p_{sw}$
+			creates a path $p_{vw}$ from $v$ to $w$. Hence, after removing $u$ and
+			the edges containing $u$ from $G$, the graph remains connected.
+		\end{proof}
+	\end{sol}
+	\begin{ex}{11}
+		Draw the tree represented by \texttt{edgeTo[]} after the call \texttt{bfs(G, 0)}
+		in \textbf{Algorithm 4.2} for the graph built by \texttt{Graph}'s input stream
+		constructor for the file \texttt{tinyGex2.txt} (see \textbf{Exercise 4.1.2} and
+		Figure~\ref{fig:tinyGex2-graph}).
+	\end{ex}
+	\begin{sol}
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.9\textwidth]{exercise-11-bfs}
+			\caption{Trace of breadth-first search (BFS) on \texttt{tinyGex2.txt}.}
+			\label{fig:ex-11-bfs}
+		\end{figure}
+	\end{sol}
+	\begin{sol}
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.2\textwidth]{exercise-11-tree}
+			\caption{Tree representation of \texttt{edgeTo[]} array corresponding to
+				BFS in Figure~\ref{fig:ex-11-bfs}.}
+			\label{fig:ex-11-tree}
+		\end{figure}
+	\end{sol}
+	\begin{ex}{12}
+		What does the BFS tree tell us about the distance from \texttt{v} to
+		\texttt{w} when neither is at the root?
+	\end{ex}
+	\begin{sol}
+		If the path from the root \texttt{s} to \texttt{v} has length $k$ and
+		the path from \texttt{s} to \texttt{w} has length $m$, then it tells us
+		that the distance from \texttt{v} to \texttt{w} is bounded by $k + m$, or:
+		\begin{align*}
+			\text{dist}(\texttt{v},\texttt{w}) \leq \text{dist}(\texttt{v}, \texttt{s})
+			+\text{dist}(\texttt{s}, \texttt{w})
+		\end{align*}
+		However, it does not tell us what the distance is, since we only
+		know information about vertices relative to the root \texttt{s}.
+	\end{sol}
+	\begin{ex}{13}
+		Add a \texttt{distTo()} method to the \texttt{BreadthFirstPaths} API and implementation,
+		which returns the number of edges on the shortest path from the source to a given
+		vertex. A \texttt{distTo()} query should run in constant time.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch4.sec1.ex13}.
+	\end{sol}
+	\begin{ex}{14}
+		Suppose you use a stack instead of a queue when running breadth-first search.
+		Does it still compute shortest paths?
+	\end{ex}
+	\begin{sol}
+		No. In Figure ~\ref{fig:ex-14}, if \texttt{0} were the source vertex, and
+		\texttt{2} was the last note in the adjacency list for node \texttt{0},
+		then it would be the first removed from the stack. Processing it would lead to
+		a path of length \texttt{4}, namely \texttt{0-2-5-6-4}, but the shortest path
+		from \texttt{0} to \texttt{4} is \texttt{0-1-4}, of length 2.
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.3\textwidth]{exercise-14}
+			\caption{Exercise 14}
+			\label{fig:ex-14}
+		\end{figure}
+	\end{sol}
+	\begin{ex}{15}
+		Modify the input stream constructor for \texttt{Graph} to also allow adjacency
+		lists from standard input (in a manner similar to \texttt{SymbolGraph}), as in
+		the example \texttt{tinyGadj.txt} shown at right. After the number of vertices
+		and edges, each line contains a vertex and its list of adjacent vertices.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch4.sec1.ex15}.
+	\end{sol}
+	\begin{ex}{16}
+		The \emph{eccentricity} of a vertex \texttt{v} is the length of the shortest path
+		from that vertex to the furthest vertex from \texttt{v}. The \emph{diameter} of a
+		graph is the maximum eccentricity of any vertex. The \emph{radius} of a graph is the
+		smallest eccentricity of any vertex. A \emph{center} is a vertex whose eccentricity is
+		the radius. Implement the following API:
+		
+		\begin{lstlisting}[language={}]
+public class GraphProperties
+       GraphProperties(Graph G)    // constructor (exception if G not connected)
+	int diameter()                  // diameter of G
+	int radius()                    // radius of G
+	int center()                    // a center of G	
+		\end{lstlisting}
+
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch4.sec1.ex16}.
+	\end{sol}
+	\begin{ex}{17}
+		The \emph{Wiener index} of a graph is the sum of the lengths of the shortest
+		paths between all pairs of vertices. Mathematical chemists use this
+		quantity to analyze \emph{molecular graphs}, where vertices correspond to
+		atoms and edges correspond to chemical bonds. Add a method \texttt{wiener()}
+		to \texttt{GraphProperties} that returns the Wiener index of a graph.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch4.sec1.ex17}.
+	\end{sol}
+	\begin{ex}{18}
+		The \emph{girth} of a graph is the length of its shortest cycle. If a graph is
+		acyclic, then its girth is infinite. Add a method \texttt{girth()} to
+		\texttt{GraphProperties} that returns the girth of the graph. \emph{Hint}: Run
+		\texttt{BFS} from each vertex. The shortest cycle containing \texttt{s} is an
+		edge between \texttt{s} and some vertex \texttt{v} concatenated with a shortest
+		path between \texttt{s} and \texttt{v} (that doesn't use edge \texttt{s-v}).
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch4.sec1.ex18}.
+	\end{sol}
 	\pagebreak
 	\printbibliography
 \end{document}

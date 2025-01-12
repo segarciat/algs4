@@ -1,12 +1,13 @@
-package com.segarciat.algs4.ch4.sec1.ex05;
+package com.segarciat.algs4.ch4.sec1.ex15;
 
 import edu.princeton.cs.algs4.Bag;
 import edu.princeton.cs.algs4.In;
 
 /**
  * <strong>4.1.5)</strong>
- * Extends the implementation in {@link edu.princeton.cs.algs4.Graph}
- * to disallow parallel edges and self-loops.
+ * Modifies {@link edu.princeton.cs.algs4.Graph}, specifically the
+ * {@link #Graph(In)} constructor, to require adjacency lists to
+ * be given in each line for each vertex.
  * @author Sergio E. Garcia Tapia
  */
 public final class Graph {
@@ -24,27 +25,27 @@ public final class Graph {
     public Graph(In in) {
         this(in.readInt());
         E = in.readInt();
-        for (int i = 0; i < E; i++) {
+        while (!in.isEmpty()) {
             int v = in.readInt();
-            int w = in.readInt();
-            addEdge(v, w);
+            String[] vertices = in.readLine().strip().split("\\s+");
+            for (String adjW: vertices) {
+                int w = Integer.parseInt(adjW);
+                addEdge(v, w);
+            }
         }
     }
 
     public int V() {
         return V;
     }
+
     public int E() {
         return E;
     }
 
     public void addEdge(int v, int w) {
-        if (v == w)
-            throw new IllegalArgumentException("self loops are not allowed");
-        // could try selecting the smaller of the two adjacency lists
-        for (int u: adj[v])
-            if (u == w)
-                throw new IllegalArgumentException("parallel edges are not allowed");
+        if (v < 0 || w < 0 || v >= V || w >= V)
+            throw new IllegalArgumentException("invalid vertex");
         adj[v].add(w);
         adj[w].add(v);
         E++;
@@ -66,5 +67,11 @@ public final class Graph {
             sb.append(System.lineSeparator());
         }
         return sb.toString();
+    }
+
+    public static void main(String[] args) {
+        In in = new In(args[0]);
+        Graph G = new Graph(in);
+        System.out.println(G);
     }
 }
