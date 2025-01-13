@@ -6,7 +6,7 @@ import edu.princeton.cs.algs4.Queue;
 import edu.princeton.cs.algs4.StdOut;
 
 /**
- * <strong>4.1.17)</strong>
+ * <strong>4.1.18)</strong>
  * Extends {@link com.segarciat.algs4.ch4.sec1.ex16.GraphProperties}
  * by adding a method {@link #wiener()} to compute the Wiener index
  * of the given graph.
@@ -92,6 +92,7 @@ public final class GraphProperties {
         }
         if (count != G.V())
             throw new IllegalArgumentException("G is not connected");
+
         return longest;
     }
 

@@ -383,6 +383,123 @@ public class GraphProperties
 	\begin{sol}
 		See \texttt{com.segarciat.algs4.ch4.sec1.ex18}.
 	\end{sol}
+	\begin{ex}{19}
+		Show, in the style of the figure on page 545, a detailed trace of \texttt{CC}
+		for finding the connected components in the graph built by \texttt{Graph}'s
+		input stream constructor for the file \texttt{tinyGex2.txt} (see \textbf{Exercise 4.1.2}
+		and Figure~\ref{fig:tinyGex2-graph}).
+	\end{ex}
+	\begin{sol}
+		See Figure~\ref{fig:ex-19}.
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.8\textwidth]{exercise-19.png}
+			\caption{Trace of \texttt{CC} to find the connected components corresponding
+			to \texttt{tinyGex2.txt} in \textbf{Exercise 4.1.2}.}
+			\label{fig:ex-19}.
+		\end{figure}
+	\end{sol}
+	\begin{ex}{20}
+		Show, in the style of the figures in this section, a detailed trace of
+		\texttt{Cycle} for finding a cycle in the graph built by \texttt{Graph}'s
+		input stream constructor for the file \texttt{tinyGex2.txt} (see \textbf{Exercise 4.1.2}
+		and Figure~\ref{fig:tinyGex2-graph}). What is the order of growth of the running time
+		of the \texttt{Cycle} constructor, in the worst case?
+	\end{ex}
+	\begin{sol}
+		See Figure~\ref{fig:ex-20}.
+		\begin{figure}
+			\centering
+			\includegraphics[width=1.00\textwidth]{exercise-20.png}
+			\caption{Trace of \texttt{Cycle} to detect a cycle in the graph determined by
+				\texttt{tinyGex2.txt} in \textbf{Exercise 4.1.2}.}
+			\label{fig:ex-20}.
+		\end{figure}
+		The constructor of \texttt{Cycle} uses depth-first search on all vertices,
+		and its implementation is nearly equivalent to \texttt{CC}.
+		Similar to \textbf{Proposition C} in \cite{sedgewick_wayne}, each adjacency-list
+		entry is examined once, an all $2E$ entries are examined. Then there is the
+		cost for initializing the \texttt{marked[]} array of size $V$. Thus the
+		order of growth of the running time of the \texttt{Cycle} constructor is $E+V$
+		in the worst case.
+	\end{sol}
+	\begin{ex}{21}
+		Show, in the style of the figures in this section, a detailed trace of
+		\texttt{TwoColor} for finding a two-coloring of the graph built by \texttt{Graph}'s
+		input stream constructor for the file \texttt{tinyGex.2.txt} (see \textbf{Exercise 4.1.2}
+		and Figure~\ref{fig:tinyGex2-graph}). What is the order of growth of the running
+		time of the \texttt{TwoColor} constructor, in the worst case?
+	\end{ex}
+	\begin{sol}
+		Once again, the code is similar to \texttt{CC}, applying depth-first search on
+		all vertices in the graph. Thus, the order of growth of the running time
+		that is about $E+V$ in the worst case, according to \textbf{Proposition C}
+		in \cite{sedgewick_wayne}. I am omitting the detailed trace, but upon reaching
+		vertex \texttt{2}, and examining its adjacency list, the algorithm would encounter
+		vertex \texttt{5} with the same color. Thus the graph is not bipartite.
+	\end{sol}
+	\begin{ex}{23}
+		Write a program \texttt{BaconHistogram} that prints a histogram of Kevin Bacon numbers,
+		indicating how many performers from \texttt{movies.txt} have a Bacon number of $0,
+		1, 2, 3,\ldots$. Include a category for those who have an infinite number (not connected
+		to Kevin Bacon).
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch4.sec1.ex23}.
+	\end{sol}
+	\begin{ex}{24}
+		Compute the number of connected components in \texttt{movies.txt}, the size of the
+		largest component, and the number of components of size less than 10. Find
+		the eccentricity, diameter, radius, a center, and the girth of the largest
+		component in the graph. Does it contain Kevin Bacon?
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch4.sec1.ex24}.
+	\end{sol}
+	\begin{ex}{26}
+		Write a \texttt{SymbolGraph} client like \texttt{DegreesOfSeparation} that uses \emph{depth-first} search instead of breadth-first search to find paths connecting
+		two performers.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch4.sec1.ex26}.
+	\end{sol}
+	\begin{ex}{27}
+		Determine the amount of memory used by \texttt{Graph} to represent a graph with
+		$V$ vertices and $E$ edges, using the memory-cost model of Section 1.4
+	\end{ex}
+	\begin{sol}
+		The breakdown is: 16 bytes of object overhead, 4 bytes for the \texttt{int}
+		instance variable $V$, 4 bytes for the \texttt{int} instance variable $E$,
+		$8$ bytes for the reference to \texttt{adj}, $24$ bytes for the array \texttt{adj},
+		itself, making up the flat cost part of $56$ bytes. Next, there are $8V$ bytes of
+		references to \texttt{Bag} objects. For each \texttt{Bag} object, there's $16$ bytes
+		of overhead, $8$ bytes for the reference to the \texttt{first} node, $4$ bytes
+		for a reference to an \texttt{int} for the size, and $4$ bytes of padding.
+		That means a $40V$ cost for the \texttt{Bag} objects. Lastly, the cost of each
+		\texttt{Node} is about $40$ bytes, of which there are $2E$.
+		16 bytes of object overhead, 8 bytes for a reference to the \texttt{item}
+		field, 8 bytes for a reference to the \texttt{next} field, 8 bytes for a reference
+		to the enclosing class, which is 40 bytes. The referenced object is an \texttt{Integer}, which
+		takes up about 24 bytes. Since there are $2E$ values among all adjacency lists
+		(since edges are double counted), and each takes about 64 bytes, that comes out to
+		$64\cdot 2E=128E$ bytes. The total cost is $56 + 40V + 128E$ bytes.
+	\end{sol}
+	\begin{ex}{29}
+		Modify \texttt{Cycle} so that it works even if the graph contains self-loops and
+		parallel edges.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch4.sec1.ex29}.
+	\end{sol}
+	\begin{ex}{38}
+		\emph{Nonrecursive depth-first search}. Implement depth-first search using an
+		explicit stack instead of recursion. \emph{Warning}: Replacing the queue in
+		\texttt{BreadthFirstPaths} with a stack yields some graph searching algorithm
+		but not depth-first search.
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch4.sec1.ex38}.
+	\end{sol}
 	\pagebreak
 	\printbibliography
 \end{document}
