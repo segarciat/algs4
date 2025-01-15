@@ -246,6 +246,14 @@ style=alphabetic
 		for $k>1$, and for $k=n$, we have \texttt{k->1} and \texttt{1->k}.
 		Then $0$ is the center vertex of such a graph. Such a graph is sparse
 		because there are $6\cdot n$ edges when there are $n+1$ vertices.
+		See Figure~\ref{fig:ex-11}.
+		
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.2\textwidth]{exercise-11}
+			\caption{Digraph for Exercise 11.}
+			\label{fig:ex-11}
+		\end{figure}
 		
 		Such a graph is strongly connected. Given subset of the vertices that contains
 		$0$, we can create a directed cycle containing $0$. If $S_0$ is the set of
@@ -302,6 +310,220 @@ style=alphabetic
 			$v_jv_{j+1}\cdots v_nv_1\cdot v_i$ from $v_j$ to $v_i$. Hence,
 			$v$ and $w$ are strongly connected.
 		\end{proof}
+	\end{sol}
+	\begin{ex}{14}
+		Let $C$ be a strong component in a digraph $G$ and let $v$ be any vertex not in $C$.
+		Prove that if there is an edge $e$ leaving $v$ to any vertex in $C$, then
+		vertex $v$ appears before \emph{every} vertex in $C$ in the reverse post order
+		of $G$.
+	\end{ex}
+	\begin{sol}
+		\begin{proof}
+			Suppose that $u$ is any vertex in $C$. If \texttt{dfs(u)} is called \emph{before}
+			\texttt{dfs(v)}, then every vertex in $C$ will be marked and added
+			to the reverse post order because $C$ is a strong component. However,
+			$v$ will not be added, because if it did, that would imply a path
+			from $u$ to $v$. Together with each $e$ from $v$ to a component in $C$,
+			this would imply that $u$ and $v$ are strongly connected, which would
+			contradict the fact that $v\notin C$. The conclusion is that all
+			vertices in $C$ are pushed onto the stack prior to $v$.
+			
+			On the other hand, if \texttt{dfs(v)} is called \emph{before} \texttt{dfs(u)},
+			then since there is an edge $e$ from $v$ to a component in $C$, this will result
+			in all components in $C$ being added to the stack before $v$. Once again,
+			$v$ is added to the stack after all vertices in $C$, and hence appears
+			\emph{before} every vertex in $C$ in the reverse postorder of $G$.
+		\end{proof}
+	\end{sol}
+	\begin{ex}{15}
+		Let $C$ be a strong component in a digraph $G$ and let \texttt{v} be any vertex not in $C$.
+		Prove that if there is an edge $e$ leaving any vertex in $C$ to $v$, then vertex
+		\texttt{v} appears before \emph{every} vertex in $C$ in the reverse postorder of $G^R$.
+	\end{ex}
+	\begin{sol}
+		\begin{proof}
+			Consider the reverse graph $G^R$ of $G$. By \textbf{Exercise 4.2.12}, $C$ is also a strong
+			component of $G^R$. Since $e$ is an edge in $G$ leaving $C$ and incident to \texttt{v},
+			its reverse $e^R$ is an edge of $G^R$ leaving \texttt{v} incident to a vertex
+			in $C$. By \textbf{Exercise 4.2.14} applied to $G^R$, we conclude that \texttt{v} appears
+			before every vertex in $C$ in the reverse post order of $G^R$.
+		\end{proof}
+	\end{sol}
+	\begin{ex}{16}
+		Given a digraph $G$, prove that the first vertex in the reverse postorder of $G$
+		is in a strong component that is a \emph{source} of $G$'s kernel DAG. Then, prove
+		that the first vertex in the reverse postorder of $G^R$ is in a strong component
+		that is a \emph{sink} of $G$'s kernel DAG. \emph{Hint}: Apply \textbf{Exercises 4.2.14}
+		and \textbf{4.2.15}.
+	\end{ex}
+	\begin{sol}
+		\begin{proof}
+			Let $v$ be the first vertex in the reverse postorder of $G$, and let
+			$C$ be the strong component of $G$ that $v$ belongs to. Suppose that $C$
+			is not a source of the kernel DAG of $G$. Then there is a component $C'$
+			distinct from $C$ and at least one edge from that component to $C$.
+			In particular, there is a vertex $w\in C'$ that points to a vertex in $C$.
+			By \textbf{Exercise 4.2.14}, $w$ must appears before every vertex in $C$
+			in the reverse post order of $G$, including before $v$, contradicting the
+			definition of $v$. This implies that $C'$ does not exist, and hence,
+			that $C$ is indeed a source of the kernel DAG of $G$.
+			
+			Now let $u$ be the first vertex in the reverse post order of $G^R$,
+			and let $D$ be the strong component that it belongs to. If $D$ is
+			not a sink of the kernel DAG of $G$, then there is a strong component
+			$D'$ of $G$ (and $G^R$) and edge $f$ from $D$ to $D'$. If $z$
+			is the tail of $f$, the $z\in D'$. By \textbf{Exercise 4.2.15},
+			$z$ must appear before every vertex in $D$ in the reverse post order
+			of $G^R$, contradicting the definition of $u$. This implies that
+			$D'$ does not exist, and hence, that $D$ is indeed a sink of the
+			kernel DAG of $G$.
+		\end{proof}
+	\end{sol}
+	\begin{ex}{17}
+		How many strong components are there in the digraph on page 591?
+	\end{ex}
+	\begin{sol}
+		See \texttt{com.segarciat.algs4.ch4.sec2.ex17}.
+	\end{sol}
+	\begin{ex}{18}
+		What are the strong components of a DAG?
+	\end{ex}
+	\begin{sol}
+		The strong components of a DAG are the singleton vertices of the DAG.
+		Indeed, by definition, a vertex is reachable from itself, so each
+		strong component must have at least 1 vertex. On the other hand, if
+		any component had 2 or more vertices, call them $v$ and $w$, then
+		there would be a cycle involving $v$ and $w$. This cannot happen
+		in a DAG, so no such component can exist.
+	\end{sol}
+	\begin{ex}{19}
+		What happens if you run the Kosaraju-Sharir algorithm on a DAG?
+	\end{ex}
+	\begin{sol}
+		Assuming a total of $V$ vertices, it will identify a total of $V$ singleton strong
+		components. 
+	\end{sol}
+	\begin{ex}{20}
+		True or false: The reverse postorder of a digraph's reverse is the same as the
+		postorder of the digraph.
+	\end{ex}
+	\begin{sol}
+		False. Consider digraph $G$ with vertices \texttt{1}, \texttt{2}, and \texttt{3},
+		and the single edge \texttt{1->2}. Its reverse $G^R$ has the single edge
+		\texttt{2->1}.
+		
+		The algorithm for the reverse postorder (applied to $G^R$) starts with \texttt{dfs(1)},
+		which is immediately added to the stack, followed by \texttt{2}, and followed by
+		\texttt{3}. Hence, the algorithm computes the reverse postorder \texttt{3},
+		\texttt{2}, \texttt{1} for $G$.
+		
+		Applying the algorithm to $G$, we starts with \texttt{dfs(1)}, which causes
+		a call to \texttt{dfs(2)}, which returns and is added to the queue, followed by
+		\texttt{1}. Since \texttt{2} is marked, it is skipped, and then \texttt{dfs(3)}
+		is called, causing \texttt{3} to be added to the queue. Now the queue contains
+		the postorder \texttt{2}, \texttt{1}, \texttt{3} of $G$, which is distinct from
+		the reverse postorder of $G^R$.
+	\end{sol}
+	\begin{ex}{21}
+		True or false: If we consider the vertices of a digraph $G$ (or its reverse)
+		in postorder, then vertices in the same strong component will be consecutive in
+		that order.
+	\end{ex}
+	\begin{sol}
+		False. See Figure~\ref{fig:ex-21}.
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.2\textwidth]{exercise-21}
+			\caption{Digraph for Exercise 21. The postorder of $G$ is not
+			the same as the reverse postorder of $G^R$.}
+			\label{fig:ex-21}
+		\end{figure}
+		The call \texttt{dfs(0)} will result in the postorder \texttt{1}, \texttt{3},
+		\texttt{2}, and \texttt{0} of $G$. However, \texttt{1} and \texttt{0} are in
+		the same component, and they do not appear consecutively.
+	\end{sol}
+	\begin{ex}{22}
+		True or false: If we modify the Kosaraju-Sharir algorithm to run the depth-first
+		search in the digraph $G$ (instead of the reverse digraph $G^R$) and the second
+		depth-first search in $G^R$ (instead of $G$), then it will still find the strong
+		components.
+	\end{ex}
+	\begin{sol}
+		True.
+		\begin{proof}
+			Recall that the first vertex in the reverse postorder of $G$ is in a source
+			of the kernel DAG of $G$. However, it is in a sink component of the kernel DAG
+			of $G^R$. If we let $H=G^R$, and $H^R=G$, then the algorithm computes
+			the reverse postorder of $H^R$, and then uses DFS to visit the vertices
+			of $H$ in that order, which is precisely applying the Kosaraju-Sharir
+			algorithm to $H$. By \textbf{Proposition H}, the algorithm identifies the
+			strong components of $H=G^R$. By \textbf{Exercise 4.2.12}, the strong
+			components of $G^R$ are precisely the same as the strong components of $G$.
+		\end{proof}
+	\end{sol}
+	\begin{ex}{23}
+		True or false: If we modify the Kosaraju-Sharir algorithm to replace the second
+		depth-first search with breadth-first search, then it will still the strong
+		components.
+	\end{ex}
+	\begin{sol}
+		True. Recall that the first vertex in the reverse postorder of $G^R$ appears
+		in a sink of the kernel DAG of $G$ (see \textbf{Exercise 4.2.16}). When
+		BFS is used with that first vertex as the source, all vertices in that
+		component are visited (by definition of strong connectivity), and no
+		other vertices. Suppose that a vertex $v$ that did not belong to the
+		sink is visited. This would imply that an edge from a sink of the
+		kernel DAG to the component containing $v$, contradicting the definition
+		of a sink. Now that all vertices in that sink component are visited,
+		they are effectively removed, and the algorithm continues in the
+		same way in the remainder of the digraph.
+		
+		The only thing that changes is the order in which the vertices on a given
+		component are visited.
+	\end{sol}
+	\begin{ex}{24}
+		Compute the memory usage of a \texttt{Digraph} with $V$ vertices and $E$ edges,
+		under the memory cost model of Section 1.4.
+	\end{ex}
+	\begin{sol}
+		First, there are 16 bytes of object overhead for \texttt{Digraph}. The class
+		needs 4 bytes for its \texttt{int E} instance variable, and 4 bytes for its
+		\texttt{int V} instance variable. There is also 8 bytes for its reference
+		to the \texttt{adj} array that contains the adjacency lists of the vertices
+		of the digraph. The array itself takes up 24 bytes. So far, that's a flat
+		cost of $56$ bytes.
+		
+		The \texttt{adj} array it has $V$ references to \texttt{Bag} objects, and
+		each reference is $8$ bytes. Each \texttt{Bag}
+		contains the adjacency list of a given vertex. A \texttt{Bag} object uses
+		16 bytes of object overhead, \texttt{8} bytes for its reference to the
+		\texttt{first} node, \texttt{4} bytes for its to the \texttt{int size}
+		instance variable, and 4 bytes of padding for a total of 32 bytes.
+		Thus, that's $40V$ bytes for the \texttt{Bag} objects themselves.
+		
+		Now, there are $E$ edges, and each is represented by a single \texttt{Node}
+		object. A \texttt{Node} uses 40 bytes, and since it points to \texttt{Integer}
+		objects, which take up 24 bytes, the overall cost is \texttt{64} bytes
+		for an edge. Hence, we require $64E$ bytes for all edges.
+		
+		The overall cost of \texttt{Digraph} is $56+40V+64E$ bytes.
+	\end{sol}
+	\begin{ex}{25}
+		How many edges are there in the transitive closure of a digraph that
+		is a simple directed path with $V$ vertices and $V-1$ edges?
+	\end{ex}
+	\begin{sol}
+		A simple directed path has no repeated edges and no repeated vertices.
+		Let $n=V$, and suppose the simple path is $\texttt{v}_1\texttt{v}_2\cdots\texttt{v}_n$.
+		Note that $\texttt{v}_n$ is reachable from all previous vertices, so
+		the transitive closure contains an edge for each of them, a total of
+		$n-1$ edges. Similarly, the transitive closure has $n-2$ edges incident to
+		$\texttt{v}_{n-1}$, and more generally, the transitive closure has
+		$i-1$ edges incident to $v_i$, where $1\leq i\leq n$. Thus, we sum:
+		\begin{align*}
+			\sum_{i=1}^{n}(i-1)=\sum_{1\leq i\leq n}(i-1)=\sum_{0\leq i-1\leq n}(i-1)=\frac{(n-1)n}{2}
+		\end{align*}
+		Hence, the transitive closure has $(V-1)V/2$ edges
 	\end{sol}
 	
 	\pagebreak
