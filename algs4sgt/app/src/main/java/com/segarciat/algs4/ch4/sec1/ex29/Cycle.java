@@ -6,7 +6,7 @@ import edu.princeton.cs.algs4.SET;
 /**
  * <strong>4.1.29)</strong>
  * Extends {@link edu.princeton.cs.algs4.Cycle} so that it works with
- * graphs that have self-loops and paralell edges.
+ * graphs that have self-loops and parallel edges.
  * @author Sergio E. Garcia Tapia
  */
 public final class Cycle {
@@ -36,7 +36,6 @@ public final class Cycle {
             }
         }
     }
-
 
     public boolean hasCycle() {
         return hasCycle;

@@ -491,6 +491,62 @@ public class GraphProperties
 	\begin{sol}
 		See \texttt{com.segarciat.algs4.ch4.sec1.ex29}.
 	\end{sol}
+	\begin{ex}{30}
+		\emph{Eulerian and Hamiltonian cycles}. Consider the graphs defined by the
+		following four sets of edges:
+		\begin{lstlisting}[language={}]
+0-1 0-2 0-3 1-3 1-4 2-5 2-9 3-6 4-7 4-8 5-8 5-9 6-7 6-9 7-8
+0-1 0-2 0-3 1-3 0-3 2-5 5-6 3-6 4-7 4-8 5-8 5-9 6-7 6-9 8-8
+0-1 1-2 1-3 0-3 0-4 2-5 2-9 3-6 4-7 4-8 5-8 5-9 6-7 6-9 7-8
+4-1 7-9 6-2 7-3 5-0 0-2 0-8 1-6 3-9 6-3 2-8 1-5 9-8 4-5 4-7
+		\end{lstlisting}
+		Which of these graphs have Eulerian cycles (cycles that visit each edge
+		exactly once)? Which of them have Hamiltonian cycles (cycles that visit each
+		vertex exactly one)? Develop a linear-time DFS-based algorithm to determine
+		whether a graph has a Eulerian cycle (and if so, find one).
+	\end{ex}
+	\begin{sol}
+		To get some geometric intuition, I draw these graphs (though I did not
+		include the figures here).
+		
+		The first graph has a Hamiltonian cycle, but not a Eulerian cycle:
+		\begin{lstlisting}[language={}]
+# Hamiltonian cycle for first graph:
+0-2 2-9 9-5 5-8 8-4 4-7 7-6 6-3 3-1 1-0
+		\end{lstlisting}
+		The second graph has a Eulerian cycle, but not a Hamiltonian cycle:
+		\begin{lstlisting}[language={}]
+# Eulerian cycle for second graph:
+# edges
+0-2 2-5 5-8 8-8 8-4 4-7 7-6 6-9 9-5 5-6 6-3 3-1 1-0 0-3 3-0
+# sequence of vertices implied by edges
+0-2-5-8-8-4-7-6-9-5-6-3-1-0-3-0
+		\end{lstlisting}
+		The third graph has a Hamiltonian cycle, but not a Eulerian cycle:
+		\begin{lstlisting}[language={}]
+# Hamiltonian cycle for third graph:
+0-4 4-8 8-7 7-6 6-9 9-5 5-2 2-1 1-3 3-0
+		\end{lstlisting}
+		The fourth graph has a Hamiltonian cycle, but not a Eulerian cycle:
+		\begin{lstlisting}[language={}]
+# Hamiltonian cycle for fourth graph:
+4-7 7-9 9-3 3-6 6-2 2-8 8-0 0-5 5-1 1-4
+		\end{lstlisting}
+		After working through the examples, I conjectured that in order for
+		a Eulerian cycle to exist, the graph must be connected, and all vertices
+		must be of even degree. For example, suppose a vertex $v$ in a graph has
+		degree three, and that there was a Eulerian cycle starting at that vertex.
+		The cycle must use one of the edges to leave $v$, and one edge to return
+		to $v$ at the end. The third edge must be traversed by the definition
+		of a Hamiltonian cycle. However, if we used it to enter $v$ at any
+		point, then we will have only one edge remaining unused. Since
+		a cycle is a path, and paths do not allow repeated edges, we must
+		traverse the unused edge. At that point, no unused edge remains to
+		return to $v$, and we must accept that there's a contradiction:
+		our cycle was not a Eulerian cycle. Since a cycle can be seen from
+		the perspective of any vertex, this means that \emph{all} vertices must
+		be of even degree for a Eulerian cycle to exist.
+	\end{sol}
 	\begin{ex}{38}
 		\emph{Nonrecursive depth-first search}. Implement depth-first search using an
 		explicit stack instead of recursion. \emph{Warning}: Replacing the queue in
