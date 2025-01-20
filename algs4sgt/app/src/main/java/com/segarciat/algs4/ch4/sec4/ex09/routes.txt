@@ -1,0 +1,5 @@
+4
+Providence  0   53 54  48
+Westerly   53    0 18 101
+NewLondon 54   18  0  12
+Norwich    48  101 12   0

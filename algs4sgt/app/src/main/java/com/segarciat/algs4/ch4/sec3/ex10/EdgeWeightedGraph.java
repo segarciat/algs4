@@ -26,8 +26,8 @@ public final class EdgeWeightedGraph {
 
     public EdgeWeightedGraph(In in) {
         this(in.readInt());
-        E = in.readInt();
-        while (!in.isEmpty()) {
+        int fileEdgeCount = in.readInt();
+        for (int i = 0; i < fileEdgeCount; i++) {
             int v = validateVertex(in.readInt());
             int w = validateVertex(in.readInt());
             double weight = in.readDouble();
@@ -83,18 +83,16 @@ public final class EdgeWeightedGraph {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(V).append(" vertices and ").append(E).append(" edges.");
+        sb.append(V).append(" vertices and ").append(E).append(" edges.").append(System.lineSeparator());
         for (int v = 0; v < V; v++) {
             sb.append(v).append(":");
             for (Edge e: adj[v])
-                if (e != null)
-                    sb.append(" ").append(e);
+                sb.append(" ").append(e);
             sb.append(System.lineSeparator());
         }
 
         return sb.toString();
     }
-
 
 
     public static void main(String[] args) {

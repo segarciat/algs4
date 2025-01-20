@@ -475,16 +475,94 @@ style=alphabetic
 		in time proportional to $E$.
 	\end{ex}
 	\begin{sol}
-		Let $T$ be the MST of $G$ in question, and let $e$ be the edge removed from $G$.
-		First, we check whether $e$ belongs to $T$. If not, then $T$ is still a spanning
+		Let $T$ be the MST of $G$ in question, and let \texttt{e} be the edge removed from $G$.
+		First, we check whether \texttt{e} belongs to $T$. If not, then $T$ is still a spanning
 		tree of the new graph. Moreover, if $T'$ were a spanning tree of smaller
 		weight for the new graph, then it would be a spanning tree of $G$ also,
 		which would contradict the minimality of $T$.
 		
-		Now suppose $e$ does belong to $T$. Then $e$ disconnects $T$. We can use depth-first
-		search to find the two connected components of $T$, 
+		Now suppose $\texttt{e}=\texttt{v-w}$ does belong to $T$. Then removing edge \texttt{e}
+		from $G$ disconnects $T$, resulting in two distinct connected components for $T$.
+		Let $T_{\texttt{e}}$ be the graph that results when removing \texttt{e} from $T$.
+		We can create a new graph consisting of the edges in $T_{\texttt{e}}$,
+		and we can use depth-first search to identify the components of $T_{\texttt{e}}$.
+		This takes time proportional to $V-2 + V$ because $T_{\texttt{e}}$ has $V$
+		vertices and $V-2$ edges. Note that \texttt{v} and \texttt{w} belong to different
+		components. Now we can iterate through all edges in $G$, at each point inspecting
+		the endpoints, keeping track only of the ones who have one endpoint in the same
+		component as \texttt{v} and another in the same component as \texttt{v-w}. The
+		lightest such edge is the one we must add, completing the MST.
 	\end{sol}
-	
+	\begin{ex}{15}
+		Given an MST for an edge-weighted graph $G$ and a new edge $e$ with weight $w$,
+		describe how to find an MST of the new graph in time proportional to $V$.
+	\end{ex}
+	\begin{sol}
+		We add $e$ to the MST, which creates a unique cycle containing $e$. We use
+		DFS to find the edges in the cycle in time proportional to $2V$ (because the
+		MST with $e$ graph has $V$ edges and $V$ vertices). We remove the heaviest
+		edge in the cycle, which may be $e$ or a different edge.
+	\end{sol}
+	\begin{ex}{16}
+		Given an MST for an edge-weighted graph $G$ and a new edge $e$, write a program
+		that determines the range of weights for which $e$ is in an MST.
+	\end{ex}
+	\begin{sol}
+		This is an implementation of the previous exercise. After adding \texttt{e} to
+		the given MST, we find the cycle containing \texttt{e}. The \texttt{e} must
+		have a weight no larger than the largest wait of the remaining edges in
+		the cycle.
+		
+		See \texttt{com.segarciat.algs4.ch4.sec3.ex16}.
+	\end{sol}
+	\begin{ex}{17}
+		Implement \texttt{toString()} for \texttt{EdgeWeightedGraph}.
+	\end{ex}
+	\begin{sol}
+		I did this as part of Exercise 10.
+	\end{sol}
+	\begin{ex}{18}
+		Give traces that show the process of computing the MST of the graph defined in
+		\textbf{Exercise 4.3.6} with the lazy version of Prim's algorithm, the eager
+		version of Prim's algorithm, and Kruskal's algorithm.
+	\end{ex}
+	\begin{sol}
+		See Figure~\ref{fig:ex-18-lazy-prim} for the trace of \texttt{LazyPrimMST},
+		Figure~\ref{fig:ex-18-eager-prim} for the trace of (eager) \texttt{PrimMST},
+		and Figure~\ref{fig:ex-18-kruskal} for the trace of \texttt{KruskalMST}.
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.8\textwidth]{exercise-18-lazy-prim}
+			\caption{Trace of \texttt{LazyPrimMST} for \textbf{Exercise 4.3.18}.}
+			\label{fig:ex-18-lazy-prim}
+		\end{figure}
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.8\textwidth]{exercise-18-eager-prim}
+			\caption{Trace of (eager) \texttt{PrimMST} for \textbf{Exercise 4.3.18}.}
+			\label{fig:ex-18-eager-prim}
+		\end{figure}
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.8\textwidth]{exercise-18-kruskal}
+			\caption{Trace of (eager) \texttt{KruskalMST} for \textbf{Exercise 4.3.18}.}
+			\label{fig:ex-18-kruskal}
+		\end{figure}
+	\end{sol}
+	\begin{ex}{19}
+		Suppose that you implement \texttt{PrimMST} but instead of using a priority queue
+		to find the next vertex to add to the tree, you can through all $V$ entries in the
+		\texttt{distTo[]} array to find the non-tree vertex with the smallest weight.
+		What would be the order of growth for the running time for a graph with $V$ vertices
+		and $E$ edges? When would this method be appropriate, if ever? Defend your answer.
+	\end{ex}
+	\begin{sol}
+		Searching the array for the next vertex to visit entails a search for the minimum,
+		which takes time proportional to $V$. Since this occurs until all vertices are visited,
+		we need to do this $V$ times. When a vertex is visited, all edges are examined.
+		Therefore, the order of growth of the running time is $V^2 + E$. This might be
+		acceptable for a dense graph, where $E\approx V^2$.
+	\end{sol}
 	\pagebreak
 	\printbibliography
 \end{document}
