@@ -91,92 +91,47 @@ style=alphabetic
 	\noindent \emph{Algorithms} by Sedgewick and Wayne (4th edition) \cite{sedgewick_wayne}\hfill
 	
 	\noindent January 25, 2025\hfill 
-	\section*{5.2: Tries}
-	\begin{ex}{1}
-		Draw the $R$-way trie that results when the keys
-		\begin{lstlisting}[language={}]
-			no is th ti fo al go pe to co to th ai of th pa
-		\end{lstlisting}
-		are inserted in that order into an initially empty trie (do not draw null links).
-	\end{ex}
-	\begin{sol}
-		See Figure~\ref{fig:ex-01}.
-		\begin{figure}
-			\centering
-			\includegraphics[width=0.8\textwidth]{exercise-01}
-			\caption{R-way trie for Exercise 1.}
-			\label{fig:ex-01}.
-		\end{figure}
-	\end{sol}
+	\section*{5.3: Substring Search}
+	\subsection*{Notes}
+	To construct the \texttt{dfa[][]} array that corresponds to a pattern, the idea is to first
+	fill in the match transitions. Note that \texttt{dfa[pat.charAt(j)][j]} is always \texttt{j+1}
+	because if we are in state \texttt{j} (we have seen \texttt{j} characters \texttt{pat.charAt(0..j-1)}
+	in the pattern) and see \texttt{pat.charAt(j)}, then we matched. Then, the challenge is
+	to understand the mismatch transitions. As explained in \cite{sedgewick_wayne}, the key is
+	to track what state the DFA would be in if we had a mismatch and had to back up.
+	
+	Say we mismatch when reading \texttt{txt.charAt(i)} while in state \texttt{j}. This
+	means that the first \texttt{j} characters matched, but not the \texttt{j+1}-th character,
+	so the substring does not match at position \texttt{i-j} of the text. Since we have
+	seen \texttt{pat.charAt(0..j-1)} of the pattern in the text, we can use those characters
+	to decide which state to backup to. If we were to back up in the brute-force method, we
+	would move back to \texttt{txt.charAt(i-j+1)}, which corresponds to \texttt{pat.charAt(1)}.
+	Then, we would check \texttt{pat.charAt(1..j-1)}, the pattern characters that we know occur
+	in the text, and use them to figure out how where to restart.
+	
+	Say we are in state \texttt{5} and encountered a mismatch with a character \texttt{c}
+	that does not match \texttt{pat.charAt(5)}. If we backed up, we would process characters
+	\texttt{pat.charAt(1..4)} in the DFA from the beginning, and end up at a state
+	\texttt{x}, called the \emph{restart state} \texttt{x} corresponding to state \texttt{5}.
+	Now on processing \texttt{c} at state \texttt{5}, we transition to where the DFA
+	would go when receiving \texttt{c} while in state \texttt{x}.
+	\subsubsection*{Exercises}
 	\begin{ex}{2}
-		Draw the TST that results when the keys
-		\begin{lstlisting}[language={}]
-			no is th ti fo al go pe to co to th ai of th pa
-		\end{lstlisting}
-		are inserted in that order into an initially empty TST.
+		Give the \texttt{dfa[][]} array for the Knuth--Morris--Pratt algorithm for the pattern
+		\texttt{A A A A A A A A A}, and draw the DFA, in the style of the figures in the text.
 	\end{ex}
 	\begin{sol}
-		See Figure~\ref{fig:ex-02}.
+		See Figure~\ref{fig:ex-02}. Notice that receiving any character that is not \texttt{A}
+		would reset us to state \texttt{0}.
 		\begin{figure}
 			\centering
-			\includegraphics[width=0.6\textwidth]{exercise-02}
-			\caption{TST for Exercise 2.}
-			\label{fig:ex-02}.
+			\includegraphics[width=1.0\textwidth]{exercise-02}
+			\caption{Constructing the DFA For KMP substring search in Exercise 2.}
+			\label{fig:ex-02}
 		\end{figure}
 	\end{sol}
-	\begin{ex}{3}
-		Draw the $R$-way trie that results when the keys
-		\begin{lstlisting}[language={}]
-			now is the time for all good people to come to the aid of
-		\end{lstlisting}
-		are inserted in that order into an initially empty trie (do not draw null links).
-	\end{ex}
-	\begin{sol}
-		See Figure~\ref{fig:ex-03}.
-		\begin{figure}
-		\centering
-		\includegraphics[width=0.6\textwidth]{exercise-03}
-		\caption{$R$-way trie for Exercise 3.}
-		\label{fig:ex-03}.
-		\end{figure}
-	\end{sol}
-	\begin{ex}{4}
-		Draw the TST that results when the keys
-		\begin{lstlisting}[language={}]
-			now is the time for all good people to come to the aid of
-		\end{lstlisting}
-		are inserted in that order into an initially empty TST.
-	\end{ex}
-	\begin{sol}
-		See Figure~\ref{fig:ex-04}.
-		\begin{figure}
-			\centering
-			\includegraphics[width=0.6\textwidth]{exercise-04}
-			\caption{TST for Exercise 4.}
-			\label{fig:ex-04}.
-		\end{figure}
-	\end{sol}
-	\begin{ex}{5}
-		Develop nonrecursive versions of \texttt{TrieST} and \texttt{TST}.
-	\end{ex}
-	\begin{sol}
-		See \texttt{com.segarciat.algs4.ch5.sec2.ex05}.
-	\end{sol}
-	\begin{ex}{6}
-		Implement the following API, for a \texttt{StringSET} data type:
-		\begin{lstlisting}[language={}]
-                StringSET            // create a string set
-          void add(String key)       // put key into the set
-          void delete(String key)  // remove key from the set
-       boolean contains()            // is key in the set?
-       boolean isEmpty()         // is the set empty?
-            int size()           // number of keys in the set
-         String toString()       // string representation of the set
-		\end{lstlisting}
-	\end{ex}
-	\begin{sol}
-		See \texttt{com.segarciat.algs4.ch5.sec2.ex06}.
-	\end{sol}
+	
+	
 	\pagebreak
 	\printbibliography
 \end{document}
