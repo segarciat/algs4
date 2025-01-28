@@ -27,20 +27,21 @@ public class TST <Value> {
 
         Node<Value> current = root;
         int d = 0;
-        while (d < key.length() && current != null) {
+        while (current != null) {
             char c = key.charAt(d);
             if (c < current.c) {
                 current = current.left;
             } else if (c > current.c) {
                 current = current.right;
             } else {
+                d++;
+                if (d == key.length())
+                    break;
                 current = current.mid;
             }
         }
-
-        if (current == null || current.val == null) {
+        if (current == null)
             return null;
-        }
         return current.val;
     }
 
@@ -52,40 +53,60 @@ public class TST <Value> {
             throw new IllegalArgumentException("cannot use an empty string as a key");
         }
 
-        // first search for node
-        Node<Value> parent = null;
+        if (root == null) {
+            root = new Node<>(key.charAt(0));
+        }
+
+        // check if key exists
         Node<Value> current = root;
         int d = 0;
-        while (d < key.length() && current != null) {
-            parent = current;
+        while (d < key.length()) {
             char c = key.charAt(d);
             if (c < current.c) {
+                if (current.left == null)
+                    break;
                 current = current.left;
             } else if (c > current.c) {
+                if (current.right == null)
+                    break;
                 current = current.right;
             } else {
-                d++;
+                if (current.mid == null)
+                    break;
                 current = current.mid;
+                d++;
             }
         }
 
-        // found
-        if (current != null) {
+        if (d == key.length() && current.val != null) {
+            // key exists, so replace value
             current.val = val;
             return;
+        } else if (d < key.length()) {
+            // key missing, and node for next character would be null
+            char c = key.charAt(d++);
+            if (c < current.c) {
+                current.left = new Node<>(c);
+                current = current.left;
+            } else if (c > current.c) {
+                current.right = new Node<>(c);
+                current = current.right;
+            }
         }
 
-        // did not find
+        // create all middle nodes on the way down to leaf of key
+        while (d < key.length()) {
+            current.mid = new Node<>(key.charAt(d++));
+            current = current.mid;
+        }
+        current.val = val;
+
+        // finally, update sizes
         d = 0;
-        if (root == null) {
-            root = new Node<>(key.charAt(d));
-        }
-
         current = root;
         while (d < key.length() && current != null) {
             current.n++;
             char c = key.charAt(d);
-            parent = current;
             if (c < current.c) {
                 current = current.left;
             } else if (c > current.c) {
@@ -95,22 +116,13 @@ public class TST <Value> {
                 current = current.mid;
             }
         }
-
     }
-
-    private Node<Value> getOrCreate(Node<Value> node, char c) {
-        if (node != null)
-            return node;
-        return new Node<>(c);
-    }
-
-
 
     private static class Node<Value> {
         private Node<Value> left;
         private Node<Value> mid;
         private Node<Value> right;
-        private char c;
+        private final char c;
         private Value val;
         private int n;
 
@@ -127,7 +139,7 @@ public class TST <Value> {
                 "shell", "shells");
 
         StdOut.println();
-        StdOut.printf("Adding keys: %s%n", keys);
+        StdOut.printf("Adding %d keys: %s%n", keys.size(), keys);
         for (String key: keys) {
             st.put(key, key.length());
         }
