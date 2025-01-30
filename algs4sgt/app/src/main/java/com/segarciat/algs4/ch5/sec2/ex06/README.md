@@ -11,3 +11,8 @@ Implement the following API, for a `StringSET` data type:
         int size()                  // number of keys in the set
      String toString()              // string representation of the set
 ```
+
+## Solution
+
+I implemented the set simply by composing `StringSET` with a `TrieST`
+and using delegation.
