@@ -24,7 +24,7 @@ public final class Digraph {
     }
     public Digraph(In in) {
         this(in.readInt());
-        E = in.readInt();
+        int expectedEdgeCount = in.readInt();
         while (in.hasNextLine()) {
             int v = in.readInt();
             int w = in.readInt();

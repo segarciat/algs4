@@ -24,7 +24,7 @@ public final class Graph {
 
     public Graph(In in) {
         this(in.readInt());
-        E = in.readInt();
+        int expectedEdgeCount = in.readInt();
         while (!in.isEmpty()) {
             int v = in.readInt();
             String[] vertices = in.readLine().strip().split("\\s+");

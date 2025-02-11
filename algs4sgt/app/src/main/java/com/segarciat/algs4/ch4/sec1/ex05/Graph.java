@@ -23,8 +23,8 @@ public final class Graph {
 
     public Graph(In in) {
         this(in.readInt());
-        E = in.readInt();
-        for (int i = 0; i < E; i++) {
+        int expectedEdgeCount = in.readInt();
+        for (int i = 0; i < expectedEdgeCount; i++) {
             int v = in.readInt();
             int w = in.readInt();
             addEdge(v, w);
